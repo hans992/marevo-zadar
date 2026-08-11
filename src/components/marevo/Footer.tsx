@@ -63,6 +63,11 @@ export function Footer() {
                 </ListYourBoatDialog>
               </li>
               <li>
+                <Link to="/operator" className="underline-offset-4 hover:text-background hover:underline">
+                  Operator demo
+                </Link>
+              </li>
+              <li>
                 <Link to="/" hash="operators" className="underline-offset-4 hover:text-background hover:underline">
                   About MAREVO
                 </Link>
