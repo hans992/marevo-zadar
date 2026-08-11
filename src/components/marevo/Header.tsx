@@ -35,6 +35,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { locale, t } = useI18n();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const searchStr = useRouterState({ select: (state) => state.location.searchStr });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -125,7 +126,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                 {locales.map((code) => (
                   <a
                     key={code}
-                    href={switchLocalePath(pathname, code)}
+                    href={`${switchLocalePath(pathname, code)}${searchStr}`}
                     hrefLang={code}
                     lang={code}
                     aria-current={locale === code ? "page" : undefined}

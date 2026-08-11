@@ -5,10 +5,12 @@ import { experiences, filters, type FilterId } from "@/data/inventory";
 import { ExperienceCard } from "../ExperienceCard";
 import { cn } from "@/lib/utils";
 import { localizedPath, useI18n } from "@/i18n";
+import { localizedFilter, usePublicCopy } from "@/i18n/public";
 
 export function Featured() {
   const [active, setActive] = useState<FilterId>("all");
   const { locale } = useI18n();
+  const c = usePublicCopy(locale);
 
   const list = useMemo(
     () =>
@@ -23,17 +25,17 @@ export function Featured() {
     >
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="eyebrow text-sea">Featured this season</p>
+          <p className="eyebrow text-sea">{c.featuredEyebrow}</p>
           <h2 className="mt-3 max-w-xl font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
-            The best of Zadar, by boat
+            {c.featuredTitle}
           </h2>
         </div>
         <Button asChild variant="outline">
-          <Link to={localizedPath("/search", locale) as never}>See all boats</Link>
+          <Link to={localizedPath("/search", locale) as never}>{c.seeAll}</Link>
         </Button>
       </div>
 
-      <div role="group" aria-label="Filter experiences" className="mt-8 flex flex-wrap gap-2">
+      <div role="group" aria-label={c.filterAria} className="mt-8 flex flex-wrap gap-2">
         {filters.map((f) => (
           <button
             key={f.id}
@@ -47,7 +49,7 @@ export function Featured() {
                 : "border-border bg-background text-ink/75 hover:border-ink/30 hover:bg-secondary",
             )}
           >
-            {f.label}
+            {localizedFilter(f.id, c)}
           </button>
         ))}
       </div>
@@ -60,7 +62,7 @@ export function Featured() {
         </div>
       ) : (
         <p className="mt-10 rounded-xl border border-dashed border-border p-10 text-center text-muted-foreground">
-          Nothing in this category yet — try another filter.
+          {c.noMatch}
         </p>
       )}
     </section>

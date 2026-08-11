@@ -1,21 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SearchPage, validateBoatSearch } from "./search";
-import { SITE_URL } from "@/lib/seo";
+import { isLocale, localizedPath } from "@/i18n";
+import { alternateLinks, getSeoCopy, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/$locale/search")({
   validateSearch: validateBoatSearch,
-  head: ({ params }) => ({
-    meta: [
-      { title: "Find boats in Zadar — MAREVO" },
-      {
-        name: "description",
-        content: "Browse private boat tours, rentals and sunset sailing around Zadar.",
-      },
-      { property: "og:locale", content: params.locale },
-      { property: "og:url", content: `${SITE_URL}/${params.locale}/search` },
-    ],
-    links: [{ rel: "canonical", href: `${SITE_URL}/${params.locale}/search` }],
-  }),
+  head: ({ params }) => {
+    const locale = isLocale(params.locale) ? params.locale : "en";
+    const seo = getSeoCopy(locale);
+    return {
+      meta: [
+        { title: seo.searchTitle },
+        { name: "description", content: seo.searchDescription },
+        { property: "og:title", content: seo.searchTitle },
+        { property: "og:description", content: seo.searchDescription },
+        { property: "og:locale", content: params.locale },
+        { property: "og:url", content: `${SITE_URL}/${params.locale}/search` },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}${localizedPath("/search", locale)}` },
+        ...alternateLinks("/search"),
+      ],
+    };
+  },
   component: LocalizedSearchPage,
 });
 

@@ -11,8 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { getExperience, experiences, type Experience } from "@/data/inventory";
 import { ExperienceCard } from "@/components/marevo/ExperienceCard";
-import { experienceStructuredData, SITE_URL } from "@/lib/seo";
+import { alternateLinks, experienceStructuredData, SITE_URL } from "@/lib/seo";
 import { localizedPath, useI18n } from "@/i18n";
+import { localizedCategory, localizedDuration, usePublicCopy } from "@/i18n/public";
 
 export const Route = createFileRoute("/experiences/$slug")({
   loader: ({ params }): { exp: Experience } => {
@@ -43,6 +44,7 @@ export const Route = createFileRoute("/experiences/$slug")({
           rel: "canonical",
           href: `${SITE_URL}/experiences/${exp.slug}`,
         },
+        ...alternateLinks(`/experiences/${exp.slug}`),
       ],
     };
   },
@@ -55,6 +57,7 @@ function ExperienceRoutePage() {
 
 export function ExperienceDetail({ exp }: { exp: Experience }) {
   const { locale, t } = useI18n();
+  const c = usePublicCopy(locale);
   const [date, setDate] = useState("");
   const [guests, setGuests] = useState(Math.min(4, exp.capacity));
 
@@ -67,9 +70,11 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border">
         <div className="relative bg-background px-4 py-3">
           <Label htmlFor="book-date" className="eyebrow text-muted-foreground">
-            Date
+            {c.date}
           </Label>
-          <p className="mt-0.5 text-sm font-medium">{formatDate(date)}</p>
+          <p className="mt-0.5 text-sm font-medium">
+            {formatDate(date, locale, t("search.anyDate"))}
+          </p>
           <input
             id="book-date"
             type="date"
@@ -77,12 +82,12 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
             min={new Date().toISOString().slice(0, 10)}
             onChange={(e) => setDate(e.target.value)}
             className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-            aria-label="Choose a date"
+            aria-label={c.chooseDate}
           />
         </div>
         <div className="flex items-center justify-between bg-background px-4 py-3">
           <div>
-            <span className="eyebrow text-muted-foreground">Guests</span>
+            <span className="eyebrow text-muted-foreground">{c.guests}</span>
             <p className="mt-0.5 text-sm font-medium">{guests}</p>
           </div>
           <div className="flex gap-1">
@@ -90,7 +95,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
               variant="outline"
               size="icon"
               className="h-7 w-7 rounded-full"
-              aria-label="Remove one guest"
+              aria-label={t("search.removeGuest")}
               disabled={guests <= 1}
               onClick={() => setGuests((g) => Math.max(1, g - 1))}
             >
@@ -100,7 +105,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
               variant="outline"
               size="icon"
               className="h-7 w-7 rounded-full"
-              aria-label="Add one guest"
+              aria-label={t("search.addGuest")}
               disabled={guests >= exp.capacity}
               onClick={() => setGuests((g) => Math.min(exp.capacity, g + 1))}
             >
@@ -113,12 +118,14 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
       <dl className="mt-5 space-y-2.5 text-sm">
         <div className="flex justify-between gap-4">
           <dt className="text-muted-foreground">
-            {exp.priceUnit === "total" ? "Boat for the day" : `€${exp.price} × ${guests} guests`}
+            {exp.priceUnit === "total"
+              ? c.boatForDay
+              : `€${exp.price} × ${guests} ${c.guests.toLocaleLowerCase(locale)}`}
           </dt>
           <dd>€{unitTotal}</dd>
         </div>
         <div className="flex justify-between gap-4 border-t border-border pt-3 text-base font-medium">
-          <dt>Displayed price</dt>
+          <dt>{c.displayedPrice}</dt>
           <dd className="font-display text-xl">€{total}</dd>
         </div>
       </dl>
@@ -128,7 +135,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <StructuredData data={experienceStructuredData(exp)} />
+      <StructuredData data={experienceStructuredData(exp, locale)} />
       <main className="pt-16 pb-28 lg:pt-[74px] lg:pb-0">
         {/* Gallery */}
         <div className="mx-auto max-w-[1240px] px-5 pt-6 sm:px-8">
@@ -139,7 +146,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
                   to={localizedPath("/", locale) as never}
                   className="underline-offset-4 hover:text-ink hover:underline"
                 >
-                  Home
+                  {c.home}
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
@@ -148,7 +155,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
                   to={localizedPath("/search", locale) as never}
                   className="underline-offset-4 hover:text-ink hover:underline"
                 >
-                  Zadar experiences
+                  {c.zadarExperiences}
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
@@ -182,7 +189,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
 
         <div className="mx-auto grid max-w-[1240px] gap-12 px-5 py-10 sm:px-8 lg:grid-cols-[1fr_22rem]">
           <div>
-            <p className="eyebrow text-sea">{exp.category}</p>
+            <p className="eyebrow text-sea">{localizedCategory(exp.category, c)}</p>
             <h1 className="mt-3 font-display text-3xl leading-tight font-medium text-balance sm:text-[2.6rem]">
               {exp.title}
             </h1>
@@ -195,10 +202,14 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
 
             <ul className="mt-8 grid gap-5 border-y border-border py-6 sm:grid-cols-4">
               {[
-                { icon: Clock, label: "Duration", value: exp.duration },
-                { icon: Users, label: "Group size", value: `Up to ${exp.capacity} guests` },
-                { icon: Ship, label: "Boat", value: exp.boat.type },
-                { icon: Zap, label: "Booking", value: "Request first" },
+                { icon: Clock, label: c.duration, value: localizedDuration(exp.durationHours, c) },
+                {
+                  icon: Users,
+                  label: c.groupSize,
+                  value: `${c.upTo} ${exp.capacity} ${c.guests.toLocaleLowerCase(locale)}`,
+                },
+                { icon: Ship, label: c.boat, value: exp.boat.type },
+                { icon: Zap, label: c.booking, value: c.requestFirst },
               ].map((f) => (
                 <li key={f.label} className="flex gap-3">
                   <f.icon className="mt-0.5 h-5 w-5 shrink-0 text-sea" aria-hidden="true" />
@@ -213,7 +224,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
             </ul>
 
             <section className="mt-10">
-              <h2 className="text-2xl">About this day</h2>
+              <h2 className="text-2xl">{c.aboutDay}</h2>
               {exp.description.map((p) => (
                 <p key={p.slice(0, 24)} className="mt-4 leading-relaxed text-ink/80">
                   {p}
@@ -222,7 +233,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
             </section>
 
             <section className="mt-12">
-              <h2 className="text-2xl">The day, roughly</h2>
+              <h2 className="text-2xl">{c.dayRoughly}</h2>
               <ol className="mt-6 space-y-6 border-l border-border pl-6">
                 {exp.itinerary.map((s) => (
                   <li key={s.title} className="relative">
@@ -240,7 +251,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
 
             <section className="mt-12 grid gap-8 sm:grid-cols-2">
               <div>
-                <h2 className="text-xl">What's included</h2>
+                <h2 className="text-xl">{c.included}</h2>
                 <ul className="mt-4 space-y-2.5">
                   {exp.included.map((i) => (
                     <li key={i} className="flex gap-2.5 text-sm text-ink/80">
@@ -250,7 +261,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
                 </ul>
               </div>
               <div>
-                <h2 className="text-xl">Not included</h2>
+                <h2 className="text-xl">{c.notIncluded}</h2>
                 <ul className="mt-4 space-y-2.5">
                   {exp.notIncluded.map((i) => (
                     <li key={i} className="flex gap-2.5 text-sm text-muted-foreground">
@@ -262,12 +273,14 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
             </section>
 
             <section className="mt-12 rounded-xl border border-border bg-sand/70 p-6 sm:p-8">
-              <h2 className="text-xl">The boat — {exp.boat.name}</h2>
+              <h2 className="text-xl">
+                {c.theBoat} — {exp.boat.name}
+              </h2>
               <dl className="mt-5 grid gap-5 sm:grid-cols-3">
                 {[
-                  [Ship, "Type", exp.boat.type],
-                  [Ruler, "Length", exp.boat.length],
-                  [Zap, "Engine", exp.boat.engine],
+                  [Ship, c.type, exp.boat.type],
+                  [Ruler, c.length, exp.boat.length],
+                  [Zap, c.engine, exp.boat.engine],
                 ].map(([Icon, k, v]) => {
                   const I = Icon as typeof Ship;
                   return (
@@ -294,7 +307,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
                 ))}
               </ul>
               <p className="mt-6 text-sm text-muted-foreground">
-                <span className="font-medium text-ink">Meeting point:</span> {exp.meeting}
+                <span className="font-medium text-ink">{c.meetingPoint}:</span> {exp.meeting}
               </p>
             </section>
 
@@ -306,7 +319,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
                 className="h-20 w-20 shrink-0 rounded-full object-cover"
               />
               <div>
-                <p className="eyebrow text-sea">Your operator</p>
+                <p className="eyebrow text-sea">{c.yourOperator}</p>
                 <h2 className="mt-1.5 text-xl">
                   {exp.operator.name} · {exp.operator.role}
                 </h2>
@@ -321,10 +334,10 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
           <aside className="hidden lg:block">
             <div className="sticky top-28 rounded-xl border border-border bg-card p-6 shadow-soft">
               <p className="flex items-baseline gap-1.5">
-                <span className="text-sm text-muted-foreground">from</span>
+                <span className="text-sm text-muted-foreground">{c.from}</span>
                 <span className="font-display text-3xl leading-none font-medium">€{exp.price}</span>
                 <span className="text-sm text-muted-foreground">
-                  {exp.priceUnit === "total" ? "total" : "per person"}
+                  {exp.priceUnit === "total" ? c.total : c.perPerson}
                 </span>
               </p>
               <div className="mt-5">{BookingControls}</div>
@@ -336,11 +349,11 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
                 onGuestsChange={setGuests}
               >
                 <Button variant="sun" size="lg" className="mt-6 w-full">
-                  Request to book
+                  {c.requestToBook}
                 </Button>
               </RequestDialog>
               <p className="mt-3 text-center text-xs leading-relaxed text-muted-foreground">
-                You won't be charged yet. The operator will confirm availability first.
+                {c.noCharge}
               </p>
             </div>
           </aside>
@@ -348,16 +361,14 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
 
         <section className="mx-auto max-w-[1240px] px-5 pb-4 sm:px-8 lg:hidden">
           <div className="rounded-xl border border-border bg-card p-6 shadow-soft">
-            <h2 className="text-xl">Plan your day</h2>
+            <h2 className="text-xl">{c.planDay}</h2>
             <div className="mt-4">{BookingControls}</div>
-            <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-              You won't be charged yet. The operator will confirm availability first.
-            </p>
+            <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{c.noCharge}</p>
           </div>
         </section>
 
         <section className="mx-auto max-w-[1240px] px-5 pt-10 pb-16 sm:px-8">
-          <h2 className="text-2xl">Other days out of Zadar</h2>
+          <h2 className="text-2xl">{c.otherDays}</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((e) => (
               <ExperienceCard key={e.slug} exp={e} />
@@ -373,7 +384,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
             <p className="truncate text-sm">
               <span className="font-display text-xl font-medium">€{exp.price}</span>{" "}
               <span className="text-muted-foreground">
-                {exp.priceUnit === "total" ? "total" : "per person"}
+                {exp.priceUnit === "total" ? c.total : c.perPerson}
               </span>
             </p>
             <p className="truncate text-xs text-muted-foreground">
@@ -389,7 +400,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
             onGuestsChange={setGuests}
           >
             <Button variant="sun" size="lg" className="ml-auto shrink-0">
-              Request to book
+              {c.requestToBook}
             </Button>
           </RequestDialog>
         </div>

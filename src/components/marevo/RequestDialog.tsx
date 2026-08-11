@@ -1,12 +1,5 @@
 import { useState, type FormEvent, type ReactNode } from "react";
-import {
-  AlertCircle,
-  CalendarDays,
-  CheckCircle2,
-  Clock,
-  Loader2,
-  Users,
-} from "lucide-react";
+import { AlertCircle, CalendarDays, CheckCircle2, Clock, Loader2, Users } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +16,8 @@ import type { Experience } from "@/data/inventory";
 import { submitBookingRequest } from "@/lib/booking-request.functions";
 import { guestBucket, priceBand, trackEvent } from "@/lib/analytics";
 import { formatDate } from "./SearchComposer";
+import { useI18n } from "@/i18n";
+import { usePublicCopy } from "@/i18n/public";
 
 type Completion = {
   mode: "demo" | "live";
@@ -48,6 +43,8 @@ export function RequestDialog({
   const [completion, setCompletion] = useState<Completion | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const { locale } = useI18n();
+  const c = usePublicCopy(locale);
   const isLive = import.meta.env["VITE_REQUEST_MODE"] === "live";
 
   const total = exp.priceUnit === "total" ? exp.price : exp.price * guests;
@@ -75,7 +72,7 @@ export function RequestDialog({
         experience_slug: exp.slug,
         stage: "validation",
       });
-      setError("Please confirm that we may share your request with the operator.");
+      setError(c.consentError);
       return;
     }
 
@@ -109,11 +106,7 @@ export function RequestDialog({
         experience_slug: exp.slug,
         stage: "persistence",
       });
-      setError(
-        cause instanceof Error
-          ? cause.message
-          : "We could not send your request. Please try again.",
-      );
+      setError(cause instanceof Error ? cause.message : c.sendError);
     } finally {
       setSubmitting(false);
     }
@@ -150,53 +143,47 @@ export function RequestDialog({
             </div>
             <DialogHeader className="mt-5">
               <DialogTitle className="text-center font-display text-2xl font-medium">
-                {completion.mode === "live" ? "Request received" : "Demo request completed"}
+                {completion.mode === "live" ? c.requestReceived : c.demoCompleted}
               </DialogTitle>
               <DialogDescription className="text-center">
-                {completion.mode === "live"
-                  ? `Your request is waiting for ${exp.operator.name} to confirm availability. No payment has been taken.`
-                  : "This presentation preview did not send your details, contact the operator or create a charge."}
+                {completion.mode === "live" ? c.liveComplete : c.demoComplete}
               </DialogDescription>
             </DialogHeader>
             <dl className="mx-auto mt-6 max-w-xs space-y-2 rounded-lg border border-border bg-secondary/60 p-4 text-left text-sm">
               {completion.reference ? (
                 <div className="flex justify-between gap-4">
-                  <dt className="text-muted-foreground">Reference</dt>
+                  <dt className="text-muted-foreground">{c.reference}</dt>
                   <dd className="font-mono font-medium">{completion.reference}</dd>
                 </div>
               ) : null}
               <div className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">Trip</dt>
+                <dt className="text-muted-foreground">{c.trip}</dt>
                 <dd className="text-right font-medium">{exp.title}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">Date</dt>
-                <dd className="font-medium">{formatDate(date)}</dd>
+                <dt className="text-muted-foreground">{c.date}</dt>
+                <dd className="font-medium">{formatDate(date, locale)}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">Guests</dt>
+                <dt className="text-muted-foreground">{c.guests}</dt>
                 <dd className="font-medium">{guests}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-muted-foreground">Estimated total</dt>
+                <dt className="text-muted-foreground">{c.estimatedTotal}</dt>
                 <dd className="font-medium">€{total}</dd>
               </div>
             </dl>
             <Button className="mt-6" variant="secondary" onClick={() => setOpen(false)}>
-              Done
+              {c.done}
             </Button>
           </div>
         ) : (
           <>
             <DialogHeader>
               <DialogTitle className="font-display text-2xl font-medium">
-                Request {exp.title}
+                {c.request} {exp.title}
               </DialogTitle>
-              <DialogDescription>
-                {isLive
-                  ? "Send a request first. The operator confirms availability before any payment."
-                  : "Presentation preview only — your details stay in this browser and are not transmitted."}
-              </DialogDescription>
+              <DialogDescription>{isLive ? c.liveIntro : c.demoIntro}</DialogDescription>
             </DialogHeader>
 
             <form className="space-y-4" onSubmit={handleSubmit}>
@@ -215,7 +202,7 @@ export function RequestDialog({
                 <div className="space-y-1.5">
                   <Label htmlFor="req-date" className="flex items-center gap-1.5">
                     <CalendarDays className="h-3.5 w-3.5 text-sea" aria-hidden="true" />
-                    Preferred date
+                    {c.preferredDate}
                   </Label>
                   <Input
                     id="req-date"
@@ -229,7 +216,7 @@ export function RequestDialog({
                 <div className="space-y-1.5">
                   <Label htmlFor="req-guests" className="flex items-center gap-1.5">
                     <Users className="h-3.5 w-3.5 text-sea" aria-hidden="true" />
-                    Guests
+                    {c.guests}
                   </Label>
                   <Input
                     id="req-guests"
@@ -248,7 +235,7 @@ export function RequestDialog({
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <Label htmlFor="req-name">Full name</Label>
+                  <Label htmlFor="req-name">{c.fullName}</Label>
                   <Input
                     id="req-name"
                     name="fullName"
@@ -275,7 +262,7 @@ export function RequestDialog({
 
               <div className="space-y-1.5">
                 <Label htmlFor="req-phone">
-                  Phone <span className="text-muted-foreground">(optional)</span>
+                  {c.phone} <span className="text-muted-foreground">({c.optional})</span>
                 </Label>
                 <Input
                   id="req-phone"
@@ -289,15 +276,15 @@ export function RequestDialog({
 
               <div className="space-y-1.5">
                 <Label htmlFor="req-msg">
-                  Message to {exp.operator.name}{" "}
-                  <span className="text-muted-foreground">(optional)</span>
+                  {c.messageTo} {exp.operator.name}{" "}
+                  <span className="text-muted-foreground">({c.optional})</span>
                 </Label>
                 <Textarea
                   id="req-msg"
                   name="message"
                   rows={3}
                   maxLength={1000}
-                  placeholder="We're two families with small kids and would love plenty of swim stops."
+                  placeholder={c.messagePlaceholder}
                 />
               </div>
 
@@ -309,19 +296,18 @@ export function RequestDialog({
                     required
                     className="mt-0.5 h-4 w-4 shrink-0 accent-sea"
                   />
-                  <span>
-                    I agree that MAREVO may store these details and share them with the
-                    selected operator to answer this booking request.
-                  </span>
+                  <span>{c.consent}</span>
                 </label>
               ) : null}
 
               <div className="flex items-center justify-between rounded-lg border border-border bg-secondary/60 px-4 py-3 text-sm">
-                <span className="text-muted-foreground">Estimated total</span>
+                <span className="text-muted-foreground">{c.estimatedTotal}</span>
                 <span className="font-display text-xl font-medium">
                   €{total}{" "}
                   <span className="font-sans text-xs font-normal text-muted-foreground">
-                    {exp.priceUnit === "total" ? "for the boat" : `for ${guests}`}
+                    {exp.priceUnit === "total"
+                      ? c.forBoat
+                      : `${guests} ${c.guests.toLocaleLowerCase(locale)}`}
                   </span>
                 </span>
               </div>
@@ -346,17 +332,15 @@ export function RequestDialog({
                 {submitting ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                    Sending request…
+                    {c.sending}
                   </>
                 ) : (
-                  "Send request"
+                  c.sendRequest
                 )}
               </Button>
               <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
                 <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-                {isLive
-                  ? "No charge now · operator confirmation required"
-                  : "Demo flow · no request is transmitted"}
+                {isLive ? c.liveFoot : c.demoFoot}
               </p>
             </form>
           </>
