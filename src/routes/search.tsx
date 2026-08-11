@@ -21,6 +21,7 @@ import {
 import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
 import { SITE_URL } from "@/lib/seo";
+import { localizedPath, useI18n } from "@/i18n";
 
 export type BoatSearch = {
   q?: string;
@@ -30,17 +31,19 @@ export type BoatSearch = {
   type?: string;
 };
 
+export const validateBoatSearch = (raw: Record<string, unknown>): BoatSearch => {
+  const out: BoatSearch = {};
+  if (typeof raw["q"] === "string" && raw["q"]) out.q = raw["q"];
+  if (typeof raw["date"] === "string" && raw["date"]) out.date = raw["date"];
+  const g = Number(raw["guests"]);
+  if (Number.isFinite(g) && g > 0) out.guests = Math.min(12, Math.round(g));
+  if (raw["trip"] === "private" || raw["trip"] === "shared") out.trip = raw["trip"];
+  if (typeof raw["type"] === "string" && raw["type"]) out.type = raw["type"];
+  return out;
+};
+
 export const Route = createFileRoute("/search")({
-  validateSearch: (raw: Record<string, unknown>): BoatSearch => {
-    const out: BoatSearch = {};
-    if (typeof raw["q"] === "string" && raw["q"]) out.q = raw["q"];
-    if (typeof raw["date"] === "string" && raw["date"]) out.date = raw["date"];
-    const g = Number(raw["guests"]);
-    if (Number.isFinite(g) && g > 0) out.guests = Math.min(12, Math.round(g));
-    if (raw["trip"] === "private" || raw["trip"] === "shared") out.trip = raw["trip"];
-    if (typeof raw["type"] === "string" && raw["type"]) out.type = raw["type"];
-    return out;
-  },
+  validateSearch: validateBoatSearch,
   head: () => ({
     meta: [
       { title: "Find boats in Zadar — MAREVO" },
@@ -58,8 +61,12 @@ export const Route = createFileRoute("/search")({
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/search` }],
   }),
-  component: SearchPage,
+  component: SearchRoutePage,
 });
+
+function SearchRoutePage() {
+  return <SearchPage params={Route.useSearch()} />;
+}
 
 const sorts = [
   { id: "recommended", label: "Recommended" },
@@ -69,9 +76,9 @@ const sorts = [
   { id: "duration", label: "Shortest first" },
 ] as const;
 
-function SearchPage() {
-  const params = Route.useSearch();
+export function SearchPage({ params }: { params: BoatSearch }) {
   const navigate = useNavigate();
+  const { locale } = useI18n();
 
   const [composer, setComposer] = useState<SearchState>({
     q: params.q ?? defaultSearch.q,
@@ -189,8 +196,8 @@ function SearchPage() {
                 variant="compact"
                 onSubmit={(v) =>
                   navigate({
-                    to: "/search",
-                    search: { q: v.q, date: v.date, guests: v.guests, trip: v.trip },
+                    to: localizedPath("/search", locale) as never,
+                    search: { q: v.q, date: v.date, guests: v.guests, trip: v.trip } as never,
                   })
                 }
               />

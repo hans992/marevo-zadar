@@ -1,21 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { CalendarDays, MapPin, Minus, Plus, Search, Users } from "lucide-react";
+import { cs, de, enGB, es, fr, hr, hu, pl, sk, sl } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { destinationBucket, guestBucket, trackEvent } from "@/lib/analytics";
+import { localizedPath, useI18n, type Locale } from "@/i18n";
 
 export type SearchState = { q: string; date: string; guests: number; trip: "private" | "shared" };
 
 export const defaultSearch: SearchState = { q: "Zadar", date: "", guests: 4, trip: "private" };
 
-export function formatDate(value: string) {
-  if (!value) return "Any date";
+const calendarLocales = { en: enGB, hr, sl, de, pl, hu, sk, cs, fr, es } as const;
+
+export function formatDate(value: string, locale: Locale = "en", empty = "Any date") {
+  if (!value) return empty;
   const d = new Date(`${value}T12:00:00`);
-  if (Number.isNaN(d.getTime())) return "Any date";
-  return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+  if (Number.isNaN(d.getTime())) return empty;
+  return d.toLocaleDateString(locale === "en" ? "en-GB" : locale, {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
 }
 
 const places = ["Zadar", "Kornati", "Dugi Otok", "Ugljan", "Telašćica"];
@@ -32,6 +40,7 @@ export function SearchComposer({
   onSubmit?: (v: SearchState) => void;
 }) {
   const navigate = useNavigate();
+  const { locale, t } = useI18n();
   const [placeOpen, setPlaceOpen] = useState(false);
   const [dateOpen, setDateOpen] = useState(false);
   const set = (patch: Partial<SearchState>) => onChange({ ...value, ...patch });
@@ -51,8 +60,8 @@ export function SearchComposer({
     });
     if (onSubmit) return onSubmit(value);
     navigate({
-      to: "/search",
-      search: { q: value.q, date: value.date, guests: value.guests, trip: value.trip },
+      to: localizedPath("/search", locale) as never,
+      search: { q: value.q, date: value.date, guests: value.guests, trip: value.trip } as never,
     });
   };
 
@@ -65,7 +74,7 @@ export function SearchComposer({
         "w-full rounded-xl border border-border bg-background",
         compact ? "shadow-soft" : "shadow-lift",
       )}
-      aria-label="Search boats"
+      aria-label={t("search.aria")}
     >
       <div
         className={cn(
@@ -80,10 +89,10 @@ export function SearchComposer({
               type="button"
               className="flex flex-col items-start gap-0.5 rounded-t-xl bg-background px-5 py-3.5 text-left transition-colors hover:bg-secondary focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-sea sm:rounded-none sm:first:rounded-l-xl"
             >
-              <span className="eyebrow text-muted-foreground">Where</span>
+              <span className="eyebrow text-muted-foreground">{t("search.where")}</span>
               <span className="flex items-center gap-1.5 text-[0.95rem] font-medium text-ink">
                 <MapPin className="h-4 w-4 text-sea" aria-hidden="true" />
-                {value.q || "Anywhere near Zadar"}
+                {value.q || t("search.anywhere")}
               </span>
             </button>
           </PopoverTrigger>
@@ -112,19 +121,20 @@ export function SearchComposer({
           <PopoverTrigger asChild>
             <button
               type="button"
-              aria-label={`Trip date: ${formatDate(value.date)}`}
+              aria-label={`${t("search.tripDate")}: ${formatDate(value.date, locale, t("search.anyDate"))}`}
               className="flex flex-col items-start gap-0.5 bg-background px-5 py-3.5 text-left transition-colors hover:bg-secondary focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-sea"
             >
-              <span className="eyebrow text-muted-foreground">Date</span>
+              <span className="eyebrow text-muted-foreground">{t("search.date")}</span>
               <span className="flex items-center gap-1.5 text-[0.95rem] font-medium text-ink">
                 <CalendarDays className="h-4 w-4 text-sea" aria-hidden="true" />
-                {formatDate(value.date)}
+                {formatDate(value.date, locale, t("search.anyDate"))}
               </span>
             </button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-auto p-0">
             <Calendar
               mode="single"
+              locale={calendarLocales[locale]}
               selected={selectedDate}
               disabled={{ before: today }}
               onSelect={(date) => {
@@ -145,11 +155,11 @@ export function SearchComposer({
         <div className="flex items-start justify-between gap-2 bg-background px-5 py-3.5">
           <div className="flex flex-col gap-0.5">
             <span className="eyebrow text-muted-foreground" id="guests-label">
-              Guests
+              {t("search.guests")}
             </span>
             <span className="flex items-center gap-1.5 whitespace-nowrap text-[0.95rem] font-medium text-ink">
               <Users className="h-4 w-4 text-sea" aria-hidden="true" />
-              {value.guests} {value.guests === 1 ? "guest" : "guests"}
+              {value.guests} {value.guests === 1 ? t("search.guest") : t("search.guestsLower")}
             </span>
           </div>
           <div className="flex self-end items-center gap-1">
@@ -158,7 +168,7 @@ export function SearchComposer({
               variant="outline"
               size="icon"
               className="h-8 w-8 rounded-full"
-              aria-label="Remove one guest"
+              aria-label={t("search.removeGuest")}
               disabled={value.guests <= 1}
               onClick={() => set({ guests: Math.max(1, value.guests - 1) })}
             >
@@ -169,7 +179,7 @@ export function SearchComposer({
               variant="outline"
               size="icon"
               className="h-8 w-8 rounded-full"
-              aria-label="Add one guest"
+              aria-label={t("search.addGuest")}
               disabled={value.guests >= 12}
               onClick={() => set({ guests: Math.min(12, value.guests + 1) })}
             >
@@ -185,21 +195,23 @@ export function SearchComposer({
           className={cn("flex flex-col gap-0.5 bg-background px-5 py-3.5", compact && "hidden")}
         >
           <span id="trip-type-label" className="eyebrow text-muted-foreground">
-            Trip type
+            {t("search.tripType")}
           </span>
           <div className="flex h-8 items-stretch rounded-md border border-border p-0.5">
-            {(["private", "shared"] as const).map((t) => (
+            {(["private", "shared"] as const).map((tripType) => (
               <button
-                key={t}
+                key={tripType}
                 type="button"
-                aria-pressed={value.trip === t}
-                onClick={() => set({ trip: t })}
+                aria-pressed={value.trip === tripType}
+                onClick={() => set({ trip: tripType })}
                 className={cn(
                   "flex-1 rounded-[5px] px-3 text-sm leading-none capitalize transition-colors",
-                  value.trip === t ? "bg-ink text-background" : "text-ink/70 hover:bg-secondary",
+                  value.trip === tripType
+                    ? "bg-ink text-background"
+                    : "text-ink/70 hover:bg-secondary",
                 )}
               >
-                {t}
+                {tripType === "private" ? t("search.private") : t("search.shared")}
               </button>
             ))}
           </div>
@@ -213,7 +225,7 @@ export function SearchComposer({
             className="h-full w-full min-w-[9rem] gap-2"
           >
             <Search className="h-4 w-4" aria-hidden="true" />
-            Find boats
+            {t("search.findBoats")}
           </Button>
         </div>
       </div>

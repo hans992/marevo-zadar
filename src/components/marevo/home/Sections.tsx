@@ -13,8 +13,10 @@ import { Label } from "@/components/ui/label";
 import { categories, destinations, faqs, reviews } from "@/data/inventory";
 import { ListYourBoatDialog } from "../ListYourBoatDialog";
 import { trackEvent } from "@/lib/analytics";
+import { localizedPath, useI18n } from "@/i18n";
 
 export function Categories() {
+  const { locale } = useI18n();
   return (
     <section className="bg-sand py-20 lg:py-28">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
@@ -25,8 +27,8 @@ export function Categories() {
           {categories.map((c, i) => (
             <Link
               key={c.title}
-              to="/search"
-              search={{ type: c.filter }}
+              to={localizedPath("/search", locale) as never}
+              search={{ type: c.filter } as never}
               className="group relative block overflow-hidden rounded-xl border border-ink/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea"
               style={{
                 borderBottomRightRadius: i % 2 === 0 ? "4rem" : undefined,
@@ -63,6 +65,7 @@ export function Categories() {
 }
 
 export function Destinations() {
+  const { locale } = useI18n();
   return (
     <section
       id="destinations"
@@ -83,8 +86,8 @@ export function Destinations() {
         {destinations.map((d) => (
           <Link
             key={d.name}
-            to="/search"
-            search={{ q: d.name.split(" ")[0] as string }}
+            to={localizedPath("/search", locale) as never}
+            search={{ q: d.name.split(" ")[0] as string } as never}
             className="group grid grid-cols-[7.5rem_1fr] items-stretch overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-0.5 hover:shadow-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sea sm:grid-cols-[12rem_1fr]"
           >
             <div className="overflow-hidden bg-secondary">
@@ -117,6 +120,7 @@ export function Destinations() {
 }
 
 export function MatchTeaser() {
+  const { locale } = useI18n();
   return (
     <section className="bg-sand py-20 lg:py-28">
       <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
@@ -134,7 +138,7 @@ export function MatchTeaser() {
             you.
           </p>
           <Button asChild variant="ink" size="lg" className="mt-7">
-            <Link to="/search">Match me with a boat</Link>
+            <Link to={localizedPath("/search", locale) as never}>Match me with a boat</Link>
           </Button>
         </div>
 
