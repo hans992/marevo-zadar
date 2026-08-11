@@ -23,6 +23,8 @@ jobs:
         run: bun run lint
       - name: Typecheck
         run: bun run typecheck
+      - name: Validate inventory
+        run: bun run inventory:validate
       - name: Build
         run: bun run build
       - name: Smoke test production routes
