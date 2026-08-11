@@ -10,18 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SearchRouteImport } from './routes/search'
+import { Route as LocaleRouteImport } from './routes/$locale'
 import { Route as OperatorRouteImport } from './routes/operator'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
+import { Route as LocaleSearchRouteImport } from './routes/$locale.search'
 import { Route as ExperiencesSlugRouteImport } from './routes/experiences.$slug'
+import { Route as LocaleExperiencesSlugRouteImport } from './routes/$locale.experiences.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
+const LocaleRoute = LocaleRouteImport.update({
+  id: '/$locale',
+  path: '/$locale',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OperatorRoute = OperatorRouteImport.update({
@@ -29,43 +33,99 @@ const OperatorRoute = OperatorRouteImport.update({
   path: '/operator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleSearchRoute = LocaleSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => LocaleRoute,
+} as any)
 const ExperiencesSlugRoute = ExperiencesSlugRouteImport.update({
   id: '/experiences/$slug',
   path: '/experiences/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleExperiencesSlugRoute = LocaleExperiencesSlugRouteImport.update({
+  id: '/experiences/$slug',
+  path: '/experiences/$slug',
+  getParentRoute: () => LocaleRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
+  '/$locale': typeof LocaleRouteWithChildren
   '/operator': typeof OperatorRoute
+  '/search': typeof SearchRoute
+  '/$locale/search': typeof LocaleSearchRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
+  '/$locale/': typeof LocaleIndexRoute
+  '/$locale/experiences/$slug': typeof LocaleExperiencesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
   '/operator': typeof OperatorRoute
+  '/search': typeof SearchRoute
+  '/$locale/search': typeof LocaleSearchRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
+  '/$locale': typeof LocaleIndexRoute
+  '/$locale/experiences/$slug': typeof LocaleExperiencesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
+  '/$locale': typeof LocaleRouteWithChildren
   '/operator': typeof OperatorRoute
+  '/search': typeof SearchRoute
+  '/$locale/search': typeof LocaleSearchRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
+  '/$locale/': typeof LocaleIndexRoute
+  '/$locale/experiences/$slug': typeof LocaleExperiencesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/operator' | '/experiences/$slug'
+  fullPaths:
+    | '/'
+    | '/$locale'
+    | '/operator'
+    | '/search'
+    | '/$locale/search'
+    | '/experiences/$slug'
+    | '/$locale/'
+    | '/$locale/experiences/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/operator' | '/experiences/$slug'
-  id: '__root__' | '/' | '/search' | '/operator' | '/experiences/$slug'
+  to:
+    | '/'
+    | '/operator'
+    | '/search'
+    | '/$locale/search'
+    | '/experiences/$slug'
+    | '/$locale'
+    | '/$locale/experiences/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/$locale'
+    | '/operator'
+    | '/search'
+    | '/$locale/search'
+    | '/experiences/$slug'
+    | '/$locale/'
+    | '/$locale/experiences/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SearchRoute: typeof SearchRoute
+  LocaleRoute: typeof LocaleRouteWithChildren
   OperatorRoute: typeof OperatorRoute
+  SearchRoute: typeof SearchRoute
   ExperiencesSlugRoute: typeof ExperiencesSlugRoute
 }
 
@@ -78,11 +138,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
+    '/$locale': {
+      id: '/$locale'
+      path: '/$locale'
+      fullPath: '/$locale'
+      preLoaderRoute: typeof LocaleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/operator': {
@@ -92,6 +152,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OperatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/search': {
+      id: '/$locale/search'
+      path: '/search'
+      fullPath: '/$locale/search'
+      preLoaderRoute: typeof LocaleSearchRouteImport
+      parentRoute: typeof LocaleRoute
+    }
     '/experiences/$slug': {
       id: '/experiences/$slug'
       path: '/experiences/$slug'
@@ -99,15 +180,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExperiencesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale/experiences/$slug': {
+      id: '/$locale/experiences/$slug'
+      path: '/experiences/$slug'
+      fullPath: '/$locale/experiences/$slug'
+      preLoaderRoute: typeof LocaleExperiencesSlugRouteImport
+      parentRoute: typeof LocaleRoute
+    }
   }
 }
 
+interface LocaleRouteChildren {
+  LocaleSearchRoute: typeof LocaleSearchRoute
+  LocaleIndexRoute: typeof LocaleIndexRoute
+  LocaleExperiencesSlugRoute: typeof LocaleExperiencesSlugRoute
+}
+
+const LocaleRouteChildren: LocaleRouteChildren = {
+  LocaleSearchRoute: LocaleSearchRoute,
+  LocaleIndexRoute: LocaleIndexRoute,
+  LocaleExperiencesSlugRoute: LocaleExperiencesSlugRoute,
+}
+
+const LocaleRouteWithChildren =
+  LocaleRoute._addFileChildren(LocaleRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SearchRoute: SearchRoute,
+  LocaleRoute: LocaleRouteWithChildren,
   OperatorRoute: OperatorRoute,
+  SearchRoute: SearchRoute,
   ExperiencesSlugRoute: ExperiencesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
