@@ -45,11 +45,10 @@ export function RequestDialog({
             </div>
             <DialogHeader className="mt-5">
               <DialogTitle className="text-center font-display text-2xl font-medium">
-                Request sent — {exp.operator.name} usually replies within 30 minutes
+                Demo request completed
               </DialogTitle>
               <DialogDescription className="text-center">
-                We've passed your dates to {exp.operator.name} at {exp.boat.name}. You'll get a confirmation by email, and
-                nothing is charged until the boat is confirmed.
+                This presentation preview does not send an email, contact the operator or create a charge.
               </DialogDescription>
             </DialogHeader>
             <dl className="mx-auto mt-6 max-w-xs space-y-2 rounded-lg border border-border bg-secondary/60 p-4 text-left text-sm">
@@ -79,7 +78,7 @@ export function RequestDialog({
             <DialogHeader>
               <DialogTitle className="font-display text-2xl font-medium">Request {exp.title}</DialogTitle>
               <DialogDescription>
-                You won't be charged yet. {exp.operator.name} will confirm the boat is free first.
+                Presentation preview only — this request will not be transmitted.
               </DialogDescription>
             </DialogHeader>
 
@@ -162,7 +161,7 @@ export function RequestDialog({
                 Send request
               </Button>
               <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
-                <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {exp.operator.name} {exp.operator.replies}
+                <Clock className="h-3.5 w-3.5" aria-hidden="true" /> Demo flow · no request is transmitted
               </p>
             </form>
           </>

@@ -196,9 +196,9 @@ export function Operators() {
 
           <dl className="mt-9 grid grid-cols-3 gap-6 border-t border-background/15 pt-7">
             {[
-              ["12+", "local boats"],
-              ["8", "island routes"],
-              ["Every day", "local support"],
+              ["Zadar-first", "focused marketplace"],
+              ["Request-first", "no stale calendars"],
+              ["Human", "trip support"],
             ].map(([n, l]) => (
               <div key={l}>
                 <dt className="font-display text-3xl leading-none font-medium text-background">{n}</dt>
@@ -253,7 +253,7 @@ export function Faq() {
             Questions before you sail
           </h2>
           <p className="mt-4 max-w-sm leading-relaxed text-ink/70">
-            Still unsure? Write to us at hello@marevo.example — a person in Zadar reads it.
+            Still unsure? The contact channel will be enabled before public booking requests go live.
           </p>
         </div>
         <Accordion type="single" collapsible className="w-full">
@@ -284,7 +284,7 @@ export function EmailCapture() {
         </div>
         {done ? (
           <p className="flex items-center gap-2 text-sm font-medium text-sea">
-            <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> Thanks — see you at sea.
+            <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> Demo signup completed — no email was transmitted.
           </p>
         ) : (
           <form

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Mail, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Logo } from "./Logo";
 import { ListYourBoatDialog } from "./ListYourBoatDialog";
 
@@ -37,12 +37,6 @@ export function Footer() {
             <p className="mt-5 flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4 text-sun" aria-hidden="true" /> Zadar, Croatia
             </p>
-            <a
-              href="mailto:hello@marevo.example"
-              className="mt-2 inline-flex items-center gap-2 text-sm underline-offset-4 hover:text-background hover:underline"
-            >
-              <Mail className="h-4 w-4 text-sun" aria-hidden="true" /> hello@marevo.example
-            </a>
           </div>
 
           {cols.map((col) => (
@@ -78,16 +72,6 @@ export function Footer() {
                   Help & FAQ
                 </Link>
               </li>
-              <li>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 underline-offset-4 hover:text-background hover:underline"
-                >
-                  <Instagram className="h-4 w-4" aria-hidden="true" /> Instagram
-                </a>
-              </li>
             </ul>
           </div>
         </div>
@@ -95,10 +79,7 @@ export function Footer() {
         <div className="mt-14 flex flex-col gap-3 border-t border-background/15 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} MAREVO. All rights reserved.</p>
           <p className="font-display text-sm tracking-wide text-background/85">Made in Zadar. Best enjoyed at sea.</p>
-          <p className="flex gap-4">
-            <span>Terms</span>
-            <span>Privacy</span>
-          </p>
+          <p>Presentation prototype</p>
         </div>
       </div>
     </footer>

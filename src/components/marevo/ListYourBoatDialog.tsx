@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 const points = [
   { icon: Inbox, title: "Direct, qualified requests", text: "Real dates, real group sizes, sent straight to your phone. No lead lists, no cold enquiries." },
   { icon: CheckCircle2, title: "You confirm every booking", text: "Nothing is sold before you say the boat is free. Guests only pay after you accept." },
-  { icon: Coins, title: "Simple pricing", text: "One clear commission on confirmed trips. No listing fee, no subscription, no lock-in." },
+  { icon: Coins, title: "Simple pricing", text: "A transparent commercial model agreed with each founding operator before listings go live." },
   { icon: CalendarX2, title: "Blackout dates later", text: "Start with a simple listing. Calendars and blackout dates arrive as we grow the fleet." },
 ];
 
@@ -44,9 +44,9 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
           {sent ? (
             <div className="py-6 text-center">
               <CheckCircle2 className="mx-auto h-10 w-10 text-sea" aria-hidden="true" />
-              <h3 className="mt-4 text-2xl">Thanks — you're on the list</h3>
+              <h3 className="mt-4 text-2xl">Demo application completed</h3>
               <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
-                We review every boat personally. Someone from the Zadar team will be in touch within two working days.
+                This presentation preview does not transmit operator applications.
               </p>
               <Button className="mt-6" variant="secondary" onClick={() => setOpen(false)}>
                 Close
@@ -91,7 +91,7 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
                   Join the founding fleet
                 </Button>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  No commitment. We will only contact you about listing your boat.
+                  Presentation preview only — this form does not transmit data.
                 </p>
               </form>
             </>

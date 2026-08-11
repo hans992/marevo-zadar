@@ -43,8 +43,7 @@ function ExperienceDetail() {
   const [guests, setGuests] = useState(Math.min(4, exp.capacity));
 
   const unitTotal = exp.priceUnit === "total" ? exp.price : exp.price * guests;
-  const serviceFee = Math.round(unitTotal * 0.06);
-  const total = unitTotal + serviceFee;
+  const total = unitTotal;
   const related = experiences.filter((e) => e.slug !== exp.slug).slice(0, 3);
 
   const BookingControls = (
@@ -102,12 +101,8 @@ function ExperienceDetail() {
           </dt>
           <dd>€{unitTotal}</dd>
         </div>
-        <div className="flex justify-between gap-4">
-          <dt className="text-muted-foreground">Service fee</dt>
-          <dd>€{serviceFee}</dd>
-        </div>
         <div className="flex justify-between gap-4 border-t border-border pt-3 text-base font-medium">
-          <dt>Estimated total</dt>
+          <dt>Displayed price</dt>
           <dd className="font-display text-xl">€{total}</dd>
         </div>
       </dl>

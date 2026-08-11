@@ -1,29 +1,49 @@
-# Welcome to your Lovable project
+# MAREVO
 
-This project was built with [Lovable](https://lovable.dev).
+**Zadar, from the sea.**
 
-## Build with Lovable
+MAREVO is a focused marketplace concept for private boat rentals and curated boat experiences around Zadar, Croatia. The current release is a presentation-ready frontend prototype built around a request-to-book flow.
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+## Current scope
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- Search by date, guests and trip type
+- Curated experience results and filters
+- Detailed boat, route and operator pages
+- Request-to-book presentation flow
+- Founding operator acquisition flow
+- Responsive desktop and mobile layouts
+
+The inventory, reviews and operator profiles are demonstration content. Requests, newsletter signups and operator applications are not transmitted in this release. No payment or live availability is enabled yet.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requirements: Bun and Node.js 20+.
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+```bash
+bun install
+bun run dev
 ```
 
-## Built with
+## Validation
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+```bash
+bun run lint
+bun run typecheck
+bun run build
+bun run test:smoke
+```
+
+The smoke test starts the production server and checks the homepage, search page and an experience detail route.
+
+## Deployment
+
+The app uses TanStack Start with Nitro output and includes a production start command for Vercel-compatible Node deployments:
+
+```bash
+bun run build
+bun run start
+```
+
+## Stack
+
+TanStack Start, React 19, TypeScript, Tailwind CSS 4, shadcn/ui and Nitro.
