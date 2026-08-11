@@ -1,14 +1,17 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "marevo-zadar",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "build:dev": "vite build --mode development",
+    "start": "node .output/server/index.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test:smoke": "node scripts/smoke.mjs",
+    "check": "bun run lint && bun run typecheck && bun run build && bun run test:smoke",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -83,5 +86,6 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.2.0"
-  }
+  },
+  "description": "Premium boat rentals and island experiences marketplace for Zadar, Croatia"
 }
