@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/seo";
 
 export type BoatSearch = {
   q?: string;
@@ -43,7 +44,9 @@ export const Route = createFileRoute("/search")({
         property: "og:description",
         content: "Private tours, rentals and sunset trips from Zadar, run by local operators.",
       },
+      { property: "og:url", content: `${SITE_URL}/search` },
     ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/search` }],
   }),
   component: SearchPage,
 });
