@@ -1,11 +1,16 @@
 # Request-to-book v1
 
-## Runtime modes
+This PR prepares persistence but does not connect the public form. The presentation flow remains local: guest details do not leave the browser and nothing is stored.
 
-- `VITE_REQUEST_MODE=demo`: the form completes locally. Guest details never leave the browser and nothing is stored.
-- `VITE_REQUEST_MODE=live`: the form calls a same-origin TanStack server function. The server validates the payload, verifies the published experience and capacity, calculates the price snapshot from live inventory, then writes the request with a server-only Supabase secret.
+## Prepared live path
 
-The application defaults to demo mode.
+After explicit product and privacy approval, the public form can call the same-origin TanStack server function. The server contract is designed to:
+
+1. validate the payload;
+2. verify the published experience and capacity;
+3. calculate the price snapshot from live inventory;
+4. write the request using a server-only Supabase secret;
+5. return a short request reference without taking payment.
 
 ## Security boundary
 
@@ -13,11 +18,11 @@ The application defaults to demo mode.
 - TanStack Start applies same-origin protection to server functions when no custom `src/start.ts` is present.
 - Supabase secret keys exist only in the server environment.
 - Anonymous and authenticated Data API roles have no access to booking requests or request events.
-- The browser never supplies operator IDs, database IDs, prices or status.
+- The browser must never supply operator IDs, database IDs, prices or status.
 - A request token prevents accidental duplicate insertion.
-- A honeypot rejects basic automated submissions.
+- The input contract includes a honeypot for basic automated submissions.
 
-Before public launch, add infrastructure-level rate limiting, transactional email delivery, retention/deletion rules, privacy copy and operator authentication.
+Before activation, approve the data destination and privacy copy, then add infrastructure-level rate limiting, retention/deletion rules, transactional email delivery and operator authentication.
 
 ## State model
 
