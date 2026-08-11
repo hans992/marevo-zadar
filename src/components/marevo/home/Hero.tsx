@@ -2,12 +2,25 @@ import { useState } from "react";
 import { Anchor, MessageCircle, ShieldCheck } from "lucide-react";
 import { SearchComposer, defaultSearch, type SearchState } from "../SearchComposer";
 
-const HERO = "https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&w=2000&q=80";
+const HERO =
+  "https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&w=2000&q=80";
 
 const proof = [
-  { icon: Anchor, title: "Local operators only", text: "Every boat is owned and skippered by someone from Zadar or the islands." },
-  { icon: ShieldCheck, title: "Verified boats & skippers", text: "Licences, insurance and safety gear checked before a boat goes live." },
-  { icon: MessageCircle, title: "Replies within 30 minutes", text: "Most requests are answered the same hour, in English, by the owner." },
+  {
+    icon: Anchor,
+    title: "Local operators only",
+    text: "Every boat is owned and skippered by someone from Zadar or the islands.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Verified boats & skippers",
+    text: "Licences, insurance and safety gear checked before a boat goes live.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Replies within 30 minutes",
+    text: "Most requests are answered the same hour, in English, by the owner.",
+  },
 ];
 
 export function Hero() {
@@ -21,6 +34,8 @@ export function Hero() {
           alt="A small boat anchored above clear turquoise water in the Zadar archipelago"
           className="absolute inset-0 h-full w-full object-cover object-center"
           fetchPriority="high"
+          decoding="async"
+          sizes="100vw"
         />
         <div
           className="absolute inset-0"
@@ -38,7 +53,9 @@ export function Hero() {
           <p className="mt-5 max-w-xl text-base leading-relaxed text-background/85 sm:text-lg">
             Private boats and unforgettable island experiences, handpicked by people who know Zadar.
           </p>
-          <p className="mt-6 font-display text-lg tracking-wide text-background/70 italic">Zadar, from the sea.</p>
+          <p className="mt-6 font-display text-lg tracking-wide text-background/70 italic">
+            Zadar, from the sea.
+          </p>
         </div>
       </div>
 
@@ -56,7 +73,9 @@ export function Hero() {
             <li key={p.title} className="flex gap-3.5">
               <p.icon className="mt-0.5 h-5 w-5 shrink-0 text-sea" aria-hidden="true" />
               <div>
-                <h2 className="font-sans text-sm font-semibold tracking-tight text-ink">{p.title}</h2>
+                <h2 className="font-sans text-sm font-semibold tracking-tight text-ink">
+                  {p.title}
+                </h2>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.text}</p>
               </div>
             </li>
