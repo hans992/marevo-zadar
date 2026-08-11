@@ -58,6 +58,6 @@ export function experienceStructuredData(experience: Experience) {
         description: step.text,
       })),
     },
-    provider: { "@id": `${SITE_URL}/#organization` },
+    provider: marevoOrganization,
   };
 }
