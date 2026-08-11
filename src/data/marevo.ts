@@ -49,7 +49,6 @@ const adriatic = {
   zadarSunsetBoats: "1656251904340-532a27e9eb44",
   zadarSunsetSail: "1666021532118-d5d963873931",
   zadarHarbour: "1744996999291-84081fe12f05",
-  zadarSmallBoat: "1757455265921-3cdecc5468b1",
   telascicaCliffs: "1570695336380-47a1c55728fd",
   telascicaView: "1662918445754-fce8aad7b689",
 } as const;
@@ -183,7 +182,7 @@ export const experiences: Experience[] = [
       img(adriatic.telascicaView),
       img(adriatic.zadarBoat),
       img(adriatic.kornati),
-      img(adriatic.zadarSmallBoat),
+      img(adriatic.zadarSunsetBoats),
       img(adriatic.telascicaCliffs),
     ],
     boat: {
@@ -257,10 +256,10 @@ export const experiences: Experience[] = [
       "A good option if you have a late flight, small children, or simply do not want to commit a whole day to the sea.",
     ],
     images: [
-      img(adriatic.zadarSmallBoat),
       img(adriatic.zadarHarbour),
       img(adriatic.zadarBoat),
       img(adriatic.kornati),
+      img(adriatic.zadarSunsetBoats),
     ],
     boat: {
       name: "Mala",
@@ -315,7 +314,7 @@ export const experiences: Experience[] = [
     images: [
       img(adriatic.zadarSunsetSail),
       img(adriatic.zadarSunsetBoats),
-      img(adriatic.zadarSmallBoat),
+      img(adriatic.zadarBoat),
       img(adriatic.zadarHarbour),
     ],
     boat: {
@@ -518,7 +517,7 @@ export const categories = [
     title: "Make it private",
     text: "Just your group and a skipper",
     filter: "private",
-    image: img(adriatic.zadarSmallBoat, 900),
+    image: img(adriatic.zadarHarbour, 900),
   },
   {
     title: "Chase the sunset",
