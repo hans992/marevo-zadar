@@ -45,7 +45,10 @@ export function SearchComposer({
       has_date: Boolean(value.date),
     });
     if (onSubmit) return onSubmit(value);
-    navigate({ to: "/search", search: { q: value.q, date: value.date, guests: value.guests, trip: value.trip } });
+    navigate({
+      to: "/search",
+      search: { q: value.q, date: value.date, guests: value.guests, trip: value.trip },
+    });
   };
 
   const compact = variant === "compact";
@@ -59,7 +62,12 @@ export function SearchComposer({
       )}
       aria-label="Search boats"
     >
-      <div className={cn("grid gap-px bg-border", compact ? "sm:grid-cols-[1.1fr_1fr_1fr_auto]" : "lg:grid-cols-[1.2fr_1fr_1fr_1.1fr_auto]")}>
+      <div
+        className={cn(
+          "grid gap-px bg-border",
+          compact ? "sm:grid-cols-[1.1fr_1fr_1fr_auto]" : "lg:grid-cols-[1.2fr_1fr_1fr_1.1fr_auto]",
+        )}
+      >
         {/* Where */}
         <Popover open={placeOpen} onOpenChange={setPlaceOpen}>
           <PopoverTrigger asChild>
@@ -152,9 +160,15 @@ export function SearchComposer({
         </div>
 
         {/* Trip type */}
-        <fieldset className={cn("flex flex-col gap-1.5 bg-background px-5 py-3.5", compact && "hidden")}>
-          <legend className="eyebrow text-muted-foreground">Trip type</legend>
-          <div className="flex rounded-md border border-border p-0.5">
+        <div
+          role="group"
+          aria-labelledby="trip-type-label"
+          className={cn("flex flex-col gap-0.5 bg-background px-5 py-3.5", compact && "hidden")}
+        >
+          <span id="trip-type-label" className="eyebrow text-muted-foreground">
+            Trip type
+          </span>
+          <div className="flex h-8 items-stretch rounded-md border border-border p-0.5">
             {(["private", "shared"] as const).map((t) => (
               <button
                 key={t}
@@ -162,7 +176,7 @@ export function SearchComposer({
                 aria-pressed={value.trip === t}
                 onClick={() => set({ trip: t })}
                 className={cn(
-                  "flex-1 rounded-[5px] px-3 py-1.5 text-sm capitalize transition-colors",
+                  "flex-1 rounded-[5px] px-3 text-sm leading-none capitalize transition-colors",
                   value.trip === t ? "bg-ink text-background" : "text-ink/70 hover:bg-secondary",
                 )}
               >
@@ -170,10 +184,15 @@ export function SearchComposer({
               </button>
             ))}
           </div>
-        </fieldset>
+        </div>
 
         <div className="bg-background p-2.5">
-          <Button type="submit" variant="sun" size={compact ? "default" : "xl"} className="h-full w-full min-w-[9rem] gap-2">
+          <Button
+            type="submit"
+            variant="sun"
+            size={compact ? "default" : "xl"}
+            className="h-full w-full min-w-[9rem] gap-2"
+          >
             <Search className="h-4 w-4" aria-hidden="true" />
             Find boats
           </Button>
