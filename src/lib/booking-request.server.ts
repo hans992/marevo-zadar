@@ -74,6 +74,26 @@ export async function persistBookingRequest(
       ? listing.price_cents * input.guests
       : listing.price_cents;
 
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1_000).toISOString();
+  const rateLimitUrl = new URL(`${url}/rest/v1/booking_requests`);
+  rateLimitUrl.searchParams.set("select", "id");
+  rateLimitUrl.searchParams.set("email", `eq.${input.email.toLowerCase()}`);
+  rateLimitUrl.searchParams.set("created_at", `gte.${oneHourAgo}`);
+  rateLimitUrl.searchParams.set("limit", "5");
+
+  const rateLimitResponse = await fetch(rateLimitUrl, {
+    headers: headers(secretKey),
+  });
+
+  if (!rateLimitResponse.ok) {
+    throw new Error("Request intake is temporarily unavailable.");
+  }
+
+  const recentRequests = (await rateLimitResponse.json()) as BookingRequestRow[];
+  if (recentRequests.length >= 5) {
+    throw new Error("Too many recent requests. Please try again later.");
+  }
+
   const createResponse = await fetch(`${url}/rest/v1/booking_requests`, {
     method: "POST",
     headers: headers(secretKey, "return=representation"),
@@ -90,6 +110,8 @@ export async function persistBookingRequest(
       quoted_amount_cents: quotedAmount,
       currency: listing.currency,
       source: "marevo_web",
+      consent_at: new Date().toISOString(),
+      privacy_version: "2026-08-11",
     }),
   });
 
