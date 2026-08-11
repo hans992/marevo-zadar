@@ -53,6 +53,10 @@ const adriatic = {
   telascicaView: "1662918445754-fce8aad7b689",
 } as const;
 
+// Neutral boat editorial used where the experience, rather than a landmark,
+// is the visual subject. It avoids implying that a generic coast is a named bay.
+const editorialBoat = "1523496922380-91d5afba98a3";
+
 const adriaticGallery = [
   adriatic.zadarBoat,
   adriatic.kornati,
@@ -256,7 +260,7 @@ export const experiences: Experience[] = [
       "A good option if you have a late flight, small children, or simply do not want to commit a whole day to the sea.",
     ],
     images: [
-      img(adriatic.zadarHarbour),
+      img(editorialBoat),
       img(adriatic.zadarBoat),
       img(adriatic.kornati),
       img(adriatic.zadarSunsetBoats),
@@ -517,7 +521,7 @@ export const categories = [
     title: "Make it private",
     text: "Just your group and a skipper",
     filter: "private",
-    image: img(adriatic.zadarHarbour, 900),
+    image: img(editorialBoat, 900),
   },
   {
     title: "Chase the sunset",
