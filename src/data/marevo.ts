@@ -18,7 +18,14 @@ export type Experience = {
   description: string[];
   images: string[];
   boat: { name: string; type: string; length: string; engine: string; extras: string[] };
-  operator: { name: string; role: string; since: string; blurb: string; avatar: string; replies: string };
+  operator: {
+    name: string;
+    role: string;
+    since: string;
+    blurb: string;
+    avatar: string;
+    replies: string;
+  };
   itinerary: { time: string; title: string; text: string }[];
   included: string[];
   notIncluded: string[];
@@ -27,6 +34,32 @@ export type Experience = {
 
 const img = (id: string, w = 1400) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+
+/**
+ * Location-checked Adriatic photography.
+ *
+ * These IDs come from photos explicitly tagged by their photographers as
+ * Zadar, Kornati or Telašćica. Keeping the regional set named prevents a
+ * generic tropical or Nordic stock image from quietly entering the most
+ * trust-sensitive marketplace surfaces.
+ */
+const adriatic = {
+  kornati: "1656251903367-d54e287a9a8c",
+  zadarBoat: "1784395104615-bb32d5b691ac",
+  zadarSunsetBoats: "1656251904340-532a27e9eb44",
+  zadarSunsetSail: "1666021532118-d5d963873931",
+  zadarHarbour: "1744996999291-84081fe12f05",
+  zadarSmallBoat: "1757455265921-3cdecc5468b1",
+  telascicaCliffs: "1570695336380-47a1c55728fd",
+  telascicaView: "1662918445754-fce8aad7b689",
+} as const;
+
+const adriaticGallery = [
+  adriatic.zadarBoat,
+  adriatic.kornati,
+  adriatic.telascicaCliffs,
+  adriatic.zadarSunsetBoats,
+] as const;
 
 export const experiences: Experience[] = [
   {
@@ -50,18 +83,24 @@ export const experiences: Experience[] = [
       "The boat is yours for the day, so the route bends around what your group actually wants. Longer swims, more shade, an extra stop at a fisherman's konoba — Luka will read the sea in the morning and suggest the best version of the day.",
     ],
     images: [
-      img("1523496922380-91d5afba98a3"),
-      img("1518623489648-a173ef7824f3"),
-      img("1505142468610-359e7d316be0"),
-      img("1505118380757-91f5f5632de0"),
-      img("1471922694854-ff1b63b20054"),
+      img(adriatic.zadarBoat),
+      img(adriatic.kornati),
+      img(adriatic.telascicaCliffs),
+      img(adriatic.zadarSunsetBoats),
+      img(adriatic.telascicaView),
     ],
     boat: {
       name: "Merica",
       type: "Cabin motorboat",
       length: "8.5 m",
       engine: "300 hp outboard",
-      extras: ["Bimini shade", "Freshwater shower", "Cooler with ice", "Snorkel gear", "Bluetooth speaker"],
+      extras: [
+        "Bimini shade",
+        "Freshwater shower",
+        "Cooler with ice",
+        "Snorkel gear",
+        "Bluetooth speaker",
+      ],
     },
     operator: {
       name: "Luka",
@@ -73,15 +112,51 @@ export const experiences: Experience[] = [
       replies: "usually replies within 30 minutes",
     },
     itinerary: [
-      { time: "08:30", title: "Meet at the pier", text: "Coffee, a short safety briefing and a look at the day's route on the chart." },
-      { time: "09:30", title: "Into the archipelago", text: "Cruise past Ugljan and Pašman and into the open Kornati channels." },
-      { time: "11:00", title: "First swim stop", text: "A sheltered bay with no ferry traffic — around an hour in the water." },
-      { time: "13:00", title: "Lunch at anchor", text: "Optional stop at a family konoba, or eat aboard in the shade." },
-      { time: "15:00", title: "Second and third swims", text: "Quiet coves chosen for the wind on the day." },
-      { time: "17:30", title: "Back to Zadar", text: "Slow cruise home, usually with the light going gold." },
+      {
+        time: "08:30",
+        title: "Meet at the pier",
+        text: "Coffee, a short safety briefing and a look at the day's route on the chart.",
+      },
+      {
+        time: "09:30",
+        title: "Into the archipelago",
+        text: "Cruise past Ugljan and Pašman and into the open Kornati channels.",
+      },
+      {
+        time: "11:00",
+        title: "First swim stop",
+        text: "A sheltered bay with no ferry traffic — around an hour in the water.",
+      },
+      {
+        time: "13:00",
+        title: "Lunch at anchor",
+        text: "Optional stop at a family konoba, or eat aboard in the shade.",
+      },
+      {
+        time: "15:00",
+        title: "Second and third swims",
+        text: "Quiet coves chosen for the wind on the day.",
+      },
+      {
+        time: "17:30",
+        title: "Back to Zadar",
+        text: "Slow cruise home, usually with the light going gold.",
+      },
     ],
-    included: ["Private boat for your group", "Licensed local skipper", "Fuel for the full route", "Snorkel gear and towels", "Cooler with water and ice", "Kornati park photography stops"],
-    notIncluded: ["Kornati National Park entrance fee (paid aboard)", "Food and drinks", "Konoba lunch", "Gratuity"],
+    included: [
+      "Private boat for your group",
+      "Licensed local skipper",
+      "Fuel for the full route",
+      "Snorkel gear and towels",
+      "Cooler with water and ice",
+      "Kornati park photography stops",
+    ],
+    notIncluded: [
+      "Kornati National Park entrance fee (paid aboard)",
+      "Food and drinks",
+      "Konoba lunch",
+      "Gratuity",
+    ],
     meeting: "Gaženica marina, pier C — 10 minutes by taxi from Zadar old town.",
   },
   {
@@ -105,11 +180,11 @@ export const experiences: Experience[] = [
       "The rest of the day is spent along Dugi Otok's western coves and, if the sea allows, a look at the cliffs on the far side of the island.",
     ],
     images: [
-      img("1476673160081-cf065607f449"),
-      img("1505142468610-359e7d316be0"),
-      img("1507525428034-b723cf961d3e"),
-      img("1473116763249-2faaef81ccda"),
-      img("1500375592092-40eb2168fd21"),
+      img(adriatic.telascicaView),
+      img(adriatic.zadarBoat),
+      img(adriatic.kornati),
+      img(adriatic.zadarSmallBoat),
+      img(adriatic.telascicaCliffs),
     ],
     boat: {
       name: "Bura",
@@ -122,18 +197,42 @@ export const experiences: Experience[] = [
       name: "Ivana",
       role: "Skipper & guide",
       since: "Skippering since 2014",
-      blurb: "Ivana grew up in Sali on Dugi Otok and knows exactly which bay is calm on which wind.",
+      blurb:
+        "Ivana grew up in Sali on Dugi Otok and knows exactly which bay is calm on which wind.",
       avatar: img("1494790108377-be9c29b29330", 300),
       replies: "usually replies within an hour",
     },
     itinerary: [
-      { time: "09:00", title: "Departure from Zadar", text: "Straight across the channel, roughly 45 minutes of cruising." },
-      { time: "10:00", title: "Sakarun beach", text: "Anchor in the bay and swim before the crowds." },
-      { time: "12:30", title: "Lunch stop in Božava", text: "Small harbour village with two good restaurants." },
-      { time: "15:00", title: "Western coves", text: "Two more swim stops away from the main beaches." },
+      {
+        time: "09:00",
+        title: "Departure from Zadar",
+        text: "Straight across the channel, roughly 45 minutes of cruising.",
+      },
+      {
+        time: "10:00",
+        title: "Sakarun beach",
+        text: "Anchor in the bay and swim before the crowds.",
+      },
+      {
+        time: "12:30",
+        title: "Lunch stop in Božava",
+        text: "Small harbour village with two good restaurants.",
+      },
+      {
+        time: "15:00",
+        title: "Western coves",
+        text: "Two more swim stops away from the main beaches.",
+      },
       { time: "17:00", title: "Return", text: "Back in Zadar by early evening." },
     ],
-    included: ["Private boat", "Licensed skipper", "Fuel", "Snorkel gear", "Child life jackets", "Water and ice"],
+    included: [
+      "Private boat",
+      "Licensed skipper",
+      "Fuel",
+      "Snorkel gear",
+      "Child life jackets",
+      "Water and ice",
+    ],
     notIncluded: ["Lunch and drinks", "Mooring fees in Božava", "Gratuity"],
     meeting: "Vela luka pier, Zadar — a 5 minute walk from the Sea Organ.",
   },
@@ -158,10 +257,10 @@ export const experiences: Experience[] = [
       "A good option if you have a late flight, small children, or simply do not want to commit a whole day to the sea.",
     ],
     images: [
-      img("1527004013197-933c4bb611b3"),
-      img("1505142468610-359e7d316be0"),
-      img("1471922694854-ff1b63b20054"),
-      img("1500375592092-40eb2168fd21"),
+      img(adriatic.zadarSmallBoat),
+      img(adriatic.zadarHarbour),
+      img(adriatic.zadarBoat),
+      img(adriatic.kornati),
     ],
     boat: {
       name: "Mala",
@@ -174,14 +273,19 @@ export const experiences: Experience[] = [
       name: "Marin",
       role: "Owner & skipper",
       since: "Skippering since 2009",
-      blurb: "Marin restored his grandfather's wooden gajeta and runs short trips around Ugljan year round.",
+      blurb:
+        "Marin restored his grandfather's wooden gajeta and runs short trips around Ugljan year round.",
       avatar: img("1519085360753-af0119f7cbe7", 300),
       replies: "usually replies within 30 minutes",
     },
     itinerary: [
       { time: "09:30", title: "Leave the riva", text: "Short crossing to the Ugljan shore." },
       { time: "10:15", title: "First cove", text: "Swimming, snorkelling and shade." },
-      { time: "12:00", title: "Fishing hamlet", text: "Coffee ashore in a village of twelve houses." },
+      {
+        time: "12:00",
+        title: "Fishing hamlet",
+        text: "Coffee ashore in a village of twelve houses.",
+      },
       { time: "13:15", title: "Back to Zadar", text: "In time for a late lunch in town." },
     ],
     included: ["Private wooden boat", "Local skipper", "Fuel", "Snorkel gear", "Water"],
@@ -209,10 +313,10 @@ export const experiences: Experience[] = [
       "A glass of local wine and a plate of Pag cheese are included. It is calm, unhurried and deliberately not a party boat.",
     ],
     images: [
-      img("1540946485063-a40da27545f8"),
-      img("1476673160081-cf065607f449"),
-      img("1518623489648-a173ef7824f3"),
-      img("1516684732162-798a0062be99"),
+      img(adriatic.zadarSunsetSail),
+      img(adriatic.zadarSunsetBoats),
+      img(adriatic.zadarSmallBoat),
+      img(adriatic.zadarHarbour),
     ],
     boat: {
       name: "Levant",
@@ -225,17 +329,32 @@ export const experiences: Experience[] = [
       name: "Toni",
       role: "Skipper",
       since: "Sailing since 2007",
-      blurb: "Toni has raced the Adriatic for fifteen years and now spends his evenings showing people the quiet version of it.",
+      blurb:
+        "Toni has raced the Adriatic for fifteen years and now spends his evenings showing people the quiet version of it.",
       avatar: img("1507003211169-0a1dd7228f2d", 300),
       replies: "usually replies within 30 minutes",
     },
     itinerary: [
       { time: "18:30", title: "Board at Marina Foša", text: "Welcome drink and a short briefing." },
-      { time: "19:00", title: "Sails up", text: "Engine off outside the harbour, sailing along the peninsula." },
+      {
+        time: "19:00",
+        title: "Sails up",
+        text: "Engine off outside the harbour, sailing along the peninsula.",
+      },
       { time: "20:15", title: "Sunset", text: "Anchored or drifting, depending on the wind." },
-      { time: "21:00", title: "Back ashore", text: "Return to the marina, five minutes from the old town." },
+      {
+        time: "21:00",
+        title: "Back ashore",
+        text: "Return to the marina, five minutes from the old town.",
+      },
     ],
-    included: ["Shared sailing trip (max 12 guests)", "Licensed skipper and crew", "Glass of local wine", "Pag cheese and olives", "Blankets"],
+    included: [
+      "Shared sailing trip (max 12 guests)",
+      "Licensed skipper and crew",
+      "Glass of local wine",
+      "Pag cheese and olives",
+      "Blankets",
+    ],
     notIncluded: ["Extra drinks", "Hotel transfer", "Gratuity"],
     meeting: "Marina Foša, pier A — beside the Land Gate.",
   },
@@ -259,12 +378,7 @@ export const experiences: Experience[] = [
       "No fixed itinerary. Pick a start time and a length of day, then build the route with your skipper over coffee: islands, beach bars, a lunch stop, or three hours of pure swimming.",
       "The RIB handles chop far better than a small motorboat, which matters on a windy afternoon in the Zadar channel.",
     ],
-    images: [
-      img("1523496922380-91d5afba98a3"),
-      img("1518623489648-a173ef7824f3"),
-      img("1505142468610-359e7d316be0"),
-      img("1471922694854-ff1b63b20054"),
-    ],
+    images: [...adriaticGallery.map((id) => img(id))],
     boat: {
       name: "Ika",
       type: "RIB",
@@ -276,16 +390,35 @@ export const experiences: Experience[] = [
       name: "Duje",
       role: "Owner & skipper",
       since: "Skippering since 2016",
-      blurb: "Duje runs a small two-RIB operation from Borik and is happiest on a route nobody asked for before.",
+      blurb:
+        "Duje runs a small two-RIB operation from Borik and is happiest on a route nobody asked for before.",
       avatar: img("1522075469751-3a6694fb2f61", 300),
       replies: "usually replies within 30 minutes",
     },
     itinerary: [
-      { time: "Start", title: "Plan it together", text: "Fifteen minutes with your skipper to shape the day." },
-      { time: "Middle", title: "Your route", text: "Islands, coves, beach bars or a long lunch — your call." },
-      { time: "End", title: "Back when you like", text: "Return time is set by you within the booked hours." },
+      {
+        time: "Start",
+        title: "Plan it together",
+        text: "Fifteen minutes with your skipper to shape the day.",
+      },
+      {
+        time: "Middle",
+        title: "Your route",
+        text: "Islands, coves, beach bars or a long lunch — your call.",
+      },
+      {
+        time: "End",
+        title: "Back when you like",
+        text: "Return time is set by you within the booked hours.",
+      },
     ],
-    included: ["RIB with licensed skipper", "Fuel for a standard route", "Snorkel gear", "Cooler with ice", "Dry bags"],
+    included: [
+      "RIB with licensed skipper",
+      "Fuel for a standard route",
+      "Snorkel gear",
+      "Cooler with ice",
+      "Dry bags",
+    ],
     notIncluded: ["Extra fuel for long routes", "National park fees", "Food and drinks"],
     meeting: "Borik marina, Zadar — bus 8 or 10 minutes by taxi from the old town.",
   },
@@ -310,10 +443,10 @@ export const experiences: Experience[] = [
       "The day mixes a proper walk ashore with three swim stops, so it suits groups that want more than sunbathing.",
     ],
     images: [
-      img("1518623489648-a173ef7824f3"),
-      img("1505118380757-91f5f5632de0"),
-      img("1500375592092-40eb2168fd21"),
-      img("1534447677768-be436bb09401"),
+      img(adriatic.telascicaCliffs),
+      img(adriatic.telascicaView),
+      img(adriatic.kornati),
+      img(adriatic.zadarBoat),
     ],
     boat: {
       name: "Kaštel",
@@ -332,9 +465,21 @@ export const experiences: Experience[] = [
     },
     itinerary: [
       { time: "08:30", title: "Meet and depart", text: "Briefing and a coffee at the pier." },
-      { time: "10:00", title: "Sea cliffs", text: "Cruise beneath the 160 m stone wall of Dugi Otok." },
-      { time: "11:00", title: "Lake Mir", text: "Short walk ashore and a float in the warm salt lake." },
-      { time: "13:00", title: "Lunch in the bay", text: "Anchor in Telašćica or stop at a konoba." },
+      {
+        time: "10:00",
+        title: "Sea cliffs",
+        text: "Cruise beneath the 160 m stone wall of Dugi Otok.",
+      },
+      {
+        time: "11:00",
+        title: "Lake Mir",
+        text: "Short walk ashore and a float in the warm salt lake.",
+      },
+      {
+        time: "13:00",
+        title: "Lunch in the bay",
+        text: "Anchor in Telašćica or stop at a konoba.",
+      },
       { time: "15:00", title: "Swim stops", text: "Two quiet coves on the way back." },
       { time: "17:30", title: "Return to Zadar", text: "Golden hour on the channel." },
     ],
@@ -361,25 +506,25 @@ export const categories = [
     title: "Swim & slow down",
     text: "Coves, shade and nowhere to be",
     filter: "all",
-    image: img("1505142468610-359e7d316be0", 900),
+    image: img(adriatic.zadarBoat, 900),
   },
   {
     title: "See the islands",
     text: "Kornati, Dugi Otok, Telašćica",
     filter: "private",
-    image: img("1518623489648-a173ef7824f3", 900),
+    image: img(adriatic.kornati, 900),
   },
   {
     title: "Make it private",
     text: "Just your group and a skipper",
     filter: "private",
-    image: img("1523496922380-91d5afba98a3", 900),
+    image: img(adriatic.zadarSmallBoat, 900),
   },
   {
     title: "Chase the sunset",
     text: "Two and a half hours under sail",
     filter: "sunset",
-    image: img("1534447677768-be436bb09401", 900),
+    image: img(adriatic.zadarSunsetSail, 900),
   },
 ];
 
@@ -388,25 +533,25 @@ export const destinations = [
     name: "Kornati",
     context: "1h 15m from Zadar · Full day",
     text: "Eighty-nine bare islands and the emptiest water in Croatia.",
-    image: img("1518623489648-a173ef7824f3", 900),
+    image: img(adriatic.kornati, 900),
   },
   {
     name: "Dugi Otok",
     context: "45m from Zadar · Full day",
     text: "Sakarun's white pebbles and a coastline of quiet western coves.",
-    image: img("1505118380757-91f5f5632de0", 900),
+    image: img(adriatic.telascicaView, 900),
   },
   {
     name: "Ugljan & Pašman",
     context: "15m from Zadar · Half day",
     text: "Olive terraces, fishing hamlets and the city's own swimming islands.",
-    image: img("1527004013197-933c4bb611b3", 900),
+    image: img(adriatic.zadarHarbour, 900),
   },
   {
     name: "Telašćica",
     context: "1h from Zadar · Full day",
     text: "Sea cliffs, a fjord-like bay and the warm salt lake Mir.",
-    image: img("1505142468610-359e7d316be0", 900),
+    image: img(adriatic.telascicaCliffs, 900),
   },
 ];
 
