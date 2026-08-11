@@ -1,21 +1,48 @@
 import { useState, type ReactNode } from "react";
 import { Anchor, CalendarX2, CheckCircle2, Coins, Inbox } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { trackEvent } from "@/lib/analytics";
+import { useI18n } from "@/i18n";
+import { useMiscCopy } from "@/i18n/misc";
 
 const points = [
-  { icon: Inbox, title: "Direct, qualified requests", text: "Real dates, real group sizes, sent straight to your phone. No lead lists, no cold enquiries." },
-  { icon: CheckCircle2, title: "You confirm every booking", text: "Nothing is sold before you say the boat is free. Guests only pay after you accept." },
-  { icon: Coins, title: "Simple pricing", text: "A transparent commercial model agreed with each founding operator before listings go live." },
-  { icon: CalendarX2, title: "Blackout dates later", text: "Start with a simple listing. Calendars and blackout dates arrive as we grow the fleet." },
+  {
+    icon: Inbox,
+    title: "Direct, qualified requests",
+    text: "Real dates, real group sizes, sent straight to your phone. No lead lists, no cold enquiries.",
+  },
+  {
+    icon: CheckCircle2,
+    title: "You confirm every booking",
+    text: "Nothing is sold before you say the boat is free. Guests only pay after you accept.",
+  },
+  {
+    icon: Coins,
+    title: "Simple pricing",
+    text: "A transparent commercial model agreed with each founding operator before listings go live.",
+  },
+  {
+    icon: CalendarX2,
+    title: "Blackout dates later",
+    text: "Start with a simple listing. Calendars and blackout dates arrive as we grow the fleet.",
+  },
 ];
 
 export function ListYourBoatDialog({ children }: { children: ReactNode }) {
   const [sent, setSent] = useState(false);
   const [open, setOpen] = useState(false);
+  const { locale } = useI18n();
+  const m = useMiscCopy(locale);
 
   return (
     <Dialog
@@ -31,13 +58,13 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
         <div className="bg-ink px-6 py-8 text-background sm:px-9">
           <DialogHeader className="space-y-3 text-left">
             <span className="eyebrow flex items-center gap-2 text-sun">
-              <Anchor className="h-3.5 w-3.5" aria-hidden="true" /> For Zadar operators
+              <Anchor className="h-3.5 w-3.5" aria-hidden="true" /> {m.forOperators}
             </span>
             <DialogTitle className="font-display text-3xl leading-tight font-medium text-background">
-              List your boat on MAREVO
+              {m.fleetTitle}
             </DialogTitle>
             <DialogDescription className="max-w-md text-background/70">
-              We are building a small, carefully chosen fleet of Zadar boats — not a directory of everything that floats.
+              {m.fleetText}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -46,12 +73,12 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
           {sent ? (
             <div className="py-6 text-center">
               <CheckCircle2 className="mx-auto h-10 w-10 text-sea" aria-hidden="true" />
-              <h3 className="mt-4 text-2xl">Demo application completed</h3>
+              <h3 className="mt-4 text-2xl">{m.applicationDone}</h3>
               <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
-                This presentation preview does not transmit operator applications.
+                {m.applicationDemo}
               </p>
               <Button className="mt-6" variant="secondary" onClick={() => setOpen(false)}>
-                Close
+                {m.close}
               </Button>
             </div>
           ) : (
@@ -78,24 +105,26 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
               >
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="op-name">Your name</Label>
+                    <Label htmlFor="op-name">{m.yourName}</Label>
                     <Input id="op-name" required placeholder="Ante Jurić" autoComplete="name" />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="op-email">Email or phone</Label>
+                    <Label htmlFor="op-email">{m.contact}</Label>
                     <Input id="op-email" required placeholder="ante@example.com" />
                   </div>
                   <div className="space-y-1.5 sm:col-span-2">
-                    <Label htmlFor="op-boat">Your boat</Label>
-                    <Input id="op-boat" required placeholder="8.5 m cabin motorboat, up to 8 guests, Gaženica" />
+                    <Label htmlFor="op-boat">{m.yourBoat}</Label>
+                    <Input
+                      id="op-boat"
+                      required
+                      placeholder="8.5 m cabin motorboat, up to 8 guests, Gaženica"
+                    />
                   </div>
                 </div>
                 <Button type="submit" variant="sun" size="lg" className="mt-5 w-full sm:w-auto">
-                  Join the founding fleet
+                  {m.join}
                 </Button>
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Presentation preview only — this form does not transmit data.
-                </p>
+                <p className="mt-3 text-xs text-muted-foreground">{m.previewOnly}</p>
               </form>
             </>
           )}
