@@ -24,7 +24,6 @@ const nav: NavItem[] = [
 export function Header({ overlay = false }: { overlay?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [currency, setCurrency] = useState<"EUR" | "USD">("EUR");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -83,18 +82,15 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setCurrency((c) => (c === "EUR" ? "USD" : "EUR"))}
-            aria-label={`Language and currency: English, ${currency}. Switch currency`}
+          <span
+            aria-label="Language and currency: English, Euro"
             className={cn(
-              "hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm transition-colors sm:inline-flex",
-              solid ? "text-ink/75 hover:bg-secondary hover:text-ink" : "text-background/85 hover:bg-background/10 hover:text-background",
+              "hidden items-center gap-1.5 px-3 py-2 text-sm sm:inline-flex",
+              solid ? "text-ink/75" : "text-background/85",
             )}
           >
-            <Globe className="h-4 w-4" aria-hidden="true" />
-            EN · {currency === "EUR" ? "€" : "$"}
-          </button>
+            <Globe className="h-4 w-4" aria-hidden="true" /> EN · €
+          </span>
 
           <Button asChild variant={solid ? "ink" : "light"} size="sm" className="hidden h-9 px-4 sm:inline-flex">
             <Link to="/search">Find boats</Link>
@@ -150,13 +146,9 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                     Find boats
                   </Link>
                 </Button>
-                <button
-                  type="button"
-                  onClick={() => setCurrency((c) => (c === "EUR" ? "USD" : "EUR"))}
-                  className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-ink"
-                >
-                  <Globe className="h-4 w-4" aria-hidden="true" /> English · {currency}
-                </button>
+                <span className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
+                  <Globe className="h-4 w-4" aria-hidden="true" /> English · EUR
+                </span>
               </div>
             </SheetContent>
           </Sheet>
