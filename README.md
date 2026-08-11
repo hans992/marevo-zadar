@@ -43,7 +43,7 @@ The frontend reads through `src/data/inventory.ts`. It currently exposes the pre
 
 ## Request-to-Book
 
-The app defaults to local presentation mode. With `VITE_REQUEST_MODE=demo`, form details never leave the browser. The server-side Supabase persistence path is activated only after deploying the migrations and setting the variables documented in `.env.example`. No payment is taken by this flow.
+The public form remains a local presentation demo, so guest details do not leave the browser. This repository now contains a validated, server-only persistence contract and database migration, but the UI is deliberately not connected until the production data destination, privacy copy, retention rules and rate limiting are approved. No payment is taken by this flow.
 
 ## Deployment
 
