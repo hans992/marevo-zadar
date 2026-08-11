@@ -3,6 +3,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check, Clock, MapPin, Minus, Plus, Ruler, Ship, Users, X, Zap } from "lucide-react";
 import { Header } from "@/components/marevo/Header";
 import { Footer } from "@/components/marevo/Footer";
+import { StructuredData } from "@/components/marevo/StructuredData";
 import { Stars } from "@/components/marevo/Stars";
 import { RequestDialog } from "@/components/marevo/RequestDialog";
 import { formatDate } from "@/components/marevo/SearchComposer";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { getExperience, experiences, type Experience } from "@/data/inventory";
 import { ExperienceCard } from "@/components/marevo/ExperienceCard";
+import { experienceStructuredData, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/experiences/$slug")({
   loader: ({ params }): { exp: Experience } => {
@@ -31,6 +33,13 @@ export const Route = createFileRoute("/experiences/$slug")({
         { property: "og:description", content: exp.summary },
         { property: "og:image", content: exp.images[0] as string },
         { name: "twitter:image", content: exp.images[0] as string },
+        { property: "og:url", content: `${SITE_URL}/experiences/${exp.slug}` },
+      ],
+      links: [
+        {
+          rel: "canonical",
+          href: `${SITE_URL}/experiences/${exp.slug}`,
+        },
       ],
     };
   },
@@ -112,6 +121,7 @@ function ExperienceDetail() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <StructuredData data={experienceStructuredData(exp)} />
       <main className="pt-16 pb-28 lg:pt-[74px] lg:pb-0">
         {/* Gallery */}
         <div className="mx-auto max-w-[1240px] px-5 pt-6 sm:px-8">

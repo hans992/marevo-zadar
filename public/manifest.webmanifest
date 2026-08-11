@@ -1,0 +1,16 @@
+{
+  "name": "MAREVO — Zadar from the sea",
+  "short_name": "MAREVO",
+  "description": "Private boat rentals and island experiences around Zadar, Croatia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ed",
+  "theme_color": "#082a35",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
