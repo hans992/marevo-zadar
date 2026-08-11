@@ -11,6 +11,7 @@ MAREVO is a focused marketplace concept for private boat rentals and curated boa
 - Detailed boat, route and operator pages
 - Request-to-book presentation flow
 - Founding operator acquisition flow
+- Presentation-ready operator workspace at `/operator`
 - Responsive desktop and mobile layouts
 
 The inventory, reviews and operator profiles are demonstration content. Requests, newsletter signups and operator applications are not transmitted in this release. No payment or live availability is enabled yet.
@@ -40,6 +41,10 @@ The inventory and request checks validate demo fixtures and the Request-to-Book 
 ## Inventory foundation
 
 The frontend reads through `src/data/inventory.ts`. It currently exposes the presentation dataset in `demo` mode. The versioned Supabase migration, publishing rules and partner intake template live in `supabase/` and `docs/`; no production database or invented live records are connected yet.
+
+## Operator workspace
+
+`/operator` is a responsive presentation prototype for requests, booking value, availability, fleet and experience management. Its sample guest requests and actions remain local demo data until operator authentication and private Supabase reads are implemented.
 
 ## Request-to-Book
 
