@@ -4,9 +4,11 @@ import { Clock, Heart, MapPin, Users } from "lucide-react";
 import type { Experience } from "@/data/inventory";
 import { Stars } from "./Stars";
 import { cn } from "@/lib/utils";
+import { localizedPath, useI18n } from "@/i18n";
 
 export function ExperienceCard({ exp }: { exp: Experience }) {
   const [fav, setFav] = useState(false);
+  const { locale } = useI18n();
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
@@ -47,8 +49,7 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
 
         <h3 className="mt-2 text-xl leading-snug text-balance">
           <Link
-            to="/experiences/$slug"
-            params={{ slug: exp.slug }}
+            to={localizedPath(`/experiences/${exp.slug}`, locale) as never}
             className="after:absolute after:inset-0 focus-visible:outline-none group-focus-within:underline decoration-sun decoration-2 underline-offset-4 hover:underline"
           >
             {exp.title}
