@@ -217,8 +217,8 @@ export function Operators() {
       <div className="mx-auto grid max-w-[1240px] items-center gap-14 px-5 sm:px-8 lg:grid-cols-2">
         <div className="cove border border-background/10">
           <img
-            src="https://images.unsplash.com/photo-1744996999291-84081fe12f05?auto=format&fit=crop&w=1200&q=80"
-            alt="Local boats moored in Zadar harbour"
+            src="https://images.unsplash.com/photo-1603542377502-131ec3715622?auto=format&fit=crop&w=1200&q=80"
+            alt="A local fisherman aboard his boat off Dugi Otok"
             loading="lazy"
             decoding="async"
             sizes="(min-width: 1024px) 592px, 100vw"
