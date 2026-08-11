@@ -20,8 +20,9 @@ import {
 } from "@/components/ui/select";
 import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
-import { SITE_URL } from "@/lib/seo";
+import { alternateLinks, getSeoCopy, SITE_URL } from "@/lib/seo";
 import { localizedPath, useI18n } from "@/i18n";
+import { localizedFilter, usePublicCopy } from "@/i18n/public";
 
 export type BoatSearch = {
   q?: string;
@@ -44,23 +45,25 @@ export const validateBoatSearch = (raw: Record<string, unknown>): BoatSearch => 
 
 export const Route = createFileRoute("/search")({
   validateSearch: validateBoatSearch,
-  head: () => ({
-    meta: [
-      { title: "Find boats in Zadar — MAREVO" },
-      {
-        name: "description",
-        content:
-          "Browse private boat tours, rentals and sunset sailing around Zadar, Kornati, Dugi Otok and Telašćica. Request to book, pay after the operator confirms.",
-      },
-      { property: "og:title", content: "Find boats in Zadar — MAREVO" },
-      {
-        property: "og:description",
-        content: "Private tours, rentals and sunset trips from Zadar, run by local operators.",
-      },
-      { property: "og:url", content: `${SITE_URL}/search` },
-    ],
-    links: [{ rel: "canonical", href: `${SITE_URL}/search` }],
-  }),
+  head: () => {
+    const seo = getSeoCopy("en");
+    return {
+      meta: [
+        { title: seo.searchTitle },
+        {
+          name: "description",
+          content: seo.searchDescription,
+        },
+        { property: "og:title", content: "Find boats in Zadar — MAREVO" },
+        {
+          property: "og:description",
+          content: "Private tours, rentals and sunset trips from Zadar, run by local operators.",
+        },
+        { property: "og:url", content: `${SITE_URL}/search` },
+      ],
+      links: [{ rel: "canonical", href: `${SITE_URL}/search` }, ...alternateLinks("/search")],
+    };
+  },
   component: SearchRoutePage,
 });
 
@@ -68,17 +71,19 @@ function SearchRoutePage() {
   return <SearchPage params={Route.useSearch()} />;
 }
 
-const sorts = [
-  { id: "recommended", label: "Recommended" },
-  { id: "price-asc", label: "Price: low to high" },
-  { id: "price-desc", label: "Price: high to low" },
-  { id: "rating", label: "Best rated" },
-  { id: "duration", label: "Shortest first" },
-] as const;
+const sorts = ["recommended", "price-asc", "price-desc", "rating", "duration"] as const;
 
 export function SearchPage({ params }: { params: BoatSearch }) {
   const navigate = useNavigate();
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
+  const c = usePublicCopy(locale);
+  const sortLabels = {
+    recommended: c.recommended,
+    "price-asc": c.priceLow,
+    "price-desc": c.priceHigh,
+    rating: c.bestRated,
+    duration: c.shortest,
+  } as const;
 
   const [composer, setComposer] = useState<SearchState>({
     q: params.q ?? defaultSearch.q,
@@ -89,7 +94,7 @@ export function SearchPage({ params }: { params: BoatSearch }) {
   const [type, setType] = useState<FilterId>(
     (filters.find((f) => f.id === params.type)?.id ?? "all") as FilterId,
   );
-  const [sort, setSort] = useState<(typeof sorts)[number]["id"]>("recommended");
+  const [sort, setSort] = useState<(typeof sorts)[number]>("recommended");
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -126,7 +131,7 @@ export function SearchPage({ params }: { params: BoatSearch }) {
   const FilterControls = (
     <div className="space-y-8">
       <div>
-        <h3 className="eyebrow text-muted-foreground">Trip type</h3>
+        <h3 className="eyebrow text-muted-foreground">{c.tripType}</h3>
         <div className="mt-3 flex flex-wrap gap-2">
           {filters.map((f) => (
             <button
@@ -141,20 +146,20 @@ export function SearchPage({ params }: { params: BoatSearch }) {
                   : "border-border bg-background text-ink/75 hover:border-ink/30 hover:bg-secondary",
               )}
             >
-              {f.label}
+              {localizedFilter(f.id, c)}
             </button>
           ))}
         </div>
       </div>
 
       <div>
-        <h3 className="eyebrow text-muted-foreground">Budget for the day</h3>
+        <h3 className="eyebrow text-muted-foreground">{c.budget}</h3>
         <div className="mt-3 flex flex-wrap gap-2">
           {[
-            { label: "Any", value: null },
-            { label: "Under €400", value: 400 },
-            { label: "Under €700", value: 700 },
-            { label: "Under €800", value: 800 },
+            { label: c.any, value: null },
+            { label: `${c.under} €400`, value: 400 },
+            { label: `${c.under} €700`, value: 700 },
+            { label: `${c.under} €800`, value: 800 },
           ].map((b) => (
             <button
               key={b.label}
@@ -175,7 +180,7 @@ export function SearchPage({ params }: { params: BoatSearch }) {
       </div>
 
       <Button variant="ghost" onClick={reset} className="px-0 text-sm underline underline-offset-4">
-        Clear all filters
+        {c.clearFilters}
       </Button>
     </div>
   );
@@ -187,7 +192,7 @@ export function SearchPage({ params }: { params: BoatSearch }) {
         <div className="border-b border-border bg-sand">
           <div className="mx-auto max-w-[1240px] px-5 py-7 sm:px-8">
             <h1 className="font-display text-2xl leading-tight font-medium sm:text-3xl">
-              Boats and experiences in {params.q ?? "Zadar"}
+              {c.searchTitle} {params.q ?? "Zadar"}
             </h1>
             <div className="mt-5">
               <SearchComposer
@@ -214,28 +219,28 @@ export function SearchPage({ params }: { params: BoatSearch }) {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-muted-foreground" aria-live="polite">
                 <span className="font-medium text-ink">{results.length}</span>{" "}
-                {results.length === 1 ? "boat" : "boats"} available for {composer.guests}{" "}
-                {composer.guests === 1 ? "guest" : "guests"}
+                {results.length === 1 ? c.boat : c.boats} {c.availableFor} {composer.guests}{" "}
+                {composer.guests === 1 ? t("search.guest") : t("search.guestsLower")}
               </p>
 
               <div className="flex items-center gap-2">
                 <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
                   <SheetTrigger asChild>
                     <Button variant="outline" size="sm" className="gap-2 lg:hidden">
-                      <SlidersHorizontal className="h-4 w-4" /> Filters
+                      <SlidersHorizontal className="h-4 w-4" /> {c.filters}
                     </Button>
                   </SheetTrigger>
                   <SheetContent
                     side="bottom"
                     className="max-h-[85dvh] overflow-y-auto rounded-t-2xl p-0 [&>button]:hidden"
                   >
-                    <SheetTitle className="sr-only">Filters</SheetTitle>
+                    <SheetTitle className="sr-only">{c.filters}</SheetTitle>
                     <div className="flex items-center justify-between border-b border-border px-5 py-4">
-                      <span className="font-display text-lg">Filters</span>
+                      <span className="font-display text-lg">{c.filters}</span>
                       <Button
                         variant="ghost"
                         size="icon"
-                        aria-label="Close filters"
+                        aria-label={c.closeFilters}
                         onClick={() => setDrawerOpen(false)}
                       >
                         <X className="h-5 w-5" />
@@ -249,20 +254,20 @@ export function SearchPage({ params }: { params: BoatSearch }) {
                         className="w-full"
                         onClick={() => setDrawerOpen(false)}
                       >
-                        Show {results.length} {results.length === 1 ? "boat" : "boats"}
+                        {c.show} {results.length} {results.length === 1 ? c.boat : c.boats}
                       </Button>
                     </div>
                   </SheetContent>
                 </Sheet>
 
                 <Select value={sort} onValueChange={(v) => setSort(v as typeof sort)}>
-                  <SelectTrigger className="h-9 w-[11.5rem]" aria-label="Sort results">
-                    <SelectValue placeholder="Recommended" />
+                  <SelectTrigger className="h-9 w-[11.5rem]" aria-label={c.recommended}>
+                    <SelectValue placeholder={c.recommended} />
                   </SelectTrigger>
                   <SelectContent>
                     {sorts.map((s) => (
-                      <SelectItem key={s.id} value={s.id}>
-                        {s.label}
+                      <SelectItem key={s} value={s}>
+                        {sortLabels[s]}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -278,17 +283,16 @@ export function SearchPage({ params }: { params: BoatSearch }) {
               </div>
             ) : (
               <div className="mt-6 rounded-xl border border-dashed border-border bg-sand/60 px-6 py-16 text-center">
-                <h2 className="font-display text-2xl font-medium">No boats match this exactly</h2>
+                <h2 className="font-display text-2xl font-medium">{c.noMatch}</h2>
                 <p className="mx-auto mt-3 max-w-sm leading-relaxed text-muted-foreground">
-                  Our fleet is deliberately small. Widen the group size or budget, or send us the
-                  day you have in mind and we'll ask the operators directly.
+                  {c.noMatchText}
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-3">
                   <Button variant="ink" onClick={reset}>
-                    Clear filters
+                    {c.clearFilters}
                   </Button>
                   <Button variant="outline" asChild>
-                    <a href="mailto:hello@marevo.example">Ask the Zadar team</a>
+                    <a href="mailto:hello@marevo.example">{c.askTeam}</a>
                   </Button>
                 </div>
               </div>
