@@ -47,7 +47,7 @@ export function RequestDialog({
   const [completion, setCompletion] = useState<Completion | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const isLive = import.meta.env.VITE_REQUEST_MODE === "live";
+  const isLive = import.meta.env["VITE_REQUEST_MODE"] === "live";
 
   const total = exp.priceUnit === "total" ? exp.price : exp.price * guests;
 
