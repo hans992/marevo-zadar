@@ -253,7 +253,7 @@ export function Faq() {
             Questions before you sail
           </h2>
           <p className="mt-4 max-w-sm leading-relaxed text-ink/70">
-            Still unsure? The contact channel will be enabled before public booking requests go live.
+            Still unsure? Send a request without paying — the operator confirms availability before anything else happens.
           </p>
         </div>
         <Accordion type="single" collapsible className="w-full">
