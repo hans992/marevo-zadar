@@ -61,6 +61,13 @@ export function RequestDialog({
     }
 
     const values = new FormData(event.currentTarget);
+    const consent = values.get("consent") === "on";
+
+    if (!consent) {
+      setError("Please confirm that we may share your request with the operator.");
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -75,7 +82,7 @@ export function RequestDialog({
           phone: String(values.get("phone") ?? ""),
           message: String(values.get("message") ?? ""),
           website: String(values.get("website") ?? ""),
-          consent: values.get("consent") === "on",
+          consent,
         },
       });
 
