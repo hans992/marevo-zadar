@@ -28,24 +28,27 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "MAREVO — Boat rentals & experiences in Zadar" },
       {
         property: "og:description",
-        content: "Private boats and unforgettable island experiences, handpicked by people who know Zadar.",
+        content:
+          "Private boats and unforgettable island experiences, handpicked by people who know Zadar.",
       },
       {
         property: "og:image",
-        content: "https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&w=1200&q=80",
+        content:
+          "https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&w=1200&q=80",
       },
       {
         name: "twitter:image",
-        content: "https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&w=1200&q=80",
+        content:
+          "https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&w=1200&q=80",
       },
       { property: "og:url", content: SITE_URL },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/` }],
   }),
-  component: Index,
+  component: HomePage,
 });
 
-function Index() {
+export function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       <Header overlay />
