@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { CalendarDays, MapPin, Minus, Plus, Search, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { destinationBucket, guestBucket, trackEvent } from "@/lib/analytics";
@@ -33,7 +33,12 @@ export function SearchComposer({
 }) {
   const navigate = useNavigate();
   const [placeOpen, setPlaceOpen] = useState(false);
+  const [dateOpen, setDateOpen] = useState(false);
   const set = (patch: Partial<SearchState>) => onChange({ ...value, ...patch });
+
+  const selectedDate = value.date ? new Date(`${value.date}T12:00:00`) : undefined;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,24 +108,38 @@ export function SearchComposer({
         </Popover>
 
         {/* Date */}
-        <div className="relative flex flex-col items-start gap-0.5 bg-background px-5 py-3.5 transition-colors focus-within:bg-secondary/60 hover:bg-secondary">
-          <Label htmlFor="search-date" className="eyebrow text-muted-foreground">
-            Date
-          </Label>
-          <span className="flex items-center gap-1.5 text-[0.95rem] font-medium text-ink">
-            <CalendarDays className="h-4 w-4 text-sea" aria-hidden="true" />
-            {formatDate(value.date)}
-          </span>
-          <input
-            id="search-date"
-            type="date"
-            value={value.date}
-            min={new Date().toISOString().slice(0, 10)}
-            onChange={(e) => set({ date: e.target.value })}
-            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-            aria-label="Trip date"
-          />
-        </div>
+        <Popover open={dateOpen} onOpenChange={setDateOpen}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              aria-label={`Trip date: ${formatDate(value.date)}`}
+              className="flex flex-col items-start gap-0.5 bg-background px-5 py-3.5 text-left transition-colors hover:bg-secondary focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-sea"
+            >
+              <span className="eyebrow text-muted-foreground">Date</span>
+              <span className="flex items-center gap-1.5 text-[0.95rem] font-medium text-ink">
+                <CalendarDays className="h-4 w-4 text-sea" aria-hidden="true" />
+                {formatDate(value.date)}
+              </span>
+            </button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              disabled={{ before: today }}
+              onSelect={(date) => {
+                if (!date) return;
+                const nextDate = [
+                  date.getFullYear(),
+                  String(date.getMonth() + 1).padStart(2, "0"),
+                  String(date.getDate()).padStart(2, "0"),
+                ].join("-");
+                set({ date: nextDate });
+                setDateOpen(false);
+              }}
+            />
+          </PopoverContent>
+        </Popover>
 
         {/* Guests */}
         <div className="flex items-start justify-between gap-2 bg-background px-5 py-3.5">
