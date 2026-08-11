@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Anchor, MessageCircle, ShieldCheck } from "lucide-react";
 import { SearchComposer, defaultSearch, type SearchState } from "../SearchComposer";
+import { useI18n, type MessageKey } from "@/i18n";
 
 const HERO =
   "https://images.unsplash.com/photo-1523496922380-91d5afba98a3?auto=format&fit=crop&w=2000&q=80";
@@ -8,23 +9,24 @@ const HERO =
 const proof = [
   {
     icon: Anchor,
-    title: "Local operators only",
-    text: "Every boat is owned and skippered by someone from Zadar or the islands.",
+    title: "hero.local.title" as MessageKey,
+    text: "hero.local.text" as MessageKey,
   },
   {
     icon: ShieldCheck,
-    title: "Verified boats & skippers",
-    text: "Licences, insurance and safety gear checked before a boat goes live.",
+    title: "hero.verified.title" as MessageKey,
+    text: "hero.verified.text" as MessageKey,
   },
   {
     icon: MessageCircle,
-    title: "Replies within 30 minutes",
-    text: "Most requests are answered the same hour, in English, by the owner.",
+    title: "hero.replies.title" as MessageKey,
+    text: "hero.replies.text" as MessageKey,
   },
 ];
 
 export function Hero() {
   const [search, setSearch] = useState<SearchState>(defaultSearch);
+  const { t } = useI18n();
 
   return (
     <section className="relative">
@@ -46,15 +48,15 @@ export function Hero() {
         />
 
         <div className="relative mx-auto flex min-h-[86svh] max-w-[1240px] flex-col justify-end px-5 pt-28 pb-32 sm:px-8 lg:min-h-[92svh] lg:pb-40">
-          <p className="eyebrow text-sun">Boat days, chosen locally</p>
+          <p className="eyebrow text-sun">{t("hero.eyebrow")}</p>
           <h1 className="mt-4 max-w-3xl font-display text-[2.6rem] leading-[1.02] font-medium text-balance text-background sm:text-6xl lg:text-[4.5rem]">
-            Find your perfect day at sea
+            {t("hero.title")}
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-background/85 sm:text-lg">
-            Private boats and unforgettable island experiences, handpicked by people who know Zadar.
+            {t("hero.subtitle")}
           </p>
           <p className="mt-6 font-display text-lg tracking-wide text-background/70 italic">
-            Zadar, from the sea.
+            {t("hero.tagline")}
           </p>
         </div>
       </div>
@@ -63,7 +65,7 @@ export function Hero() {
       <div className="relative z-10 mx-auto -mt-24 max-w-[1100px] px-5 sm:px-8 lg:-mt-16">
         <SearchComposer value={search} onChange={setSearch} />
         <p className="mt-3 px-1 text-center text-xs text-muted-foreground sm:text-left">
-          Free cancellation on selected trips · Local support · Secure request
+          {t("hero.assurance")}
         </p>
       </div>
 
@@ -74,9 +76,9 @@ export function Hero() {
               <p.icon className="mt-0.5 h-5 w-5 shrink-0 text-sea" aria-hidden="true" />
               <div>
                 <h2 className="font-sans text-sm font-semibold tracking-tight text-ink">
-                  {p.title}
+                  {t(p.title)}
                 </h2>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{p.text}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t(p.text)}</p>
               </div>
             </li>
           ))}
