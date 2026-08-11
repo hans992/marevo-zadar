@@ -14,14 +14,16 @@ import { categories, destinations, faqs, reviews } from "@/data/inventory";
 import { ListYourBoatDialog } from "../ListYourBoatDialog";
 import { trackEvent } from "@/lib/analytics";
 import { localizedPath, useI18n } from "@/i18n";
+import { useMiscCopy } from "@/i18n/misc";
 
 export function Categories() {
   const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section className="bg-sand py-20 lg:py-28">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
         <h2 className="max-w-lg font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
-          How do you want to spend the day?
+          {m.categories}
         </h2>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((c, i) => (
@@ -66,20 +68,18 @@ export function Categories() {
 
 export function Destinations() {
   const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section
       id="destinations"
       className="mx-auto max-w-[1240px] scroll-mt-24 px-5 py-20 sm:px-8 lg:py-28"
     >
       <div className="max-w-xl">
-        <p className="eyebrow text-sea">Destinations</p>
+        <p className="eyebrow text-sea">{m.destinations}</p>
         <h2 className="mt-3 font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
-          Explore beyond the old town
+          {m.explore}
         </h2>
-        <p className="mt-4 leading-relaxed text-muted-foreground">
-          Zadar sits in front of a wall of islands. Everything below is a day trip, and most of it
-          is unreachable without a boat.
-        </p>
+        <p className="mt-4 leading-relaxed text-muted-foreground">{m.destinationText}</p>
       </div>
 
       <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -105,7 +105,7 @@ export function Destinations() {
               <p className="mt-1 text-xs tracking-wide text-sea">{d.context}</p>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{d.text}</p>
               <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-ink">
-                See trips{" "}
+                {m.seeTrips}{" "}
                 <ArrowRight
                   className="h-4 w-4 transition-transform group-hover:translate-x-1"
                   aria-hidden="true"
@@ -121,24 +121,20 @@ export function Destinations() {
 
 export function MatchTeaser() {
   const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section className="bg-sand py-20 lg:py-28">
       <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
         <div>
           <p className="eyebrow flex items-center gap-2 text-sea">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> Smart matching
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> {m.matching}
           </p>
           <h2 className="mt-3 font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
-            Tell us your kind of perfect.
+            {m.perfect}
           </h2>
-          <p className="mt-4 max-w-md leading-relaxed text-ink/75">
-            Describe the day you have in mind and we match it against the boats we actually know —
-            capacity, shade, departure point, how far the skipper is willing to go and what the wind
-            is doing that week. A person from the Zadar team checks every match before it reaches
-            you.
-          </p>
+          <p className="mt-4 max-w-md leading-relaxed text-ink/75">{m.matchText}</p>
           <Button asChild variant="ink" size="lg" className="mt-7">
-            <Link to={localizedPath("/search", locale) as never}>Match me with a boat</Link>
+            <Link to={localizedPath("/search", locale) as never}>{m.matchButton}</Link>
           </Button>
         </div>
 
@@ -147,7 +143,7 @@ export function MatchTeaser() {
             className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-sun p-1.5 text-ink"
             aria-hidden="true"
           />
-          <figcaption className="eyebrow text-muted-foreground">Example request</figcaption>
+          <figcaption className="eyebrow text-muted-foreground">{m.example}</figcaption>
           <blockquote className="mt-3 font-display text-xl leading-relaxed text-balance sm:text-2xl">
             “We're 6 people in Zadar tomorrow. Private boat, lots of swimming, somewhere quiet, max
             €700.”
@@ -187,12 +183,14 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-28">
       <div className="max-w-xl">
-        <p className="eyebrow text-sea">How requests work</p>
+        <p className="eyebrow text-sea">{m.how}</p>
         <h2 className="mt-3 font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
-          No calendar roulette. Your operator confirms the boat before you pay.
+          {m.howTitle}
         </h2>
       </div>
 
@@ -216,6 +214,8 @@ export function HowItWorks() {
 }
 
 export function Operators() {
+  const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section id="operators" className="scroll-mt-24 bg-ink py-20 text-background lg:py-28">
       <div className="mx-auto grid max-w-[1240px] items-center gap-14 px-5 sm:px-8 lg:grid-cols-2">
@@ -231,16 +231,11 @@ export function Operators() {
         </div>
 
         <div>
-          <p className="eyebrow text-sun">Our operators</p>
+          <p className="eyebrow text-sun">{m.operators}</p>
           <h2 className="mt-3 font-display text-3xl leading-tight font-medium text-balance text-background sm:text-4xl">
-            Built with Zadar's boat people
+            {m.operatorTitle}
           </h2>
-          <p className="mt-5 leading-relaxed text-background/75">
-            MAREVO started because good local skippers were losing their season to platforms that
-            treat a boat like a hotel room. We work with a small number of families who own their
-            boats, know the channels and answer their own phones. If a bay is crowded, they will
-            take you somewhere else. If the bura comes, they will tell you honestly.
-          </p>
+          <p className="mt-5 leading-relaxed text-background/75">{m.operatorText}</p>
           <p className="mt-4 leading-relaxed text-background/75">
             No fleet resellers, no last-minute substitutions, no boat you have never seen a
             photograph of.
@@ -263,7 +258,7 @@ export function Operators() {
 
           <ListYourBoatDialog>
             <Button variant="sun" size="lg" className="mt-9">
-              List your boat with us
+              {m.listBoat}
             </Button>
           </ListYourBoatDialog>
         </div>
@@ -273,10 +268,12 @@ export function Operators() {
 }
 
 export function Reviews() {
+  const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-28">
       <h2 className="max-w-lg font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
-        Days people still talk about
+        {m.reviews}
       </h2>
       <div className="mt-10 grid gap-6 md:grid-cols-3">
         {reviews.map((r) => (
@@ -301,18 +298,17 @@ export function Reviews() {
 }
 
 export function Faq() {
+  const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section id="faq" className="bg-sand py-20 lg:py-28">
       <div className="mx-auto grid max-w-[1240px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
-          <p className="eyebrow text-sea">Good to know</p>
+          <p className="eyebrow text-sea">{m.know}</p>
           <h2 className="mt-3 font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
-            Questions before you sail
+            {m.questions}
           </h2>
-          <p className="mt-4 max-w-sm leading-relaxed text-ink/70">
-            Still unsure? Send a request without paying — the operator confirms availability before
-            anything else happens.
-          </p>
+          <p className="mt-4 max-w-sm leading-relaxed text-ink/70">{m.faqText}</p>
         </div>
         <Accordion type="single" collapsible className="w-full">
           {faqs.map((f, i) => (
@@ -333,22 +329,20 @@ export function Faq() {
 
 export function EmailCapture() {
   const [done, setDone] = useState(false);
+  const { locale } = useI18n();
+  const m = useMiscCopy(locale);
   return (
     <section className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8">
       <div className="grid items-center gap-8 rounded-xl border border-border bg-card p-8 sm:p-12 lg:grid-cols-[1fr_auto]">
         <div>
           <h2 className="font-display text-2xl leading-tight font-medium sm:text-3xl">
-            Not ready to choose?
+            {m.newsletter}
           </h2>
-          <p className="mt-2 max-w-md leading-relaxed text-muted-foreground">
-            One short email a month: new boats, quieter weeks and the best days to be on the water
-            around Zadar.
-          </p>
+          <p className="mt-2 max-w-md leading-relaxed text-muted-foreground">{m.newsletterText}</p>
         </div>
         {done ? (
           <p className="flex items-center gap-2 text-sm font-medium text-sea">
-            <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> Demo signup completed — no email
-            was transmitted.
+            <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> {m.newsletterDone}
           </p>
         ) : (
           <form
@@ -361,7 +355,7 @@ export function EmailCapture() {
           >
             <div className="sm:w-64">
               <Label htmlFor="newsletter" className="sr-only">
-                Email address
+                {m.email}
               </Label>
               <Input
                 id="newsletter"
@@ -372,7 +366,7 @@ export function EmailCapture() {
               />
             </div>
             <Button type="submit" variant="ink" size="lg">
-              Keep me posted
+              {m.keepPosted}
             </Button>
           </form>
         )}
