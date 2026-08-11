@@ -21,7 +21,9 @@ export const Route = createFileRoute("/experiences/$slug")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Trip not found — MAREVO" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Trip not found — MAREVO" }, { name: "robots", content: "noindex" }],
+      };
     }
     const { exp } = loaderData;
     const title = `${exp.title} — MAREVO Zadar`;
@@ -148,6 +150,8 @@ function ExperienceDetail() {
               <img
                 src={exp.images[0]}
                 alt={`${exp.title} — main photo`}
+                decoding="async"
+                sizes="(min-width: 640px) 50vw, 100vw"
                 className="aspect-[4/3] h-full w-full object-cover sm:aspect-auto"
               />
             </div>
@@ -157,6 +161,8 @@ function ExperienceDetail() {
                 src={src}
                 alt={`${exp.title} — photo ${i + 2}`}
                 loading="lazy"
+                decoding="async"
+                sizes="(min-width: 640px) 25vw, 100vw"
                 className="hidden aspect-[4/3] h-full w-full object-cover sm:block"
               />
             ))}
@@ -186,7 +192,9 @@ function ExperienceDetail() {
                 <li key={f.label} className="flex gap-3">
                   <f.icon className="mt-0.5 h-5 w-5 shrink-0 text-sea" aria-hidden="true" />
                   <div>
-                    <p className="text-xs tracking-wide text-muted-foreground uppercase">{f.label}</p>
+                    <p className="text-xs tracking-wide text-muted-foreground uppercase">
+                      {f.label}
+                    </p>
                     <p className="mt-0.5 text-sm font-medium">{f.value}</p>
                   </div>
                 </li>
@@ -207,7 +215,10 @@ function ExperienceDetail() {
               <ol className="mt-6 space-y-6 border-l border-border pl-6">
                 {exp.itinerary.map((s) => (
                   <li key={s.title} className="relative">
-                    <span className="absolute top-1.5 -left-[1.68rem] h-2.5 w-2.5 rounded-full bg-sun ring-4 ring-background" aria-hidden="true" />
+                    <span
+                      className="absolute top-1.5 -left-[1.68rem] h-2.5 w-2.5 rounded-full bg-sun ring-4 ring-background"
+                      aria-hidden="true"
+                    />
                     <p className="text-xs tracking-widest text-sea uppercase">{s.time}</p>
                     <h3 className="mt-1 text-lg leading-snug">{s.title}</h3>
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
@@ -252,7 +263,9 @@ function ExperienceDetail() {
                     <div key={k as string} className="flex gap-3">
                       <I className="mt-0.5 h-4.5 w-4.5 shrink-0 text-sea" aria-hidden="true" />
                       <div>
-                        <dt className="text-xs tracking-wide text-muted-foreground uppercase">{k as string}</dt>
+                        <dt className="text-xs tracking-wide text-muted-foreground uppercase">
+                          {k as string}
+                        </dt>
                         <dd className="mt-0.5 text-sm font-medium">{v as string}</dd>
                       </div>
                     </div>
@@ -261,7 +274,10 @@ function ExperienceDetail() {
               </dl>
               <ul className="mt-6 flex flex-wrap gap-2">
                 {exp.boat.extras.map((e) => (
-                  <li key={e} className="rounded-full border border-ink/10 bg-background px-3 py-1 text-xs text-ink/80">
+                  <li
+                    key={e}
+                    className="rounded-full border border-ink/10 bg-background px-3 py-1 text-xs text-ink/80"
+                  >
                     {e}
                   </li>
                 ))}
@@ -345,13 +361,21 @@ function ExperienceDetail() {
           <div className="min-w-0">
             <p className="truncate text-sm">
               <span className="font-display text-xl font-medium">€{exp.price}</span>{" "}
-              <span className="text-muted-foreground">{exp.priceUnit === "total" ? "total" : "per person"}</span>
+              <span className="text-muted-foreground">
+                {exp.priceUnit === "total" ? "total" : "per person"}
+              </span>
             </p>
             <p className="truncate text-xs text-muted-foreground">
               {formatDate(date)} · {guests} {guests === 1 ? "guest" : "guests"}
             </p>
           </div>
-          <RequestDialog exp={exp} date={date} guests={guests} onDateChange={setDate} onGuestsChange={setGuests}>
+          <RequestDialog
+            exp={exp}
+            date={date}
+            guests={guests}
+            onDateChange={setDate}
+            onGuestsChange={setGuests}
+          >
             <Button variant="sun" size="lg" className="ml-auto shrink-0">
               Request to book
             </Button>
