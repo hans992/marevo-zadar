@@ -30,15 +30,20 @@ bun run dev
 bun run lint
 bun run typecheck
 bun run inventory:validate
+bun run request:validate
 bun run build
 bun run test:smoke
 ```
 
-The inventory check validates demo fixtures against the frontend contract. The smoke test starts the production server and checks the homepage, search page and an experience detail route.
+The inventory and request checks validate demo fixtures and the Request-to-Book payload contract. The smoke test starts the production server and checks the homepage, search page and an experience detail route.
 
 ## Inventory foundation
 
 The frontend reads through `src/data/inventory.ts`. It currently exposes the presentation dataset in `demo` mode. The versioned Supabase migration, publishing rules and partner intake template live in `supabase/` and `docs/`; no production database or invented live records are connected yet.
+
+## Request-to-Book
+
+The app defaults to local presentation mode. With `VITE_REQUEST_MODE=demo`, form details never leave the browser. The server-side Supabase persistence path is activated only after deploying the migrations and setting the variables documented in `.env.example`. No payment is taken by this flow.
 
 ## Deployment
 
