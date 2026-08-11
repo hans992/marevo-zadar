@@ -1,0 +1,2 @@
+operator_display_name,operator_role,operator_bio,response_minutes,operator_email,operator_phone,boat_name,boat_slug,boat_type,boat_length_m,boat_engine,boat_capacity,boat_amenities,experience_title,experience_slug,category,tags,duration_minutes,price_eur,price_unit,currency,departure_location,meeting_point,badge,summary,description,included,not_included,image_urls,itinerary,status
+,,,,,,,,,,,,,,,,,,,,EUR,,,,,,,,,,draft
