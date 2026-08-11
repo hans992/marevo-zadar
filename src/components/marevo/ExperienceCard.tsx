@@ -15,6 +15,8 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
           src={exp.images[0]}
           alt={`${exp.title} — boat trip from Zadar`}
           loading="lazy"
+          decoding="async"
+          sizes="(min-width: 1280px) 300px, (min-width: 640px) 50vw, 100vw"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
         />
         {exp.badge && (
@@ -26,10 +28,14 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
           type="button"
           onClick={() => setFav((f) => !f)}
           aria-pressed={fav}
-          aria-label={fav ? `Remove ${exp.title} from favourites` : `Save ${exp.title} to favourites`}
+          aria-label={
+            fav ? `Remove ${exp.title} from favourites` : `Save ${exp.title} to favourites`
+          }
           className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-background/90 text-ink transition-transform hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
         >
-          <Heart className={cn("h-4 w-4 transition-colors", fav ? "fill-sun text-sun" : "text-ink/70")} />
+          <Heart
+            className={cn("h-4 w-4 transition-colors", fav ? "fill-sun text-sun" : "text-ink/70")}
+          />
         </button>
       </div>
 
@@ -49,7 +55,9 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
           </Link>
         </h3>
 
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{exp.summary}</p>
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+          {exp.summary}
+        </p>
 
         <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.8rem] text-muted-foreground">
           <li className="flex items-center gap-1.5">
@@ -59,17 +67,22 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
             <Users className="h-3.5 w-3.5" aria-hidden="true" /> Up to {exp.capacity}
           </li>
           <li className="flex items-center gap-1.5">
-            <MapPin className="h-3.5 w-3.5" aria-hidden="true" /> {exp.location.replace("Departs ", "")}
+            <MapPin className="h-3.5 w-3.5" aria-hidden="true" />{" "}
+            {exp.location.replace("Departs ", "")}
           </li>
         </ul>
 
         <div className="mt-5 flex items-end justify-between border-t border-border pt-4">
           <p className="text-sm text-muted-foreground">
             from{" "}
-            <span className="font-display text-2xl leading-none font-medium text-ink">€{exp.price}</span>{" "}
+            <span className="font-display text-2xl leading-none font-medium text-ink">
+              €{exp.price}
+            </span>{" "}
             {exp.priceUnit === "total" ? "total" : "per person"}
           </p>
-          <span className="text-sm font-medium text-sea transition-transform group-hover:translate-x-0.5">View →</span>
+          <span className="text-sm font-medium text-sea transition-transform group-hover:translate-x-0.5">
+            View →
+          </span>
         </div>
       </div>
     </article>
