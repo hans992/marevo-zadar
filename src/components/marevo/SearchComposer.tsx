@@ -123,7 +123,7 @@ export function SearchComposer({
         </div>
 
         {/* Guests */}
-        <div className="flex items-center justify-between gap-2 bg-background px-5 py-3.5">
+        <div className="flex items-start justify-between gap-2 bg-background px-5 py-3.5">
           <div className="flex flex-col gap-0.5">
             <span className="eyebrow text-muted-foreground" id="guests-label">
               Guests
@@ -133,7 +133,7 @@ export function SearchComposer({
               {value.guests} {value.guests === 1 ? "guest" : "guests"}
             </span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex self-end items-center gap-1">
             <Button
               type="button"
               variant="outline"
