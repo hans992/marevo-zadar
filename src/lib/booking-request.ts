@@ -19,6 +19,7 @@ export const bookingRequestSchema = z.object({
   phone: z.string().trim().max(40),
   message: z.string().trim().max(1_000),
   website: z.string().max(0),
+  consent: z.literal(true),
 });
 
 export type BookingRequestInput = z.infer<typeof bookingRequestSchema>;

@@ -43,7 +43,7 @@ The frontend reads through `src/data/inventory.ts`. It currently exposes the pre
 
 ## Request-to-Book
 
-The public form remains a local presentation demo, so guest details do not leave the browser. This repository now contains a validated, server-only persistence contract and database migration, but the UI is deliberately not connected until the production data destination, privacy copy, retention rules and rate limiting are approved. No payment is taken by this flow.
+The public form supports a consented live mode backed by a validated server-only Supabase persistence path. It remains a local presentation demo unless `VITE_REQUEST_MODE=live` and the server-only variables in `.env.example` are configured. Live submissions verify inventory and capacity on the server, store a price snapshot and take no payment.
 
 ## Deployment
 
