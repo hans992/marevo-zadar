@@ -32,6 +32,7 @@ bun run lint
 bun run typecheck
 bun run inventory:validate
 bun run request:validate
+bun run seo:validate
 bun run build
 bun run test:smoke
 ```
@@ -49,6 +50,10 @@ The frontend reads through `src/data/inventory.ts`. It currently exposes the pre
 ## Request-to-Book
 
 The public form supports a consented live mode backed by a validated server-only Supabase persistence path. It remains a local presentation demo unless `VITE_REQUEST_MODE=live` and the server-only variables in `.env.example` are configured. Live submissions verify inventory and capacity on the server, store a price snapshot and take no payment.
+
+## SEO and analytics
+
+Public marketplace routes include canonical URLs, structured data, a sitemap, crawler policy and web-app manifest. Presentation-only `/operator` remains `noindex` and is excluded from the sitemap. Vercel Web Analytics is mounted at the application root; it begins collecting only after Analytics is enabled for the Vercel project.
 
 ## Deployment
 
