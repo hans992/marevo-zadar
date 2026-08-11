@@ -8,7 +8,7 @@ import { RequestDialog } from "@/components/marevo/RequestDialog";
 import { formatDate } from "@/components/marevo/SearchComposer";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { getExperience, experiences, type Experience } from "@/data/marevo";
+import { getExperience, experiences, type Experience } from "@/data/inventory";
 import { ExperienceCard } from "@/components/marevo/ExperienceCard";
 
 export const Route = createFileRoute("/experiences/$slug")({

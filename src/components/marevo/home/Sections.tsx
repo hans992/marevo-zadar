@@ -5,7 +5,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { categories, destinations, faqs, reviews } from "@/data/marevo";
+import { categories, destinations, faqs, reviews } from "@/data/inventory";
 import { ListYourBoatDialog } from "../ListYourBoatDialog";
 
 export function Categories() {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Clock, Heart, MapPin, Users } from "lucide-react";
-import type { Experience } from "@/data/marevo";
+import type { Experience } from "@/data/inventory";
 import { Stars } from "./Stars";
 import { cn } from "@/lib/utils";
 

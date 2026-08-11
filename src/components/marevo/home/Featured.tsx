@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { experiences, filters, type FilterId } from "@/data/marevo";
+import { experiences, filters, type FilterId } from "@/data/inventory";
 import { ExperienceCard } from "../ExperienceCard";
 import { cn } from "@/lib/utils";
 

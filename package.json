@@ -11,8 +11,9 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:smoke": "node scripts/smoke.mjs",
-    "check": "bun run lint && bun run typecheck && bun run build && bun run test:smoke",
-    "format": "prettier --write ."
+    "check": "bun run lint && bun run typecheck && bun run inventory:validate && bun run build && bun run test:smoke",
+    "format": "prettier --write .",
+    "inventory:validate": "bun scripts/validate-inventory.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

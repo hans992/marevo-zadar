@@ -29,11 +29,16 @@ bun run dev
 ```bash
 bun run lint
 bun run typecheck
+bun run inventory:validate
 bun run build
 bun run test:smoke
 ```
 
-The smoke test starts the production server and checks the homepage, search page and an experience detail route.
+The inventory check validates demo fixtures against the frontend contract. The smoke test starts the production server and checks the homepage, search page and an experience detail route.
+
+## Inventory foundation
+
+The frontend reads through `src/data/inventory.ts`. It currently exposes the presentation dataset in `demo` mode. The versioned Supabase migration, publishing rules and partner intake template live in `supabase/` and `docs/`; no production database or invented live records are connected yet.
 
 ## Deployment
 

@@ -8,7 +8,7 @@ import { SearchComposer, defaultSearch, type SearchState } from "@/components/ma
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { experiences, filters, type FilterId } from "@/data/marevo";
+import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
 
 export type BoatSearch = {
