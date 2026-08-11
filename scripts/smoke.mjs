@@ -10,6 +10,7 @@ const server = spawn("bun", ["run", "start"], {
 const routes = [
   ["/", "Find your perfect day at sea"],
   ["/search", "Boats and experiences"],
+  ["/operator", "Good morning, Luka."],
   ["/experiences/kornati-private-escape", "Kornati Private Escape"],
 ];
 
