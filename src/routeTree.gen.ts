@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as OperatorRouteImport } from './routes/operator'
 import { Route as ExperiencesSlugRouteImport } from './routes/experiences.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OperatorRoute = OperatorRouteImport.update({
+  id: '/operator',
+  path: '/operator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExperiencesSlugRoute = ExperiencesSlugRouteImport.update({
   id: '/experiences/$slug',
   path: '/experiences/$slug',
@@ -32,30 +38,34 @@ const ExperiencesSlugRoute = ExperiencesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/search': typeof SearchRoute
+  '/operator': typeof OperatorRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/search': typeof SearchRoute
+  '/operator': typeof OperatorRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/search': typeof SearchRoute
+  '/operator': typeof OperatorRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/experiences/$slug'
+  fullPaths: '/' | '/search' | '/operator' | '/experiences/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/experiences/$slug'
-  id: '__root__' | '/' | '/search' | '/experiences/$slug'
+  to: '/' | '/search' | '/operator' | '/experiences/$slug'
+  id: '__root__' | '/' | '/search' | '/operator' | '/experiences/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SearchRoute: typeof SearchRoute
+  OperatorRoute: typeof OperatorRoute
   ExperiencesSlugRoute: typeof ExperiencesSlugRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/operator': {
+      id: '/operator'
+      path: '/operator'
+      fullPath: '/operator'
+      preLoaderRoute: typeof OperatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/experiences/$slug': {
       id: '/experiences/$slug'
       path: '/experiences/$slug'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SearchRoute: SearchRoute,
+  OperatorRoute: OperatorRoute,
   ExperiencesSlugRoute: ExperiencesSlugRoute,
 }
 export const routeTree = rootRouteImport
