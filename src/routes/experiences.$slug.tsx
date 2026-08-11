@@ -107,7 +107,7 @@ function ExperienceDetail() {
           <dd>€{serviceFee}</dd>
         </div>
         <div className="flex justify-between gap-4 border-t border-border pt-3 text-base font-medium">
-          <dt>Estimated total</dt>
+          <dt>Displayed price</dt>
           <dd className="font-display text-xl">€{total}</dd>
         </div>
       </dl>
