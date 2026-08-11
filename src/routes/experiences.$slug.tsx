@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { getExperience, experiences, type Experience } from "@/data/inventory";
 import { ExperienceCard } from "@/components/marevo/ExperienceCard";
 import { experienceStructuredData, SITE_URL } from "@/lib/seo";
+import { localizedPath, useI18n } from "@/i18n";
 
 export const Route = createFileRoute("/experiences/$slug")({
   loader: ({ params }): { exp: Experience } => {
@@ -45,11 +46,15 @@ export const Route = createFileRoute("/experiences/$slug")({
       ],
     };
   },
-  component: ExperienceDetail,
+  component: ExperienceRoutePage,
 });
 
-function ExperienceDetail() {
-  const { exp } = Route.useLoaderData() as { exp: Experience };
+function ExperienceRoutePage() {
+  return <ExperienceDetail exp={(Route.useLoaderData() as { exp: Experience }).exp} />;
+}
+
+export function ExperienceDetail({ exp }: { exp: Experience }) {
+  const { locale, t } = useI18n();
   const [date, setDate] = useState("");
   const [guests, setGuests] = useState(Math.min(4, exp.capacity));
 
@@ -130,13 +135,19 @@ function ExperienceDetail() {
           <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
-                <Link to="/" className="underline-offset-4 hover:text-ink hover:underline">
+                <Link
+                  to={localizedPath("/", locale) as never}
+                  className="underline-offset-4 hover:text-ink hover:underline"
+                >
                   Home
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
               <li>
-                <Link to="/search" className="underline-offset-4 hover:text-ink hover:underline">
+                <Link
+                  to={localizedPath("/search", locale) as never}
+                  className="underline-offset-4 hover:text-ink hover:underline"
+                >
                   Zadar experiences
                 </Link>
               </li>
@@ -366,7 +377,8 @@ function ExperienceDetail() {
               </span>
             </p>
             <p className="truncate text-xs text-muted-foreground">
-              {formatDate(date)} · {guests} {guests === 1 ? "guest" : "guests"}
+              {formatDate(date, locale, t("search.anyDate"))} · {guests}{" "}
+              {guests === 1 ? t("search.guest") : t("search.guestsLower")}
             </p>
           </div>
           <RequestDialog
