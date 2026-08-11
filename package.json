@@ -11,9 +11,10 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:smoke": "node scripts/smoke.mjs",
-    "check": "bun run lint && bun run typecheck && bun run inventory:validate && bun run build && bun run test:smoke",
+    "check": "bun run lint && bun run typecheck && bun run inventory:validate && bun run request:validate && bun run build && bun run test:smoke",
     "format": "prettier --write .",
-    "inventory:validate": "bun scripts/validate-inventory.ts"
+    "inventory:validate": "bun scripts/validate-inventory.ts",
+    "request:validate": "bun scripts/validate-booking-request.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
