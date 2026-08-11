@@ -5,10 +5,12 @@ import type { Experience } from "@/data/inventory";
 import { Stars } from "./Stars";
 import { cn } from "@/lib/utils";
 import { localizedPath, useI18n } from "@/i18n";
+import { localizedBadge, localizedCategory, localizedDuration, localizedSummary, usePublicCopy } from "@/i18n/public";
 
 export function ExperienceCard({ exp }: { exp: Experience }) {
   const [fav, setFav] = useState(false);
   const { locale } = useI18n();
+  const c = usePublicCopy(locale);
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
@@ -23,16 +25,14 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
         />
         {exp.badge && (
           <span className="absolute top-3 left-3 rounded-full bg-background/95 px-2.5 py-1 text-[0.7rem] font-medium tracking-wide text-ink shadow-soft">
-            {exp.badge}
+            {localizedBadge(exp.badge, c)}
           </span>
         )}
         <button
           type="button"
           onClick={() => setFav((f) => !f)}
           aria-pressed={fav}
-          aria-label={
-            fav ? `Remove ${exp.title} from favourites` : `Save ${exp.title} to favourites`
-          }
+          aria-label={fav ? `${c.remove} ${exp.title}` : `${c.save} ${exp.title}`}
           className="absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-background/90 text-ink transition-transform hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sun"
         >
           <Heart
@@ -43,7 +43,7 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
 
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-center justify-between gap-3">
-          <span className="eyebrow text-sea">{exp.category}</span>
+          <span className="eyebrow text-sea">{localizedCategory(exp.category, c)}</span>
           <Stars rating={exp.rating} reviews={exp.reviews} />
         </div>
 
@@ -57,15 +57,16 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
         </h3>
 
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-          {exp.summary}
+          {localizedSummary(exp.category, locale)}
         </p>
 
         <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.8rem] text-muted-foreground">
           <li className="flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5" aria-hidden="true" /> {exp.duration}
+            <Clock className="h-3.5 w-3.5" aria-hidden="true" />{" "}
+            {localizedDuration(exp.durationHours, c)}
           </li>
           <li className="flex items-center gap-1.5">
-            <Users className="h-3.5 w-3.5" aria-hidden="true" /> Up to {exp.capacity}
+            <Users className="h-3.5 w-3.5" aria-hidden="true" /> {c.upTo} {exp.capacity}
           </li>
           <li className="flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />{" "}
@@ -75,14 +76,14 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
 
         <div className="mt-5 flex items-end justify-between border-t border-border pt-4">
           <p className="text-sm text-muted-foreground">
-            from{" "}
+            {c.from}{" "}
             <span className="font-display text-2xl leading-none font-medium text-ink">
               €{exp.price}
             </span>{" "}
-            {exp.priceUnit === "total" ? "total" : "per person"}
+            {exp.priceUnit === "total" ? c.total : c.perPerson}
           </p>
           <span className="text-sm font-medium text-sea transition-transform group-hover:translate-x-0.5">
-            View →
+            {c.view} →
           </span>
         </div>
       </div>
