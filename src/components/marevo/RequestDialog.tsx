@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Experience } from "@/data/inventory";
 import { submitBookingRequest } from "@/lib/booking-request.functions";
+import { guestBucket, priceBand, trackEvent } from "@/lib/analytics";
 import { formatDate } from "./SearchComposer";
 
 type Completion = {
@@ -56,6 +57,12 @@ export function RequestDialog({
     setError("");
 
     if (!isLive) {
+      trackEvent("booking_request_completed", {
+        experience_slug: exp.slug,
+        mode: "demo",
+        guest_bucket: guestBucket(guests),
+        price_band: priceBand(total),
+      });
       setCompletion({ mode: "demo", reference: null });
       return;
     }
@@ -64,6 +71,10 @@ export function RequestDialog({
     const consent = values.get("consent") === "on";
 
     if (!consent) {
+      trackEvent("booking_request_failed", {
+        experience_slug: exp.slug,
+        stage: "validation",
+      });
       setError("Please confirm that we may share your request with the operator.");
       return;
     }
@@ -86,8 +97,18 @@ export function RequestDialog({
         },
       });
 
+      trackEvent("booking_request_completed", {
+        experience_slug: exp.slug,
+        mode: "live",
+        guest_bucket: guestBucket(guests),
+        price_band: priceBand(total),
+      });
       setCompletion({ mode: "live", reference: result.reference });
     } catch (cause) {
+      trackEvent("booking_request_failed", {
+        experience_slug: exp.slug,
+        stage: "persistence",
+      });
       setError(
         cause instanceof Error
           ? cause.message
@@ -103,6 +124,14 @@ export function RequestDialog({
       open={open}
       onOpenChange={(value) => {
         setOpen(value);
+        if (value) {
+          trackEvent("booking_request_opened", {
+            experience_slug: exp.slug,
+            mode: isLive ? "live" : "demo",
+            guest_bucket: guestBucket(guests),
+            price_band: priceBand(total),
+          });
+        }
         if (!value) {
           setTimeout(() => {
             setCompletion(null);

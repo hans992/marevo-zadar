@@ -28,6 +28,7 @@ import {
   type DemoRequestStatus,
 } from "@/data/operator-demo";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/operator")({
   head: () => ({
@@ -92,6 +93,9 @@ function OperatorWorkspace() {
   );
 
   function setRequestStatus(id: string, status: DemoRequestStatus) {
+    if (status === "accepted" || status === "declined") {
+      trackEvent("operator_demo_request_updated", { action: status });
+    }
     setRequests((current) =>
       current.map((request) => (request.id === id ? { ...request, status } : request)),
     );

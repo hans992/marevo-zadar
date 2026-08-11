@@ -33,6 +33,7 @@ bun run typecheck
 bun run inventory:validate
 bun run request:validate
 bun run seo:validate
+bun run analytics:validate
 bun run build
 bun run test:smoke
 ```
@@ -54,6 +55,8 @@ The public form supports a consented live mode backed by a validated server-only
 ## SEO and analytics
 
 Public marketplace routes include canonical URLs, structured data, a sitemap, crawler policy and web-app manifest. Presentation-only `/operator` remains `noindex` and is excluded from the sitemap. Vercel Web Analytics is mounted at the application root; it begins collecting only after Analytics is enabled for the Vercel project.
+
+Custom events measure search intent, request-funnel progress, operator-demo decisions and presentation lead actions. Event properties are constrained to non-contact product attributes such as destination bucket, guest bucket, trip type, experience slug and price band. CI rejects direct Analytics imports outside the typed wrapper and forbids contact fields in the event catalog.
 
 ## Deployment
 

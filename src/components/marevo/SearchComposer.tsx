@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { destinationBucket, guestBucket, trackEvent } from "@/lib/analytics";
 
 export type SearchState = { q: string; date: string; guests: number; trip: "private" | "shared" };
 
@@ -36,6 +37,13 @@ export function SearchComposer({
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
+    trackEvent("boat_search_submitted", {
+      surface: variant === "compact" ? "search" : "hero",
+      destination: destinationBucket(value.q),
+      guest_bucket: guestBucket(value.guests),
+      trip_type: value.trip,
+      has_date: Boolean(value.date),
+    });
     if (onSubmit) return onSubmit(value);
     navigate({ to: "/search", search: { q: value.q, date: value.date, guests: value.guests, trip: value.trip } });
   };

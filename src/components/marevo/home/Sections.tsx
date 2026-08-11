@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { categories, destinations, faqs, reviews } from "@/data/inventory";
 import { ListYourBoatDialog } from "../ListYourBoatDialog";
+import { trackEvent } from "@/lib/analytics";
 
 export function Categories() {
   return (
@@ -291,6 +292,7 @@ export function EmailCapture() {
             className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto"
             onSubmit={(e) => {
               e.preventDefault();
+              trackEvent("newsletter_demo_completed", { surface: "homepage" });
               setDone(true);
             }}
           >

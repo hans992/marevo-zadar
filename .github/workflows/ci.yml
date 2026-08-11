@@ -29,6 +29,8 @@ jobs:
         run: bun run request:validate
       - name: Validate SEO contract
         run: bun run seo:validate
+      - name: Validate analytics privacy
+        run: bun run analytics:validate
       - name: Build
         run: bun run build
       - name: Smoke test production routes
