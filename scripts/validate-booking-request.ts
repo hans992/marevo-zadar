@@ -10,6 +10,7 @@ const validRequest = {
   phone: "",
   message: "We would love several swim stops.",
   website: "",
+  consent: true,
 };
 
 const cases = [
@@ -18,6 +19,7 @@ const cases = [
   { name: "zero guests", input: { ...validRequest, guests: 0 }, expected: false },
   { name: "invalid slug", input: { ...validRequest, experienceSlug: "../admin" }, expected: false },
   { name: "bot honeypot", input: { ...validRequest, website: "https://spam.example" }, expected: false },
+  { name: "missing consent", input: { ...validRequest, consent: false }, expected: false },
 ];
 
 const failures = cases.filter(
