@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { trackEvent } from "@/lib/analytics";
 
 const points = [
   { icon: Inbox, title: "Direct, qualified requests", text: "Real dates, real group sizes, sent straight to your phone. No lead lists, no cold enquiries." },
@@ -21,6 +22,7 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
       open={open}
       onOpenChange={(v) => {
         setOpen(v);
+        if (v) trackEvent("operator_application_opened", { surface: "page" });
         if (!v) setTimeout(() => setSent(false), 200);
       }}
     >
@@ -70,6 +72,7 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
                 className="mt-7 border-t border-border pt-6"
                 onSubmit={(e) => {
                   e.preventDefault();
+                  trackEvent("operator_application_demo_completed", { surface: "page" });
                   setSent(true);
                 }}
               >
