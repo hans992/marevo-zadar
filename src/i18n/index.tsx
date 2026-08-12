@@ -617,6 +617,19 @@ export function localizedPath(pathname: string, locale: Locale) {
   return locale === "en" ? clean : `/${locale}${clean === "/" ? "" : clean}`;
 }
 
+export function guestNoun(count: number, locale: Locale) {
+  if (locale === "hr") return count === 1 ? "gost" : count >= 2 && count <= 4 ? "gosta" : "gostiju";
+  if (locale === "sl") return count === 1 ? "gost" : count === 2 ? "gosta" : count <= 4 ? "gostje" : "gostov";
+  if (locale === "de") return count === 1 ? "Gast" : "Gäste";
+  if (locale === "pl") return count === 1 ? "gość" : "gości";
+  if (locale === "hu") return "vendég";
+  if (locale === "sk") return count === 1 ? "hosť" : count <= 4 ? "hostia" : "hostí";
+  if (locale === "cs") return count === 1 ? "host" : count <= 4 ? "hosté" : "hostů";
+  if (locale === "fr") return count === 1 ? "voyageur" : "voyageurs";
+  if (locale === "es") return count === 1 ? "viajero" : "viajeros";
+  return count === 1 ? "guest" : "guests";
+}
+
 export function switchLocalePath(pathname: string, locale: Locale) {
   const parts = pathname.split("/").filter(Boolean);
   if (isLocale(parts[0])) parts.shift();

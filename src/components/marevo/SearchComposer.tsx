@@ -7,7 +7,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { destinationBucket, guestBucket, trackEvent } from "@/lib/analytics";
-import { localizedPath, useI18n, type Locale } from "@/i18n";
+import { guestNoun, localizedPath, useI18n, type Locale } from "@/i18n";
 
 export type SearchState = { q: string; date: string; guests: number; trip: "private" | "shared" };
 
@@ -171,7 +171,7 @@ export function SearchComposer({
             </span>
             <span className="flex items-center gap-1.5 whitespace-nowrap text-[0.95rem] font-medium text-ink">
               <Users className="h-4 w-4 text-sea" aria-hidden="true" />
-              {value.guests} {value.guests === 1 ? t("search.guest") : t("search.guestsLower")}
+              {value.guests} {guestNoun(value.guests, locale)}
             </span>
           </div>
           <div className="flex self-end items-center gap-1">

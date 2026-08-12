@@ -21,7 +21,7 @@ import {
 import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
 import { alternateLinks, getSeoCopy, SITE_URL } from "@/lib/seo";
-import { localizedPath, useI18n } from "@/i18n";
+import { guestNoun, localizedPath, useI18n } from "@/i18n";
 import { localizedFilter, usePublicCopy } from "@/i18n/public";
 
 export type BoatSearch = {
@@ -220,7 +220,7 @@ export function SearchPage({ params }: { params: BoatSearch }) {
               <p className="text-sm text-muted-foreground" aria-live="polite">
                 <span className="font-medium text-ink">{results.length}</span>{" "}
                 {results.length === 1 ? c.boat : c.boats} {c.availableFor} {composer.guests}{" "}
-                {composer.guests === 1 ? t("search.guest") : t("search.guestsLower")}
+                {guestNoun(composer.guests, locale)}
               </p>
 
               <div className="flex items-center gap-2">

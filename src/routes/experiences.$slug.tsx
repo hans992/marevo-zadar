@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { getExperience, experiences, type Experience } from "@/data/inventory";
 import { ExperienceCard } from "@/components/marevo/ExperienceCard";
 import { alternateLinks, experienceStructuredData, SITE_URL } from "@/lib/seo";
-import { localizedPath, useI18n } from "@/i18n";
+import { guestNoun, localizedPath, useI18n } from "@/i18n";
 import { localizedCategory, localizedDuration, usePublicCopy } from "@/i18n/public";
 import { localizeExperience } from "@/i18n/content";
 
@@ -122,7 +122,7 @@ export function ExperienceDetail({ exp: sourceExp }: { exp: Experience }) {
           <dt className="text-muted-foreground">
             {exp.priceUnit === "total"
               ? c.boatForDay
-              : `€${exp.price} × ${guests} ${c.guests.toLocaleLowerCase(locale)}`}
+              : `€${exp.price} × ${guests} ${guestNoun(guests, locale)}`}
           </dt>
           <dd>€{unitTotal}</dd>
         </div>
@@ -393,7 +393,7 @@ export function ExperienceDetail({ exp: sourceExp }: { exp: Experience }) {
             </p>
             <p className="truncate text-xs text-muted-foreground">
               {formatDate(date, locale, t("search.anyDate"))} · {guests}{" "}
-              {guests === 1 ? t("search.guest") : t("search.guestsLower")}
+              {guestNoun(guests, locale)}
             </p>
           </div>
           <RequestDialog

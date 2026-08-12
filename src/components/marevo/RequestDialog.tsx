@@ -16,7 +16,7 @@ import type { Experience } from "@/data/inventory";
 import { submitBookingRequest } from "@/lib/booking-request.functions";
 import { guestBucket, priceBand, trackEvent } from "@/lib/analytics";
 import { formatDate } from "./SearchComposer";
-import { useI18n } from "@/i18n";
+import { guestNoun, useI18n } from "@/i18n";
 import { usePublicCopy } from "@/i18n/public";
 import { useMiscCopy } from "@/i18n/misc";
 
@@ -309,7 +309,7 @@ export function RequestDialog({
                   <span className="font-sans text-xs font-normal text-muted-foreground">
                     {exp.priceUnit === "total"
                       ? c.forBoat
-                      : `${guests} ${c.guests.toLocaleLowerCase(locale)}`}
+                      : `${guests} ${guestNoun(guests, locale)}`}
                   </span>
                 </span>
               </div>
