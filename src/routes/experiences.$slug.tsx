@@ -14,6 +14,7 @@ import { ExperienceCard } from "@/components/marevo/ExperienceCard";
 import { alternateLinks, experienceStructuredData, SITE_URL } from "@/lib/seo";
 import { localizedPath, useI18n } from "@/i18n";
 import { localizedCategory, localizedDuration, usePublicCopy } from "@/i18n/public";
+import { localizeExperience } from "@/i18n/content";
 
 export const Route = createFileRoute("/experiences/$slug")({
   loader: ({ params }): { exp: Experience } => {
@@ -55,9 +56,10 @@ function ExperienceRoutePage() {
   return <ExperienceDetail exp={(Route.useLoaderData() as { exp: Experience }).exp} />;
 }
 
-export function ExperienceDetail({ exp }: { exp: Experience }) {
+export function ExperienceDetail({ exp: sourceExp }: { exp: Experience }) {
   const { locale, t } = useI18n();
   const c = usePublicCopy(locale);
+  const exp = localizeExperience(sourceExp, locale);
   const [date, setDate] = useState("");
   const [guests, setGuests] = useState(Math.min(4, exp.capacity));
 
@@ -139,7 +141,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
       <main className="pt-16 pb-28 lg:pt-[74px] lg:pb-0">
         {/* Gallery */}
         <div className="mx-auto max-w-[1240px] px-5 pt-6 sm:px-8">
-          <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
+          <nav aria-label={c.home} className="text-sm text-muted-foreground">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
                 <Link
@@ -167,7 +169,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
             <div className="sm:col-span-2 sm:row-span-2">
               <img
                 src={exp.images[0]}
-                alt={`${exp.title} — main photo`}
+                alt={`${exp.title} — ${c.view}`}
                 decoding="async"
                 sizes="(min-width: 640px) 50vw, 100vw"
                 className="aspect-[4/3] h-full w-full object-cover sm:aspect-auto"
@@ -177,7 +179,7 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
               <img
                 key={src}
                 src={src}
-                alt={`${exp.title} — photo ${i + 2}`}
+                alt={`${exp.title} — ${c.view} ${i + 2}`}
                 loading="lazy"
                 decoding="async"
                 sizes="(min-width: 640px) 25vw, 100vw"
@@ -324,7 +326,9 @@ export function ExperienceDetail({ exp }: { exp: Experience }) {
                   {exp.operator.name} · {exp.operator.role}
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {exp.operator.blurb} {exp.operator.since}, and {exp.operator.replies}.
+                  {exp.operator.blurb}
+                  {exp.operator.since ? ` ${exp.operator.since}` : ""}
+                  {exp.operator.replies ? `, ${exp.operator.replies}.` : ""}
                 </p>
               </div>
             </section>
