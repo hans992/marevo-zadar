@@ -18,6 +18,7 @@ import { guestBucket, priceBand, trackEvent } from "@/lib/analytics";
 import { formatDate } from "./SearchComposer";
 import { useI18n } from "@/i18n";
 import { usePublicCopy } from "@/i18n/public";
+import { useMiscCopy } from "@/i18n/misc";
 
 type Completion = {
   mode: "demo" | "live";
@@ -45,6 +46,7 @@ export function RequestDialog({
   const [error, setError] = useState("");
   const { locale } = useI18n();
   const c = usePublicCopy(locale);
+  const m = useMiscCopy(locale);
   const isLive = import.meta.env["VITE_REQUEST_MODE"] === "live";
 
   const total = exp.priceUnit === "total" ? exp.price : exp.price * guests;
@@ -247,7 +249,7 @@ export function RequestDialog({
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="req-email">Email</Label>
+                  <Label htmlFor="req-email">{m.email}</Label>
                   <Input
                     id="req-email"
                     name="email"
