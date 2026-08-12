@@ -5,12 +5,14 @@ import type { Experience } from "@/data/inventory";
 import { Stars } from "./Stars";
 import { cn } from "@/lib/utils";
 import { localizedPath, useI18n } from "@/i18n";
-import { localizedBadge, localizedCategory, localizedDuration, localizedSummary, usePublicCopy } from "@/i18n/public";
+import { localizedBadge, localizedCategory, localizedDuration, usePublicCopy } from "@/i18n/public";
+import { localizeExperience } from "@/i18n/content";
 
-export function ExperienceCard({ exp }: { exp: Experience }) {
+export function ExperienceCard({ exp: sourceExp }: { exp: Experience }) {
   const [fav, setFav] = useState(false);
   const { locale } = useI18n();
   const c = usePublicCopy(locale);
+  const exp = localizeExperience(sourceExp, locale);
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
@@ -57,7 +59,7 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
         </h3>
 
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-          {localizedSummary(exp.category, locale)}
+          {exp.summary}
         </p>
 
         <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.8rem] text-muted-foreground">
@@ -70,7 +72,7 @@ export function ExperienceCard({ exp }: { exp: Experience }) {
           </li>
           <li className="flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />{" "}
-            {exp.location.replace("Departs ", "")}
+            {locale === "en" ? exp.location.replace("Departs ", "") : "Zadar"}
           </li>
         </ul>
 
