@@ -14,35 +14,16 @@ import { Label } from "@/components/ui/label";
 import { trackEvent } from "@/lib/analytics";
 import { useI18n } from "@/i18n";
 import { useMiscCopy } from "@/i18n/misc";
+import { useFlowCopy } from "@/i18n/flow";
 
-const points = [
-  {
-    icon: Inbox,
-    title: "Direct, qualified requests",
-    text: "Real dates, real group sizes, sent straight to your phone. No lead lists, no cold enquiries.",
-  },
-  {
-    icon: CheckCircle2,
-    title: "You confirm every booking",
-    text: "Nothing is sold before you say the boat is free. Guests only pay after you accept.",
-  },
-  {
-    icon: Coins,
-    title: "Simple pricing",
-    text: "A transparent commercial model agreed with each founding operator before listings go live.",
-  },
-  {
-    icon: CalendarX2,
-    title: "Blackout dates later",
-    text: "Start with a simple listing. Calendars and blackout dates arrive as we grow the fleet.",
-  },
-];
+const pointIcons = [Inbox, CheckCircle2, Coins, CalendarX2];
 
 export function ListYourBoatDialog({ children }: { children: ReactNode }) {
   const [sent, setSent] = useState(false);
   const [open, setOpen] = useState(false);
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const flow = useFlowCopy(locale);
 
   return (
     <Dialog
@@ -84,15 +65,18 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
           ) : (
             <>
               <ul className="grid gap-5 sm:grid-cols-2">
-                {points.map((p) => (
-                  <li key={p.title} className="flex gap-3">
-                    <p.icon className="mt-0.5 h-5 w-5 shrink-0 text-sea" aria-hidden="true" />
-                    <div>
-                      <h4 className="text-base leading-snug">{p.title}</h4>
-                      <p className="mt-1 text-sm text-muted-foreground">{p.text}</p>
-                    </div>
-                  </li>
-                ))}
+                {flow.operatorPoints.map((p, index) => {
+                  const Icon = pointIcons[index] ?? Inbox;
+                  return (
+                    <li key={p.title} className="flex gap-3">
+                      <Icon className="mt-0.5 h-5 w-5 shrink-0 text-sea" aria-hidden="true" />
+                      <div>
+                        <h4 className="text-base leading-snug">{p.title}</h4>
+                        <p className="mt-1 text-sm text-muted-foreground">{p.text}</p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
 
               <form
@@ -117,7 +101,7 @@ export function ListYourBoatDialog({ children }: { children: ReactNode }) {
                     <Input
                       id="op-boat"
                       required
-                      placeholder="8.5 m cabin motorboat, up to 8 guests, Gaženica"
+                      placeholder={`${m.yourBoat} · 8.5 m · 8 · Gaženica`}
                     />
                   </div>
                 </div>
