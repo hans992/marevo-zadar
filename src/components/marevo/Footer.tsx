@@ -71,7 +71,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/operator"
+                  to={localizedPath("/operator", locale) as never}
                   className="underline-offset-4 hover:text-background hover:underline"
                 >
                   {t("footer.operatorDemo")}
