@@ -10,15 +10,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { categories, destinations, faqs, reviews } from "@/data/inventory";
 import { ListYourBoatDialog } from "../ListYourBoatDialog";
 import { trackEvent } from "@/lib/analytics";
 import { localizedPath, useI18n } from "@/i18n";
 import { useMiscCopy } from "@/i18n/misc";
+import { getLocalizedHomeData } from "@/i18n/content";
+import { useFlowCopy } from "@/i18n/flow";
 
 export function Categories() {
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const { categories } = getLocalizedHomeData(locale);
   return (
     <section className="bg-sand py-20 lg:py-28">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
@@ -69,6 +71,7 @@ export function Categories() {
 export function Destinations() {
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const { destinations } = getLocalizedHomeData(locale);
   return (
     <section
       id="destinations"
@@ -93,7 +96,7 @@ export function Destinations() {
             <div className="overflow-hidden bg-secondary">
               <img
                 src={d.image}
-                alt={`${d.name}, near Zadar`}
+                alt={`${d.name} · Zadar`}
                 loading="lazy"
                 decoding="async"
                 sizes="(min-width: 768px) 192px, 120px"
@@ -122,6 +125,7 @@ export function Destinations() {
 export function MatchTeaser() {
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const flow = useFlowCopy(locale);
   return (
     <section className="bg-sand py-20 lg:py-28">
       <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
@@ -145,11 +149,10 @@ export function MatchTeaser() {
           />
           <figcaption className="eyebrow text-muted-foreground">{m.example}</figcaption>
           <blockquote className="mt-3 font-display text-xl leading-relaxed text-balance sm:text-2xl">
-            “We're 6 people in Zadar tomorrow. Private boat, lots of swimming, somewhere quiet, max
-            €700.”
+            “{flow.exampleRequest}”
           </blockquote>
           <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-5 text-xs">
-            {["6 guests", "Private", "Quiet coves", "Under €700", "Tomorrow"].map((t) => (
+            {flow.chips.map((t) => (
               <span
                 key={t}
                 className="rounded-full border border-border bg-secondary px-3 py-1 text-ink/80"
@@ -164,27 +167,12 @@ export function MatchTeaser() {
   );
 }
 
-const steps = [
-  {
-    icon: CalendarCheck,
-    title: "Choose your day",
-    text: "Pick a trip, a date and your group size, then send a request with anything the skipper should know.",
-  },
-  {
-    icon: CheckCircle2,
-    title: "Operator confirms",
-    text: "The owner checks the boat, the crew and the forecast, then replies — usually within 30 minutes.",
-  },
-  {
-    icon: CreditCard,
-    title: "Pay securely",
-    text: "Only once the boat is confirmed do you pay. Free cancellation applies on selected trips.",
-  },
-];
+const stepIcons = [CalendarCheck, CheckCircle2, CreditCard];
 
 export function HowItWorks() {
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const flow = useFlowCopy(locale);
   return (
     <section className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-28">
       <div className="max-w-xl">
@@ -195,19 +183,22 @@ export function HowItWorks() {
       </div>
 
       <ol className="mt-12 grid gap-10 md:grid-cols-3">
-        {steps.map((s, i) => (
-          <li key={s.title} className="relative">
-            <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-ink text-sm text-background">
-                {i + 1}
-              </span>
-              <span className="h-px flex-1 bg-border" aria-hidden="true" />
-              <s.icon className="h-5 w-5 text-sea" aria-hidden="true" />
-            </div>
-            <h3 className="mt-5 text-xl">{s.title}</h3>
-            <p className="mt-2 leading-relaxed text-muted-foreground">{s.text}</p>
-          </li>
-        ))}
+        {flow.steps.map((s, i) => {
+          const Icon = stepIcons[i] ?? CalendarCheck;
+          return (
+            <li key={s.title} className="relative">
+              <div className="flex items-center gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-ink text-sm text-background">
+                  {i + 1}
+                </span>
+                <span className="h-px flex-1 bg-border" aria-hidden="true" />
+                <Icon className="h-5 w-5 text-sea" aria-hidden="true" />
+              </div>
+              <h3 className="mt-5 text-xl">{s.title}</h3>
+              <p className="mt-2 leading-relaxed text-muted-foreground">{s.text}</p>
+            </li>
+          );
+        })}
       </ol>
     </section>
   );
@@ -216,13 +207,14 @@ export function HowItWorks() {
 export function Operators() {
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const flow = useFlowCopy(locale);
   return (
     <section id="operators" className="scroll-mt-24 bg-ink py-20 text-background lg:py-28">
       <div className="mx-auto grid max-w-[1240px] items-center gap-14 px-5 sm:px-8 lg:grid-cols-2">
         <div className="cove border border-background/10">
           <img
             src="https://images.unsplash.com/photo-1603542377502-131ec3715622?auto=format&fit=crop&w=1200&q=80"
-            alt="A local fisherman aboard his boat off Dugi Otok"
+            alt={flow.operatorImageAlt}
             loading="lazy"
             decoding="async"
             sizes="(min-width: 1024px) 592px, 100vw"
@@ -236,17 +228,10 @@ export function Operators() {
             {m.operatorTitle}
           </h2>
           <p className="mt-5 leading-relaxed text-background/75">{m.operatorText}</p>
-          <p className="mt-4 leading-relaxed text-background/75">
-            No fleet resellers, no last-minute substitutions, no boat you have never seen a
-            photograph of.
-          </p>
+          <p className="mt-4 leading-relaxed text-background/75">{flow.operatorPromise}</p>
 
           <dl className="mt-9 grid grid-cols-3 gap-6 border-t border-background/15 pt-7">
-            {[
-              ["Zadar-first", "focused marketplace"],
-              ["Request-first", "no stale calendars"],
-              ["Human", "trip support"],
-            ].map(([n, l]) => (
+            {flow.operatorStats.map(([n, l]) => (
               <div key={l}>
                 <dt className="font-display text-3xl leading-none font-medium text-background">
                   {n}
@@ -270,6 +255,7 @@ export function Operators() {
 export function Reviews() {
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const { reviews } = getLocalizedHomeData(locale);
   return (
     <section className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-28">
       <h2 className="max-w-lg font-display text-3xl leading-tight font-medium text-balance sm:text-4xl">
@@ -300,6 +286,7 @@ export function Reviews() {
 export function Faq() {
   const { locale } = useI18n();
   const m = useMiscCopy(locale);
+  const { faqs } = getLocalizedHomeData(locale);
   return (
     <section id="faq" className="bg-sand py-20 lg:py-28">
       <div className="mx-auto grid max-w-[1240px] gap-10 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr]">
