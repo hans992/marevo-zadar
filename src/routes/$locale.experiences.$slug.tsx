@@ -3,6 +3,8 @@ import { ExperienceDetail } from "./experiences.$slug";
 import { getExperience, type Experience } from "@/data/inventory";
 import { isLocale, localizedPath } from "@/i18n";
 import { alternateLinks, getSeoCopy, SITE_URL } from "@/lib/seo";
+import { localizeExperience } from "@/i18n/content";
+import { getStatusCopy } from "@/i18n/status";
 
 export const Route = createFileRoute("/$locale/experiences/$slug")({
   loader: ({ params }): { exp: Experience } => {
@@ -11,9 +13,10 @@ export const Route = createFileRoute("/$locale/experiences/$slug")({
     return { exp };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData) return { meta: [{ title: "Trip not found — MAREVO" }] };
-    const { exp } = loaderData;
     const locale = isLocale(params.locale) ? params.locale : "en";
+    if (!loaderData) return { meta: [{ title: `${getStatusCopy(locale).notFound} — MAREVO` }] };
+    const { exp: sourceExp } = loaderData;
+    const exp = localizeExperience(sourceExp, locale);
     const seo = getSeoCopy(locale);
     return {
       meta: [

@@ -58,7 +58,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
       <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-4 px-5 sm:px-8 lg:h-[74px]">
         <Link
           to={localizedPath("/", locale) as never}
-          aria-label="MAREVO home"
+          aria-label={`MAREVO · ${t("nav.main")}`}
           className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sun"
         >
           <Logo tone={solid ? "ink" : "light"} />
@@ -172,7 +172,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
               side="right"
               className="w-[86vw] max-w-sm border-l border-border bg-background p-0 [&>button]:hidden"
             >
-              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <SheetTitle className="sr-only">{t("nav.mobile")}</SheetTitle>
               <div className="flex items-center justify-between border-b border-border px-5 py-4">
                 <Logo />
                 <Button

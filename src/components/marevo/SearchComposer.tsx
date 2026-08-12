@@ -135,6 +135,18 @@ export function SearchComposer({
             <Calendar
               mode="single"
               locale={calendarLocales[locale]}
+              labels={{
+                labelNext: () => `${t("search.date")} →`,
+                labelPrevious: () => `← ${t("search.date")}`,
+                labelGrid: () => t("search.tripDate"),
+                labelDayButton: (day) =>
+                  day.toLocaleDateString(locale === "en" ? "en-GB" : locale, {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  }),
+              }}
               selected={selectedDate}
               disabled={{ before: today }}
               onSelect={(date) => {
