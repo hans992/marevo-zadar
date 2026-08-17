@@ -83,7 +83,7 @@ export function Footer() {
                   hash="operators"
                   className="underline-offset-4 hover:text-background hover:underline"
                 >
-                  {t("footer.aboutMarevo")}
+                  {t("footer.aboutBrand")}
                 </Link>
               </li>
               <li>
@@ -101,7 +101,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-background/15 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} MAREVO. {t("footer.rights")}
+            © {new Date().getFullYear()} Adriatic by Boat. {t("footer.rights")}
           </p>
           <p className="font-display text-sm tracking-wide text-background/85">
             {t("footer.made")}

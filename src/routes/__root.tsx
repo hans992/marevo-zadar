@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, localeFromPath, localizedPath } from "../i18n";
 import { getStatusCopy } from "../i18n/status";
+import { BRAND_NAME, SITE_URL } from "../lib/brand";
 
 function NotFoundComponent() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -82,24 +83,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#082a35" },
-      { title: "MAREVO — Boat rentals & experiences in Zadar" },
+      { title: `${BRAND_NAME} — Boat rentals & experiences in Zadar` },
       {
         name: "description",
         content:
           "Private boats, island tours and sunset sailing around Zadar, Croatia — handpicked local operators. Zadar, from the sea.",
       },
-      { name: "author", content: "MAREVO" },
-      { property: "og:title", content: "MAREVO — Boat rentals & experiences in Zadar" },
+      { name: "author", content: BRAND_NAME },
+      { property: "og:title", content: `${BRAND_NAME} — Boat rentals & experiences in Zadar` },
       {
         property: "og:description",
         content:
           "Private boats and unforgettable island experiences, handpicked by people who know Zadar.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/og-image.svg" },
-      { property: "og:image:alt", content: "MAREVO — Zadar, from the sea" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:site_name", content: BRAND_NAME },
+      { property: "og:image", content: `${SITE_URL}/og-image.svg` },
+      { property: "og:image:alt", content: `${BRAND_NAME} — Zadar, from the sea` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-image.svg" },
+      { name: "twitter:image", content: `${SITE_URL}/og-image.svg` },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

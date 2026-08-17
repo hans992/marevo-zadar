@@ -16,7 +16,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { Logo } from "@/components/marevo/Logo";
+import { Logo } from "@/components/marketplace/Logo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -43,10 +43,10 @@ import { localizeExperience } from "@/i18n/content";
 export const Route = createFileRoute("/operator")({
   head: () => ({
     meta: [
-      { title: "Operator workspace demo — MAREVO" },
+      { title: "Operator workspace demo — Adriatic by Boat" },
       {
         name: "description",
-        content: "Presentation preview of the future MAREVO operator workspace.",
+        content: "Presentation preview of the future Adriatic by Boat operator workspace.",
       },
       { name: "robots", content: "noindex,nofollow" },
     ],

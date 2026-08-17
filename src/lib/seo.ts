@@ -1,87 +1,88 @@
 import type { Experience } from "@/data/inventory";
 import { locales, localizedPath, type Locale } from "@/i18n";
+import { BRAND_NAME, SITE_URL } from "@/lib/brand";
 
-export const SITE_URL = "https://marevo-zadar.vercel.app";
+export { SITE_URL } from "@/lib/brand";
 
 const seoCopy: Record<
   Locale,
   { homeTitle: string; homeDescription: string; searchTitle: string; searchDescription: string }
 > = {
   en: {
-    homeTitle: "MAREVO — Boat rentals & experiences in Zadar",
+    homeTitle: "Adriatic by Boat — Boat rentals & experiences in Zadar",
     homeDescription:
       "Private boats, island tours and sunset sailing from Zadar with handpicked local operators.",
-    searchTitle: "Find boats in Zadar — MAREVO",
+    searchTitle: "Find boats in Zadar — Adriatic by Boat",
     searchDescription: "Browse private boat tours, rentals and sunset sailing around Zadar.",
   },
   hr: {
-    homeTitle: "MAREVO — Najam brodova i izleti u Zadru",
+    homeTitle: "Adriatic by Boat — Najam brodova i izleti u Zadru",
     homeDescription:
       "Privatni brodovi, otočne ture i plovidbe u zalazak sunca iz Zadra s pažljivo odabranim lokalnim operaterima.",
-    searchTitle: "Pronađite brod u Zadru — MAREVO",
+    searchTitle: "Pronađite brod u Zadru — Adriatic by Boat",
     searchDescription: "Istražite privatne ture, najam brodova i izlete u zalazak sunca oko Zadra.",
   },
   sl: {
-    homeTitle: "MAREVO — Najem plovil in doživetja v Zadru",
+    homeTitle: "Adriatic by Boat — Najem plovil in doživetja v Zadru",
     homeDescription:
       "Zasebna plovila, otoški izleti in plovbe ob sončnem zahodu iz Zadra z izbranimi lokalnimi ponudniki.",
-    searchTitle: "Poiščite plovilo v Zadru — MAREVO",
+    searchTitle: "Poiščite plovilo v Zadru — Adriatic by Boat",
     searchDescription:
       "Odkrijte zasebne izlete, najem plovil in plovbe ob sončnem zahodu okoli Zadra.",
   },
   de: {
-    homeTitle: "MAREVO — Bootsverleih und Erlebnisse in Zadar",
+    homeTitle: "Adriatic by Boat — Bootsverleih und Erlebnisse in Zadar",
     homeDescription:
       "Private Boote, Inseltouren und Sonnenuntergangsfahrten ab Zadar mit ausgewählten lokalen Anbietern.",
-    searchTitle: "Boote in Zadar finden — MAREVO",
+    searchTitle: "Boote in Zadar finden — Adriatic by Boat",
     searchDescription:
       "Entdecken Sie private Bootstouren, Vermietungen und Sonnenuntergangsfahrten rund um Zadar.",
   },
   pl: {
-    homeTitle: "MAREVO — Wynajem łodzi i atrakcje w Zadarze",
+    homeTitle: "Adriatic by Boat — Wynajem łodzi i atrakcje w Zadarze",
     homeDescription:
       "Prywatne łodzie, wycieczki na wyspy i rejsy o zachodzie słońca z Zadaru od wybranych lokalnych operatorów.",
-    searchTitle: "Znajdź łódź w Zadarze — MAREVO",
+    searchTitle: "Znajdź łódź w Zadarze — Adriatic by Boat",
     searchDescription:
       "Przeglądaj prywatne wycieczki, wynajem łodzi i rejsy o zachodzie słońca w okolicy Zadaru.",
   },
   hu: {
-    homeTitle: "MAREVO — Hajóbérlés és élmények Zadarban",
+    homeTitle: "Adriatic by Boat — Hajóbérlés és élmények Zadarban",
     homeDescription:
       "Privát hajók, szigettúrák és naplementés hajózások Zadarból, válogatott helyi szolgáltatókkal.",
-    searchTitle: "Hajók Zadarban — MAREVO",
+    searchTitle: "Hajók Zadarban — Adriatic by Boat",
     searchDescription:
       "Fedezze fel a privát túrákat, hajóbérlést és naplementés programokat Zadar környékén.",
   },
   sk: {
-    homeTitle: "MAREVO — Prenájom lodí a zážitky v Zadare",
+    homeTitle: "Adriatic by Boat — Prenájom lodí a zážitky v Zadare",
     homeDescription:
       "Súkromné lode, ostrovné výlety a plavby pri západe slnka zo Zadaru od vybraných miestnych prevádzkovateľov.",
-    searchTitle: "Nájdite loď v Zadare — MAREVO",
+    searchTitle: "Nájdite loď v Zadare — Adriatic by Boat",
     searchDescription:
       "Objavte súkromné výlety, prenájom lodí a plavby pri západe slnka v okolí Zadaru.",
   },
   cs: {
-    homeTitle: "MAREVO — Pronájem lodí a zážitky v Zadaru",
+    homeTitle: "Adriatic by Boat — Pronájem lodí a zážitky v Zadaru",
     homeDescription:
       "Soukromé lodě, ostrovní výlety a plavby při západu slunce ze Zadaru od vybraných místních provozovatelů.",
-    searchTitle: "Najděte loď v Zadaru — MAREVO",
+    searchTitle: "Najděte loď v Zadaru — Adriatic by Boat",
     searchDescription:
       "Objevte soukromé výlety, pronájem lodí a plavby při západu slunce v okolí Zadaru.",
   },
   fr: {
-    homeTitle: "MAREVO — Location de bateaux et expériences à Zadar",
+    homeTitle: "Adriatic by Boat — Location de bateaux et expériences à Zadar",
     homeDescription:
       "Bateaux privés, excursions dans les îles et sorties au coucher du soleil depuis Zadar avec des opérateurs locaux sélectionnés.",
-    searchTitle: "Trouver un bateau à Zadar — MAREVO",
+    searchTitle: "Trouver un bateau à Zadar — Adriatic by Boat",
     searchDescription:
       "Découvrez les excursions privées, locations et sorties au coucher du soleil autour de Zadar.",
   },
   es: {
-    homeTitle: "MAREVO — Alquiler de barcos y experiencias en Zadar",
+    homeTitle: "Adriatic by Boat — Alquiler de barcos y experiencias en Zadar",
     homeDescription:
       "Barcos privados, tours por las islas y salidas al atardecer desde Zadar con operadores locales seleccionados.",
-    searchTitle: "Encuentra barcos en Zadar — MAREVO",
+    searchTitle: "Encuentra barcos en Zadar — Adriatic by Boat",
     searchDescription:
       "Descubre tours privados, alquileres y salidas al atardecer alrededor de Zadar.",
   },
@@ -104,10 +105,10 @@ export function alternateLinks(pathname: string) {
   ];
 }
 
-const marevoOrganization = {
+const brandOrganization = {
   "@type": "Organization",
   "@id": `${SITE_URL}/#organization`,
-  name: "MAREVO",
+  name: BRAND_NAME,
   url: SITE_URL,
   description:
     "A focused marketplace concept for private boat rentals and curated boat experiences around Zadar, Croatia.",
@@ -122,12 +123,12 @@ export function homeStructuredData(locale: Locale = "en") {
   return {
     "@context": "https://schema.org",
     "@graph": [
-      marevoOrganization,
+      brandOrganization,
       {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         url: SITE_URL,
-        name: "MAREVO",
+        name: BRAND_NAME,
         description: "Private boat rentals and island experiences from Zadar, Croatia.",
         inLanguage: locale,
         publisher: { "@id": `${SITE_URL}/#organization` },
@@ -163,6 +164,6 @@ export function experienceStructuredData(experience: Experience, locale: Locale 
         description: step.text,
       })),
     },
-    provider: marevoOrganization,
+    provider: brandOrganization,
   };
 }

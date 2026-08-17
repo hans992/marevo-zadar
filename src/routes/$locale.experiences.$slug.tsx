@@ -14,13 +14,14 @@ export const Route = createFileRoute("/$locale/experiences/$slug")({
   },
   head: ({ loaderData, params }) => {
     const locale = isLocale(params.locale) ? params.locale : "en";
-    if (!loaderData) return { meta: [{ title: `${getStatusCopy(locale).notFound} — MAREVO` }] };
+    if (!loaderData)
+      return { meta: [{ title: `${getStatusCopy(locale).notFound} — Adriatic by Boat` }] };
     const { exp: sourceExp } = loaderData;
     const exp = localizeExperience(sourceExp, locale);
     const seo = getSeoCopy(locale);
     return {
       meta: [
-        { title: `${exp.title} — MAREVO Zadar` },
+        { title: `${exp.title} — Adriatic by Boat Zadar` },
         { name: "description", content: `${exp.title}. ${seo.searchDescription}` },
         { property: "og:locale", content: params.locale },
         { property: "og:image", content: exp.images[0] as string },

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check, Clock, MapPin, Minus, Plus, Ruler, Ship, Users, X, Zap } from "lucide-react";
-import { Header } from "@/components/marevo/Header";
-import { Footer } from "@/components/marevo/Footer";
-import { StructuredData } from "@/components/marevo/StructuredData";
-import { Stars } from "@/components/marevo/Stars";
-import { RequestDialog } from "@/components/marevo/RequestDialog";
-import { formatDate } from "@/components/marevo/SearchComposer";
+import { Header } from "@/components/marketplace/Header";
+import { Footer } from "@/components/marketplace/Footer";
+import { StructuredData } from "@/components/marketplace/StructuredData";
+import { Stars } from "@/components/marketplace/Stars";
+import { RequestDialog } from "@/components/marketplace/RequestDialog";
+import { formatDate } from "@/components/marketplace/SearchComposer";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { getExperience, experiences, type Experience } from "@/data/inventory";
-import { ExperienceCard } from "@/components/marevo/ExperienceCard";
+import { ExperienceCard } from "@/components/marketplace/ExperienceCard";
 import { alternateLinks, experienceStructuredData, SITE_URL } from "@/lib/seo";
 import { guestNoun, localizedPath, useI18n } from "@/i18n";
 import { localizedCategory, localizedDuration, usePublicCopy } from "@/i18n/public";
@@ -25,11 +25,14 @@ export const Route = createFileRoute("/experiences/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Trip not found — MAREVO" }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: "Trip not found — Adriatic by Boat" },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
     const { exp } = loaderData;
-    const title = `${exp.title} — MAREVO Zadar`;
+    const title = `${exp.title} — Adriatic by Boat Zadar`;
     return {
       meta: [
         { title },
@@ -392,8 +395,7 @@ export function ExperienceDetail({ exp: sourceExp }: { exp: Experience }) {
               </span>
             </p>
             <p className="truncate text-xs text-muted-foreground">
-              {formatDate(date, locale, t("search.anyDate"))} · {guests}{" "}
-              {guestNoun(guests, locale)}
+              {formatDate(date, locale, t("search.anyDate"))} · {guests} {guestNoun(guests, locale)}
             </p>
           </div>
           <RequestDialog

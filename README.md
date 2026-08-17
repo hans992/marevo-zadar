@@ -1,8 +1,8 @@
-# MAREVO
+# Adriatic by Boat
 
 **Zadar, from the sea.**
 
-MAREVO is a focused marketplace concept for private boat rentals and curated boat experiences around Zadar, Croatia. The current release is a presentation-ready frontend prototype built around a request-to-book flow.
+Adriatic by Boat is a focused marketplace concept for private boat rentals and curated boat experiences around Zadar, Croatia. The current release is a presentation-ready frontend prototype built around a request-to-book flow.
 
 ## Current scope
 

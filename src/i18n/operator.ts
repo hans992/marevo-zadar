@@ -1,9 +1,9 @@
 import type { Locale } from "./index";
 
 const en = {
-  metaTitle: "Operator workspace demo — MAREVO",
-  metaDescription: "Presentation preview of the future MAREVO operator workspace.",
-  marketplace: "MAREVO marketplace",
+  metaTitle: "Operator workspace demo — Adriatic by Boat",
+  metaDescription: "Presentation preview of the future Adriatic by Boat operator workspace.",
+  marketplace: "Adriatic by Boat marketplace",
   demoWorkspace: "Demo workspace",
   viewMarketplace: "View marketplace",
   operator: "Operator",
@@ -70,9 +70,9 @@ const en = {
 type Copy = { [K in keyof typeof en]: string };
 
 const hr: Copy = {
-  metaTitle: "Demo radnog prostora za operatere — MAREVO",
-  metaDescription: "Prezentacijski pregled budućeg MAREVO radnog prostora za operatere.",
-  marketplace: "MAREVO marketplace",
+  metaTitle: "Demo radnog prostora za operatere — Adriatic by Boat",
+  metaDescription: "Prezentacijski pregled budućeg Adriatic by Boat radnog prostora za operatere.",
+  marketplace: "Adriatic by Boat marketplace",
   demoWorkspace: "Demo radni prostor",
   viewMarketplace: "Pogledaj marketplace",
   operator: "Operator",
@@ -436,8 +436,8 @@ function transform(locale: Locale): Copy {
   };
   const complements: Record<Exclude<Locale, "en" | "hr">, Partial<Copy>> = {
     sl: {
-      metaTitle: "Demo delovnega prostora ponudnika — MAREVO",
-      metaDescription: "Predstavitveni predogled prihodnjega delovnega prostora MAREVO.",
+      metaTitle: "Demo delovnega prostora ponudnika — Adriatic by Boat",
+      metaDescription: "Predstavitveni predogled prihodnjega delovnega prostora Adriatic by Boat.",
       presentationNote:
         "Dejanja ostanejo v tem brskalniku. Podatki gostov in razpoložljivosti se ne spremenijo.",
       intro: "Trije gostje čakajo na odgovor. Petek je vaš najbolj zaseden dan ta teden.",
@@ -465,8 +465,9 @@ function transform(locale: Locale): Copy {
       customRental: "Zasebni najem po meri",
     },
     de: {
-      metaTitle: "Demo des Anbieter-Arbeitsbereichs — MAREVO",
-      metaDescription: "Präsentationsvorschau des zukünftigen MAREVO Anbieter-Arbeitsbereichs.",
+      metaTitle: "Demo des Anbieter-Arbeitsbereichs — Adriatic by Boat",
+      metaDescription:
+        "Präsentationsvorschau des zukünftigen Adriatic by Boat Anbieter-Arbeitsbereichs.",
       presentationNote:
         "Aktionen bleiben in diesem Browser. Gast- und Verfügbarkeitsdaten werden nicht geändert.",
       intro: "Drei Gäste warten auf eine Antwort. Freitag ist Ihr geschäftigster Tag dieser Woche.",
@@ -491,8 +492,8 @@ function transform(locale: Locale): Copy {
       customRental: "Individuelle Privatmiete",
     },
     pl: {
-      metaTitle: "Demo panelu operatora — MAREVO",
-      metaDescription: "Prezentacyjny podgląd przyszłego panelu operatora MAREVO.",
+      metaTitle: "Demo panelu operatora — Adriatic by Boat",
+      metaDescription: "Prezentacyjny podgląd przyszłego panelu operatora Adriatic by Boat.",
       presentationNote:
         "Działania pozostają w tej przeglądarce. Dane gości i dostępności nie są zmieniane.",
       intro:
@@ -523,8 +524,8 @@ function transform(locale: Locale): Copy {
       customRental: "Prywatny wynajem na zamówienie",
     },
     hu: {
-      metaTitle: "Szolgáltatói munkaterület demó — MAREVO",
-      metaDescription: "A jövőbeli MAREVO szolgáltatói munkaterület bemutatója.",
+      metaTitle: "Szolgáltatói munkaterület demó — Adriatic by Boat",
+      metaDescription: "A jövőbeli Adriatic by Boat szolgáltatói munkaterület bemutatója.",
       presentationNote:
         "A műveletek ebben a böngészőben maradnak. A vendég- és elérhetőségi adatok nem változnak.",
       intro: "Három vendég vár válaszra. A péntek a hét legforgalmasabb napja.",
@@ -554,8 +555,8 @@ function transform(locale: Locale): Copy {
       customRental: "Egyedi privát bérlés",
     },
     sk: {
-      metaTitle: "Demo pracovného priestoru prevádzkovateľa — MAREVO",
-      metaDescription: "Prezentačný náhľad budúceho pracovného priestoru MAREVO.",
+      metaTitle: "Demo pracovného priestoru prevádzkovateľa — Adriatic by Boat",
+      metaDescription: "Prezentačný náhľad budúceho pracovného priestoru Adriatic by Boat.",
       presentationNote:
         "Akcie zostanú v tomto prehliadači. Údaje hostí ani dostupnosti sa nemenia.",
       intro: "Traja hostia čakajú na odpoveď. Piatok je váš najrušnejší deň tohto týždňa.",
@@ -585,8 +586,8 @@ function transform(locale: Locale): Copy {
       customRental: "Súkromný prenájom na mieru",
     },
     cs: {
-      metaTitle: "Demo pracovního prostoru provozovatele — MAREVO",
-      metaDescription: "Prezentační náhled budoucího pracovního prostoru MAREVO.",
+      metaTitle: "Demo pracovního prostoru provozovatele — Adriatic by Boat",
+      metaDescription: "Prezentační náhled budoucího pracovního prostoru Adriatic by Boat.",
       presentationNote: "Akce zůstávají v tomto prohlížeči. Údaje hostů ani dostupnosti se nemění.",
       intro: "Tři hosté čekají na odpověď. Pátek je váš nejrušnější den tohoto týdne.",
       summary: "Souhrn provozovatele",
@@ -615,8 +616,8 @@ function transform(locale: Locale): Copy {
       customRental: "Soukromý pronájem na míru",
     },
     fr: {
-      metaTitle: "Démo de l’espace opérateur — MAREVO",
-      metaDescription: "Aperçu de présentation du futur espace opérateur MAREVO.",
+      metaTitle: "Démo de l’espace opérateur — Adriatic by Boat",
+      metaDescription: "Aperçu de présentation du futur espace opérateur Adriatic by Boat.",
       presentationNote:
         "Les actions restent dans ce navigateur. Les données des voyageurs et des disponibilités ne sont pas modifiées.",
       intro:
@@ -643,8 +644,8 @@ function transform(locale: Locale): Copy {
       customRental: "Location privée sur mesure",
     },
     es: {
-      metaTitle: "Demo del espacio del operador — MAREVO",
-      metaDescription: "Vista de presentación del futuro espacio del operador MAREVO.",
+      metaTitle: "Demo del espacio del operador — Adriatic by Boat",
+      metaDescription: "Vista de presentación del futuro espacio del operador Adriatic by Boat.",
       presentationNote:
         "Las acciones permanecen en este navegador. No se modifican los datos de viajeros ni de disponibilidad.",
       intro:

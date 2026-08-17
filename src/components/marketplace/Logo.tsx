@@ -1,4 +1,12 @@
-export function Logo({ className = "", tone = "ink" }: { className?: string; tone?: "ink" | "light" }) {
+import { BRAND_NAME } from "@/lib/brand";
+
+export function Logo({
+  className = "",
+  tone = "ink",
+}: {
+  className?: string;
+  tone?: "ink" | "light";
+}) {
   const color = tone === "light" ? "text-background" : "text-ink";
   return (
     <span className={`inline-flex items-center gap-2.5 ${color} ${className}`}>
@@ -12,7 +20,9 @@ export function Logo({ className = "", tone = "ink" }: { className?: string; ton
           strokeLinecap="round"
         />
       </svg>
-      <span className="wordmark text-[1.05rem] leading-none">Marevo</span>
+      <span className="wordmark whitespace-nowrap text-[0.95rem] leading-none sm:text-[1.05rem]">
+        {BRAND_NAME}
+      </span>
     </span>
   );
 }

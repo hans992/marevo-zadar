@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Logo } from "./Logo";
 import { ListYourBoatDialog } from "./ListYourBoatDialog";
 import { cn } from "@/lib/utils";
+import { BRAND_NAME } from "@/lib/brand";
 import {
   localeNames,
   locales,
@@ -58,7 +59,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
       <div className="mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-4 px-5 sm:px-8 lg:h-[74px]">
         <Link
           to={localizedPath("/", locale) as never}
-          aria-label={`MAREVO · ${t("nav.main")}`}
+          aria-label={`${BRAND_NAME} · ${t("nav.main")}`}
           className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sun"
         >
           <Logo tone={solid ? "ink" : "light"} />

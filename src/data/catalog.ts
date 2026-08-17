@@ -585,7 +585,7 @@ export const reviews = [
 export const faqs = [
   {
     q: "Is a skipper included?",
-    a: "Yes. Every boat on MAREVO comes with a licensed local skipper unless a listing explicitly says bareboat. You do not need a boat licence, and the skipper handles navigation, anchoring and the route.",
+    a: "Yes. Every boat on Adriatic by Boat comes with a licensed local skipper unless a listing explicitly says bareboat. You do not need a boat licence, and the skipper handles navigation, anchoring and the route.",
   },
   {
     q: "Is fuel included in the price?",
@@ -605,6 +605,6 @@ export const faqs = [
   },
   {
     q: "How is a request different from instant booking?",
-    a: "MAREVO never sells a boat that might not be free. You send a request with your date and group size, the operator confirms the boat is available, and only then do you pay. Most replies arrive within 30 minutes.",
+    a: "Adriatic by Boat never sells a boat that might not be free. You send a request with your date and group size, the operator confirms the boat is available, and only then do you pay. Most replies arrive within 30 minutes.",
   },
 ];

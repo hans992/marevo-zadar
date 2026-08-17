@@ -1,6 +1,6 @@
 # Inventory contract v1
 
-MAREVO currently renders presentation inventory from `src/data/marevo.ts`. The public UI imports through `src/data/inventory.ts`, which marks the snapshot as `demo`. This boundary lets the frontend remain stable while a live loader is added later.
+Adriatic by Boat currently renders presentation inventory from `src/data/catalog.ts`. The public UI imports through `src/data/inventory.ts`, which marks the snapshot as `demo`. This boundary lets the frontend remain stable while a live loader is added later.
 
 ## Publishing gate
 
@@ -19,14 +19,14 @@ Draft records must never appear in public catalogue queries.
 
 ## Data separation
 
-| Data | Public catalogue | Private operations |
-| --- | --- | --- |
-| Operator display name, bio, avatar | Yes | |
-| Operator email, phone, notes | | Yes |
-| Published boat and experience details | Yes | |
-| Draft listings | | Yes |
-| Availability blocks and internal reasons | | Yes |
-| Presentation reviews | Demo frontend only | |
+| Data                                     | Public catalogue   | Private operations |
+| ---------------------------------------- | ------------------ | ------------------ |
+| Operator display name, bio, avatar       | Yes                |                    |
+| Operator email, phone, notes             |                    | Yes                |
+| Published boat and experience details    | Yes                |                    |
+| Draft listings                           |                    | Yes                |
+| Availability blocks and internal reasons |                    | Yes                |
+| Presentation reviews                     | Demo frontend only |                    |
 
 Row-level security is the enforcement boundary. Anonymous users receive read-only access to active operators and boats, published experiences, images and itinerary steps. There are no anonymous write policies.
 

@@ -13,9 +13,9 @@ import {
   filters,
   getExperience,
   reviews,
-} from "./marevo";
+} from "./catalog";
 
-export type { Category, Experience, FilterId } from "./marevo";
+export type { Category, Experience, FilterId } from "./catalog";
 export { categories, destinations, experiences, faqs, filters, getExperience, reviews };
 
 export type InventoryMode = "demo" | "live";

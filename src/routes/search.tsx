@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SlidersHorizontal, X } from "lucide-react";
-import { Header } from "@/components/marevo/Header";
-import { Footer } from "@/components/marevo/Footer";
-import { ExperienceCard } from "@/components/marevo/ExperienceCard";
+import { Header } from "@/components/marketplace/Header";
+import { Footer } from "@/components/marketplace/Footer";
+import { ExperienceCard } from "@/components/marketplace/ExperienceCard";
 import {
   SearchComposer,
   defaultSearch,
   type SearchState,
-} from "@/components/marevo/SearchComposer";
+} from "@/components/marketplace/SearchComposer";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
+import { CONTACT_EMAIL } from "@/lib/brand";
 import { alternateLinks, getSeoCopy, SITE_URL } from "@/lib/seo";
 import { guestNoun, localizedPath, useI18n } from "@/i18n";
 import { localizedFilter, usePublicCopy } from "@/i18n/public";
@@ -54,7 +55,7 @@ export const Route = createFileRoute("/search")({
           name: "description",
           content: seo.searchDescription,
         },
-        { property: "og:title", content: "Find boats in Zadar — MAREVO" },
+        { property: "og:title", content: "Find boats in Zadar — Adriatic by Boat" },
         {
           property: "og:description",
           content: "Private tours, rentals and sunset trips from Zadar, run by local operators.",
@@ -292,7 +293,7 @@ export function SearchPage({ params }: { params: BoatSearch }) {
                     {c.clearFilters}
                   </Button>
                   <Button variant="outline" asChild>
-                    <a href="mailto:hello@marevo.example">{c.askTeam}</a>
+                    <a href={`mailto:${CONTACT_EMAIL}`}>{c.askTeam}</a>
                   </Button>
                 </div>
               </div>
