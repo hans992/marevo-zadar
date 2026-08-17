@@ -183,7 +183,7 @@ const en: PublicCopy = {
   messageTo: "Message to",
   messagePlaceholder: "Tell the skipper what would make the day perfect for your group.",
   consent:
-    "I agree that MAREVO may store these details and share them with the selected operator to answer this booking request.",
+    "I agree that Adriatic by Boat may store these details and share them with the selected operator to answer this booking request.",
   forBoat: "for the boat",
   sendRequest: "Send request",
   sending: "Sending request…",
@@ -288,7 +288,7 @@ const copy: Record<Locale, PublicCopy> = {
     messageTo: "Poruka za",
     messagePlaceholder: "Recite skiperu što bi vašoj grupi učinilo dan savršenim.",
     consent:
-      "Slažem se da MAREVO pohrani ove podatke i podijeli ih s odabranim operaterom radi odgovora na upit.",
+      "Slažem se da Adriatic by Boat pohrani ove podatke i podijeli ih s odabranim operaterom radi odgovora na upit.",
     forBoat: "za brod",
     sendRequest: "Pošalji upit",
     sending: "Slanje upita…",
@@ -389,7 +389,7 @@ const copy: Record<Locale, PublicCopy> = {
     messageTo: "Sporočilo za",
     messagePlaceholder: "Povejte skiperju, kaj bi vaš dan naredilo popoln.",
     consent:
-      "Strinjam se, da MAREVO shrani podatke in jih posreduje izbranemu ponudniku za odgovor.",
+      "Strinjam se, da Adriatic by Boat shrani podatke in jih posreduje izbranemu ponudniku za odgovor.",
     forBoat: "za plovilo",
     sendRequest: "Pošlji povpraševanje",
     sending: "Pošiljanje…",
@@ -493,7 +493,7 @@ const copy: Record<Locale, PublicCopy> = {
     messageTo: "Nachricht an",
     messagePlaceholder: "Sagen Sie dem Skipper, was Ihren Tag perfekt machen würde.",
     consent:
-      "Ich stimme zu, dass MAREVO diese Daten speichert und zur Beantwortung der Anfrage an den Anbieter weitergibt.",
+      "Ich stimme zu, dass Adriatic by Boat diese Daten speichert und zur Beantwortung der Anfrage an den Anbieter weitergibt.",
     forBoat: "für das Boot",
     sendRequest: "Anfrage senden",
     sending: "Anfrage wird gesendet…",
@@ -594,7 +594,7 @@ const copy: Record<Locale, PublicCopy> = {
     messageTo: "Wiadomość do",
     messagePlaceholder: "Napisz skipperowi, co sprawi, że dzień będzie idealny.",
     consent:
-      "Zgadzam się na przechowanie danych przez MAREVO i przekazanie ich wybranemu operatorowi.",
+      "Zgadzam się na przechowanie danych przez Adriatic by Boat i przekazanie ich wybranemu operatorowi.",
     forBoat: "za łódź",
     sendRequest: "Wyślij zapytanie",
     sending: "Wysyłanie…",
@@ -695,7 +695,7 @@ const copy: Record<Locale, PublicCopy> = {
     messageTo: "Üzenet neki:",
     messagePlaceholder: "Írja meg a skippernek, mitől lenne tökéletes a nap.",
     consent:
-      "Hozzájárulok, hogy a MAREVO tárolja és a kiválasztott szolgáltatóval megossza ezeket az adatokat.",
+      "Hozzájárulok, hogy a Adriatic by Boat tárolja és a kiválasztott szolgáltatóval megossza ezeket az adatokat.",
     forBoat: "a hajóért",
     sendRequest: "Kérelem küldése",
     sending: "Küldés…",
@@ -795,7 +795,7 @@ const copy: Record<Locale, PublicCopy> = {
     optional: "voliteľné",
     messageTo: "Správa pre",
     messagePlaceholder: "Napíšte skipperovi, čo by váš deň urobilo dokonalým.",
-    consent: "Súhlasím, aby MAREVO údaje uložilo a poskytlo vybranému prevádzkovateľovi.",
+    consent: "Súhlasím, aby Adriatic by Boat údaje uložilo a poskytlo vybranému prevádzkovateľovi.",
     forBoat: "za loď",
     sendRequest: "Poslať dopyt",
     sending: "Odosielanie…",
@@ -895,7 +895,7 @@ const copy: Record<Locale, PublicCopy> = {
     optional: "volitelné",
     messageTo: "Zpráva pro",
     messagePlaceholder: "Napište skipperovi, co by váš den udělalo dokonalým.",
-    consent: "Souhlasím, aby MAREVO údaje uložilo a poskytlo vybranému provozovateli.",
+    consent: "Souhlasím, aby Adriatic by Boat údaje uložilo a poskytlo vybranému provozovateli.",
     forBoat: "za loď",
     sendRequest: "Odeslat poptávku",
     sending: "Odesílání…",
@@ -998,7 +998,7 @@ const copy: Record<Locale, PublicCopy> = {
     messageTo: "Message pour",
     messagePlaceholder: "Dites au skipper ce qui rendrait votre journée parfaite.",
     consent:
-      "J'accepte que MAREVO conserve ces informations et les partage avec l'opérateur choisi pour répondre à ma demande.",
+      "J'accepte que Adriatic by Boat conserve ces informations et les partage avec l'opérateur choisi pour répondre à ma demande.",
     forBoat: "pour le bateau",
     sendRequest: "Envoyer la demande",
     sending: "Envoi en cours…",
@@ -1101,7 +1101,7 @@ const copy: Record<Locale, PublicCopy> = {
     messageTo: "Mensaje para",
     messagePlaceholder: "Cuéntale al patrón qué haría perfecto el día para tu grupo.",
     consent:
-      "Acepto que MAREVO guarde estos datos y los comparta con el operador elegido para responder a la solicitud.",
+      "Acepto que Adriatic by Boat guarde estos datos y los comparta con el operador elegido para responder a la solicitud.",
     forBoat: "por el barco",
     sendRequest: "Enviar solicitud",
     sending: "Enviando…",

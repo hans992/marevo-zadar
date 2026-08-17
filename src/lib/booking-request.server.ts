@@ -1,4 +1,5 @@
 import type { BookingRequestInput, BookingRequestResult } from "./booking-request";
+import { BOOKING_SOURCE } from "./brand";
 
 type ExperienceRow = {
   id: string;
@@ -42,10 +43,7 @@ export async function persistBookingRequest(
 
   const { url, secretKey } = getSupabaseConfig();
   const listingUrl = new URL(`${url}/rest/v1/experiences`);
-  listingUrl.searchParams.set(
-    "select",
-    "id,operator_id,capacity,price_cents,price_unit,currency",
-  );
+  listingUrl.searchParams.set("select", "id,operator_id,capacity,price_cents,price_unit,currency");
   listingUrl.searchParams.set("slug", `eq.${input.experienceSlug}`);
   listingUrl.searchParams.set("status", "eq.published");
   listingUrl.searchParams.set("limit", "1");
@@ -70,9 +68,7 @@ export async function persistBookingRequest(
   }
 
   const quotedAmount =
-    listing.price_unit === "person"
-      ? listing.price_cents * input.guests
-      : listing.price_cents;
+    listing.price_unit === "person" ? listing.price_cents * input.guests : listing.price_cents;
 
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1_000).toISOString();
   const rateLimitUrl = new URL(`${url}/rest/v1/booking_requests`);
@@ -109,7 +105,7 @@ export async function persistBookingRequest(
       message: input.message || null,
       quoted_amount_cents: quotedAmount,
       currency: listing.currency,
-      source: "marevo_web",
+      source: BOOKING_SOURCE,
       consent_at: new Date().toISOString(),
       privacy_version: "2026-08-11",
     }),

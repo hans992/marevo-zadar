@@ -1,6 +1,6 @@
 # Supabase inventory
 
-The migration in this directory defines MAREVO's live inventory contract. It is intentionally not connected to the runtime yet.
+The migration in this directory defines Adriatic by Boat's live inventory contract. It is intentionally not connected to the runtime yet.
 
 ## Activation checklist
 

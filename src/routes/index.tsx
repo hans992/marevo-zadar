@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Header } from "@/components/marevo/Header";
-import { Footer } from "@/components/marevo/Footer";
-import { StructuredData } from "@/components/marevo/StructuredData";
+import { Header } from "@/components/marketplace/Header";
+import { Footer } from "@/components/marketplace/Footer";
+import { StructuredData } from "@/components/marketplace/StructuredData";
 import { alternateLinks, getSeoCopy, homeStructuredData, SITE_URL } from "@/lib/seo";
-import { Hero } from "@/components/marevo/home/Hero";
-import { Featured } from "@/components/marevo/home/Featured";
+import { Hero } from "@/components/marketplace/home/Hero";
+import { Featured } from "@/components/marketplace/home/Featured";
 import {
   Categories,
   Destinations,
@@ -14,7 +14,7 @@ import {
   MatchTeaser,
   Operators,
   Reviews,
-} from "@/components/marevo/home/Sections";
+} from "@/components/marketplace/home/Sections";
 import { useI18n } from "@/i18n";
 
 export const Route = createFileRoute("/")({
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
       meta: [
         { title: seo.homeTitle },
         { name: "description", content: seo.homeDescription },
-        { property: "og:title", content: "MAREVO — Boat rentals & experiences in Zadar" },
+        { property: "og:title", content: "Adriatic by Boat — Boat rentals & experiences in Zadar" },
         {
           property: "og:description",
           content:

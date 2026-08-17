@@ -23,7 +23,7 @@ create table public.booking_requests (
   quoted_amount_cents integer not null check (quoted_amount_cents > 0),
   currency char(3) not null default 'EUR' check (currency = upper(currency)),
   status public.booking_request_status not null default 'requested',
-  source text not null default 'marevo_web',
+  source text not null default 'adriatic_by_boat_web',
   operator_response_note text,
   responded_at timestamptz,
   expires_at timestamptz,

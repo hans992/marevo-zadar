@@ -1,4 +1,4 @@
--- MAREVO inventory foundation
+-- Adriatic by Boat inventory foundation
 -- Public catalogue data is intentionally separated from private operator data.
 -- This migration creates no demo rows and does not enable public writes.
 

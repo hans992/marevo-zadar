@@ -68,7 +68,7 @@ const messages = {
     "footer.destinations": "Destinations",
     "footer.company": "Company",
     "footer.operatorDemo": "Operator demo",
-    "footer.aboutMarevo": "About MAREVO",
+    "footer.aboutBrand": "About Adriatic by Boat",
     "footer.helpFaq": "Help & FAQ",
     "footer.rights": "All rights reserved.",
     "footer.made": "Made in Zadar. Best enjoyed at sea.",
@@ -125,7 +125,7 @@ const messages = {
     "footer.destinations": "Destinacije",
     "footer.company": "Tvrtka",
     "footer.operatorDemo": "Demo za operatere",
-    "footer.aboutMarevo": "O MAREVU",
+    "footer.aboutBrand": "O Adriatic by Boat",
     "footer.helpFaq": "Pomoć i pitanja",
     "footer.rights": "Sva prava pridržana.",
     "footer.made": "Napravljeno u Zadru. Najbolje se doživljava na moru.",
@@ -181,7 +181,7 @@ const messages = {
     "footer.destinations": "Destinacije",
     "footer.company": "Podjetje",
     "footer.operatorDemo": "Demo za ponudnike",
-    "footer.aboutMarevo": "O MAREVU",
+    "footer.aboutBrand": "O Adriatic by Boat",
     "footer.helpFaq": "Pomoč in vprašanja",
     "footer.rights": "Vse pravice pridržane.",
     "footer.made": "Ustvarjeno v Zadru. Najlepše doživeto na morju.",
@@ -241,7 +241,7 @@ const messages = {
     "footer.destinations": "Reiseziele",
     "footer.company": "Unternehmen",
     "footer.operatorDemo": "Anbieter-Demo",
-    "footer.aboutMarevo": "Über MAREVO",
+    "footer.aboutBrand": "Über Adriatic by Boat",
     "footer.helpFaq": "Hilfe & FAQ",
     "footer.rights": "Alle Rechte vorbehalten.",
     "footer.made": "In Zadar gemacht. Am besten auf dem Meer erlebt.",
@@ -300,7 +300,7 @@ const messages = {
     "footer.destinations": "Kierunki",
     "footer.company": "Firma",
     "footer.operatorDemo": "Demo dla operatorów",
-    "footer.aboutMarevo": "O MAREVO",
+    "footer.aboutBrand": "O Adriatic by Boat",
     "footer.helpFaq": "Pomoc i FAQ",
     "footer.rights": "Wszelkie prawa zastrzeżone.",
     "footer.made": "Stworzone w Zadarze. Najlepiej smakuje na morzu.",
@@ -357,7 +357,7 @@ const messages = {
     "footer.destinations": "Úti célok",
     "footer.company": "Cég",
     "footer.operatorDemo": "Szolgáltatói demó",
-    "footer.aboutMarevo": "A MAREVO-ról",
+    "footer.aboutBrand": "Az Adriatic by Boatról",
     "footer.helpFaq": "Súgó és GYIK",
     "footer.rights": "Minden jog fenntartva.",
     "footer.made": "Zadarban készült. A tengeren a legjobb.",
@@ -415,7 +415,7 @@ const messages = {
     "footer.destinations": "Destinácie",
     "footer.company": "Spoločnosť",
     "footer.operatorDemo": "Demo pre prevádzkovateľov",
-    "footer.aboutMarevo": "O MAREVO",
+    "footer.aboutBrand": "O Adriatic by Boat",
     "footer.helpFaq": "Pomoc a otázky",
     "footer.rights": "Všetky práva vyhradené.",
     "footer.made": "Vytvorené v Zadare. Najlepšie na mori.",
@@ -472,7 +472,7 @@ const messages = {
     "footer.destinations": "Destinace",
     "footer.company": "Společnost",
     "footer.operatorDemo": "Demo pro provozovatele",
-    "footer.aboutMarevo": "O MAREVO",
+    "footer.aboutBrand": "O Adriatic by Boat",
     "footer.helpFaq": "Pomoc a otázky",
     "footer.rights": "Všechna práva vyhrazena.",
     "footer.made": "Vytvořeno v Zadaru. Nejlépe na moři.",
@@ -532,7 +532,7 @@ const messages = {
     "footer.destinations": "Destinations",
     "footer.company": "Entreprise",
     "footer.operatorDemo": "Démo opérateur",
-    "footer.aboutMarevo": "À propos de MAREVO",
+    "footer.aboutBrand": "À propos d’Adriatic by Boat",
     "footer.helpFaq": "Aide et FAQ",
     "footer.rights": "Tous droits réservés.",
     "footer.made": "Créé à Zadar. À vivre de préférence en mer.",
@@ -592,7 +592,7 @@ const messages = {
     "footer.destinations": "Destinos",
     "footer.company": "Empresa",
     "footer.operatorDemo": "Demo para operadores",
-    "footer.aboutMarevo": "Sobre MAREVO",
+    "footer.aboutBrand": "Sobre Adriatic by Boat",
     "footer.helpFaq": "Ayuda y preguntas",
     "footer.rights": "Todos los derechos reservados.",
     "footer.made": "Creado en Zadar. Se disfruta mejor en el mar.",
@@ -619,7 +619,8 @@ export function localizedPath(pathname: string, locale: Locale) {
 
 export function guestNoun(count: number, locale: Locale) {
   if (locale === "hr") return count === 1 ? "gost" : count >= 2 && count <= 4 ? "gosta" : "gostiju";
-  if (locale === "sl") return count === 1 ? "gost" : count === 2 ? "gosta" : count <= 4 ? "gostje" : "gostov";
+  if (locale === "sl")
+    return count === 1 ? "gost" : count === 2 ? "gosta" : count <= 4 ? "gostje" : "gostov";
   if (locale === "de") return count === 1 ? "Gast" : "Gäste";
   if (locale === "pl") return count === 1 ? "gość" : "gości";
   if (locale === "hu") return "vendég";

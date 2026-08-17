@@ -767,7 +767,7 @@ const homeCopy: Record<
     faq: [
       [
         "Ist ein Skipper inklusive?",
-        "Ja. Jedes Boot auf MAREVO kommt mit einem lizenzierten lokalen Skipper, sofern nicht ausdrücklich etwas anderes angegeben ist.",
+        "Ja. Jedes Boot auf Adriatic by Boat kommt mit einem lizenzierten lokalen Skipper, sofern nicht ausdrücklich etwas anderes angegeben ist.",
       ],
       [
         "Ist der Kraftstoff im Preis enthalten?",
@@ -820,7 +820,7 @@ const homeCopy: Record<
     faq: [
       [
         "Czy skipper jest w cenie?",
-        "Tak. Każda łódź na MAREVO ma licencjonowanego lokalnego skippera, chyba że oferta wyraźnie mówi inaczej.",
+        "Tak. Każda łódź na Adriatic by Boat ma licencjonowanego lokalnego skippera, chyba że oferta wyraźnie mówi inaczej.",
       ],
       [
         "Czy paliwo jest w cenie?",
@@ -873,7 +873,7 @@ const homeCopy: Record<
     faq: [
       [
         "A skipper benne van az árban?",
-        "Igen. A MAREVO minden hajójához engedéllyel rendelkező helyi skipper tartozik, hacsak az ajánlat másként nem jelzi.",
+        "Igen. A Adriatic by Boat minden hajójához engedéllyel rendelkező helyi skipper tartozik, hacsak az ajánlat másként nem jelzi.",
       ],
       [
         "Az üzemanyag benne van az árban?",
@@ -926,7 +926,7 @@ const homeCopy: Record<
     faq: [
       [
         "Je skipper zahrnutý?",
-        "Áno. Každá loď na MAREVO má licencovaného miestneho skippera, ak ponuka výslovne neuvádza inak.",
+        "Áno. Každá loď na Adriatic by Boat má licencovaného miestneho skippera, ak ponuka výslovne neuvádza inak.",
       ],
       [
         "Je palivo v cene?",
@@ -979,7 +979,7 @@ const homeCopy: Record<
     faq: [
       [
         "Je skipper zahrnutý?",
-        "Ano. Každá loď na MAREVO má licencovaného místního skippera, pokud nabídka výslovně neuvádí jinak.",
+        "Ano. Každá loď na Adriatic by Boat má licencovaného místního skippera, pokud nabídka výslovně neuvádí jinak.",
       ],
       [
         "Je palivo v ceně?",
@@ -1032,7 +1032,7 @@ const homeCopy: Record<
     faq: [
       [
         "Le skipper est-il inclus ?",
-        "Oui. Chaque bateau sur MAREVO comprend un skipper local titulaire d'une licence, sauf indication explicite contraire.",
+        "Oui. Chaque bateau sur Adriatic by Boat comprend un skipper local titulaire d'une licence, sauf indication explicite contraire.",
       ],
       [
         "Le carburant est-il inclus ?",
@@ -1085,7 +1085,7 @@ const homeCopy: Record<
     faq: [
       [
         "¿Está incluido el patrón?",
-        "Sí. Todos los barcos de MAREVO incluyen un patrón local con licencia, salvo que la oferta indique expresamente lo contrario.",
+        "Sí. Todos los barcos de Adriatic by Boat incluyen un patrón local con licencia, salvo que la oferta indique expresamente lo contrario.",
       ],
       [
         "¿Está incluido el combustible?",
