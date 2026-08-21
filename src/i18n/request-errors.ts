@@ -100,7 +100,7 @@ const copy: Record<Locale, Record<RequestErrorCode, string>> = {
   },
 };
 
-function isRequestErrorCode(value: string): value is RequestErrorCode {
+export function isRequestErrorCode(value: string): value is RequestErrorCode {
   return (requestErrorCodes as readonly string[]).includes(value);
 }
 

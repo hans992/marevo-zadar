@@ -12,6 +12,9 @@ const routes = [
   ["/search", "Boats and experiences"],
   ["/operator", "Good morning, Luka."],
   ["/experiences/kornati-private-escape", "Kornati Private Escape"],
+  ["/privacy", "Privacy policy"],
+  // A localized route, so a broken $locale tree fails here rather than in production.
+  ["/hr/privacy", "Pravila privatnosti"],
 ];
 
 const waitForServer = async () => {

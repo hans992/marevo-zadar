@@ -1,19 +1,7 @@
+import { getRequestIP } from "@tanstack/react-start/server";
 import type { BookingRequestInput, BookingRequestResult } from "./booking-request";
 import { BOOKING_SOURCE, PRIVACY_VERSION } from "./brand";
-import { requestError, type RequestErrorCode } from "@/i18n/request-errors";
-
-type ExperienceRow = {
-  id: string;
-  operator_id: string;
-  capacity: number;
-  price_cents: number;
-  price_unit: "total" | "person";
-  currency: string;
-};
-
-type BookingRequestRow = {
-  id: string;
-};
+import { isRequestErrorCode, requestError, type RequestErrorCode } from "@/i18n/request-errors";
 
 /**
  * Rejects the request with a code the client can translate, while keeping the
@@ -36,13 +24,32 @@ function getSupabaseConfig() {
   return { url, secretKey };
 }
 
-function headers(secretKey: string, prefer?: string) {
-  return {
-    apikey: secretKey,
-    Authorization: `Bearer ${secretKey}`,
-    "Content-Type": "application/json",
-    ...(prefer ? { Prefer: prefer } : {}),
-  };
+/**
+ * A salted hash of the client address, used only to compare one submission
+ * against another. Salted because the IPv4 space is small enough that an
+ * unsalted hash is a reversible record of who visited.
+ *
+ * With no salt configured we store nothing rather than store something
+ * reversible. The per-email limit still applies, and the warning says so.
+ */
+async function hashClientAddress(): Promise<string | null> {
+  const address = getRequestIP({ xForwardedFor: true });
+  if (!address) return null;
+
+  const salt = process.env["REQUEST_IP_SALT"];
+  if (!salt) {
+    console.warn("REQUEST_IP_SALT is not set — per-address rate limiting is inactive.");
+    return null;
+  }
+
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(`${salt}:${address}`),
+  );
+
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 export async function persistBookingRequest(
@@ -53,95 +60,55 @@ export async function persistBookingRequest(
   }
 
   const { url, secretKey } = getSupabaseConfig();
-  const listingUrl = new URL(`${url}/rest/v1/experiences`);
-  listingUrl.searchParams.set("select", "id,operator_id,capacity,price_cents,price_unit,currency");
-  listingUrl.searchParams.set("slug", `eq.${input.experienceSlug}`);
-  listingUrl.searchParams.set("status", "eq.published");
-  listingUrl.searchParams.set("limit", "1");
+  const ipHash = await hashClientAddress();
 
-  const listingResponse = await fetch(listingUrl, {
-    headers: headers(secretKey),
-  });
-
-  if (!listingResponse.ok) {
-    reject("unavailable", `experience lookup returned ${listingResponse.status}`);
-  }
-
-  const listings = (await listingResponse.json()) as ExperienceRow[];
-  const listing = listings[0];
-
-  if (!listing) {
-    reject("not_accepting", `no published experience for slug ${input.experienceSlug}`);
-  }
-
-  if (input.guests > listing.capacity) {
-    reject(
-      "capacity_exceeded",
-      `requested ${input.guests} guests, capacity ${listing.capacity}`,
-      listing.capacity,
-    );
-  }
-
-  const quotedAmount =
-    listing.price_unit === "person" ? listing.price_cents * input.guests : listing.price_cents;
-
-  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1_000).toISOString();
-  const rateLimitUrl = new URL(`${url}/rest/v1/booking_requests`);
-  rateLimitUrl.searchParams.set("select", "id");
-  rateLimitUrl.searchParams.set("email", `eq.${input.email.toLowerCase()}`);
-  rateLimitUrl.searchParams.set("created_at", `gte.${oneHourAgo}`);
-  rateLimitUrl.searchParams.set("limit", "5");
-
-  const rateLimitResponse = await fetch(rateLimitUrl, {
-    headers: headers(secretKey),
-  });
-
-  if (!rateLimitResponse.ok) {
-    reject("unavailable", `rate-limit lookup returned ${rateLimitResponse.status}`);
-  }
-
-  const recentRequests = (await rateLimitResponse.json()) as BookingRequestRow[];
-  if (recentRequests.length >= 5) {
-    reject("rate_limited", "five or more requests from this email in the last hour");
-  }
-
-  const createResponse = await fetch(`${url}/rest/v1/booking_requests`, {
+  // One call, one transaction. The listing lookup, capacity check, rate limit
+  // and insert used to be three separate round-trips, so the count could be
+  // read by two submissions before either of them had inserted.
+  const response = await fetch(`${url}/rest/v1/rpc/create_booking_request`, {
     method: "POST",
-    headers: headers(secretKey, "return=representation"),
+    headers: {
+      apikey: secretKey,
+      Authorization: `Bearer ${secretKey}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      request_token: input.requestToken,
-      experience_id: listing.id,
-      operator_id: listing.operator_id,
-      preferred_date: input.preferredDate,
-      guests: input.guests,
-      full_name: input.fullName,
-      email: input.email.toLowerCase(),
-      phone: input.phone || null,
-      message: input.message || null,
-      quoted_amount_cents: quotedAmount,
-      currency: listing.currency,
-      source: BOOKING_SOURCE,
-      consent_at: new Date().toISOString(),
-      privacy_version: PRIVACY_VERSION,
+      p_request_token: input.requestToken,
+      p_experience_slug: input.experienceSlug,
+      p_preferred_date: input.preferredDate,
+      p_guests: input.guests,
+      p_full_name: input.fullName,
+      p_email: input.email,
+      p_phone: input.phone,
+      p_message: input.message,
+      p_source: BOOKING_SOURCE,
+      p_privacy_version: PRIVACY_VERSION,
+      p_ip_hash: ipHash,
     }),
   });
 
-  if (!createResponse.ok) {
-    if (createResponse.status === 409) {
-      reject("duplicate", "request_token already exists");
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => null)) as { message?: unknown } | null;
+    const raised = typeof payload?.message === "string" ? payload.message : "";
+    const [code = ""] = raised.split(":");
+
+    // The function raises our own codes; anything else is a fault on our side.
+    if (isRequestErrorCode(code)) {
+      console.error(`Booking request rejected (${code}) by create_booking_request`);
+      throw new Error(raised);
     }
-    reject("unavailable", `insert returned ${createResponse.status}`);
+
+    reject("unavailable", `create_booking_request returned ${response.status}: ${raised}`);
   }
 
-  const rows = (await createResponse.json()) as BookingRequestRow[];
-  const request = rows[0];
+  const id = (await response.json()) as unknown;
 
-  if (!request) {
-    reject("unavailable", "insert returned no representation row");
+  if (typeof id !== "string" || id.length === 0) {
+    reject("unavailable", "create_booking_request returned no id");
   }
 
   return {
     status: "received",
-    reference: request.id.slice(0, 8).toUpperCase(),
+    reference: id.slice(0, 8).toUpperCase(),
   };
 }
