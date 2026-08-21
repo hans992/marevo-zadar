@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { AlertCircle, CalendarDays, CheckCircle2, Clock, Loader2, Users } from "lucide-react";
 import {
   Dialog,
@@ -43,6 +43,10 @@ export function RequestDialog({
   const [open, setOpen] = useState(false);
   const [completion, setCompletion] = useState<Completion | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  // One token per request the guest is composing, not per submit attempt. A retry
+  // after a failed send has to carry the same token, or the unique constraint on
+  // booking_requests can never recognise the duplicate it exists to catch.
+  const requestToken = useRef<string | null>(null);
   const [error, setError] = useState("");
   const { locale } = useI18n();
   const c = usePublicCopy(locale);
@@ -81,9 +85,11 @@ export function RequestDialog({
     setSubmitting(true);
 
     try {
+      requestToken.current ??= crypto.randomUUID();
+
       const result = await submitBookingRequest({
         data: {
-          requestToken: crypto.randomUUID(),
+          requestToken: requestToken.current,
           experienceSlug: exp.slug,
           preferredDate: date,
           guests,
@@ -102,6 +108,7 @@ export function RequestDialog({
         guest_bucket: guestBucket(guests),
         price_band: priceBand(total),
       });
+      requestToken.current = null;
       setCompletion({ mode: "live", reference: result.reference });
     } catch (cause) {
       trackEvent("booking_request_failed", {
@@ -128,6 +135,7 @@ export function RequestDialog({
           });
         }
         if (!value) {
+          requestToken.current = null;
           setTimeout(() => {
             setCompletion(null);
             setError("");
