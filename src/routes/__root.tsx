@@ -15,7 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, localeFromPath, localizedPath } from "../i18n";
 import { getStatusCopy } from "../i18n/status";
-import { BRAND_NAME, SITE_URL } from "../lib/brand";
+import { BRAND_NAME, OG_IMAGE_PATH, SITE_URL } from "../lib/brand";
 
 function NotFoundComponent() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -99,10 +99,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:url", content: SITE_URL },
       { property: "og:site_name", content: BRAND_NAME },
-      { property: "og:image", content: `${SITE_URL}/og-image.svg` },
+      { property: "og:image", content: `${SITE_URL}${OG_IMAGE_PATH}` },
       { property: "og:image:alt", content: `${BRAND_NAME} — Zadar, from the sea` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: `${SITE_URL}/og-image.svg` },
+      { name: "twitter:image", content: `${SITE_URL}${OG_IMAGE_PATH}` },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

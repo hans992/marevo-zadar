@@ -1,9 +1,12 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 
+// join() yields backslashes on Windows, which never match the forward-slash
+// paths this script compares against, so the wrapper would flag itself and the
+// check would fail for everyone not on Linux.
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory).flatMap((entry) => {
-    const path = join(directory, entry);
+    const path = join(directory, entry).split(sep).join("/");
     return statSync(path).isDirectory()
       ? sourceFiles(path)
       : /\.(ts|tsx)$/.test(path)

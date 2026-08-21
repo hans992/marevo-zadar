@@ -21,7 +21,7 @@ import {
 import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
 import { CONTACT_EMAIL } from "@/lib/brand";
-import { alternateLinks, getSeoCopy, SITE_URL } from "@/lib/seo";
+import { buildHead, getSeoCopy } from "@/lib/seo";
 import { guestNoun, localizedPath, useI18n } from "@/i18n";
 import { localizedFilter, usePublicCopy } from "@/i18n/public";
 
@@ -48,22 +48,12 @@ export const Route = createFileRoute("/search")({
   validateSearch: validateBoatSearch,
   head: () => {
     const seo = getSeoCopy("en");
-    return {
-      meta: [
-        { title: seo.searchTitle },
-        {
-          name: "description",
-          content: seo.searchDescription,
-        },
-        { property: "og:title", content: "Find boats in Zadar — Adriatic by Boat" },
-        {
-          property: "og:description",
-          content: "Private tours, rentals and sunset trips from Zadar, run by local operators.",
-        },
-        { property: "og:url", content: `${SITE_URL}/search` },
-      ],
-      links: [{ rel: "canonical", href: `${SITE_URL}/search` }, ...alternateLinks("/search")],
-    };
+    return buildHead({
+      path: "/search",
+      locale: "en",
+      title: seo.searchTitle,
+      description: seo.searchDescription,
+    });
   },
   component: SearchRoutePage,
 });
