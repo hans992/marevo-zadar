@@ -17,7 +17,9 @@ export const localeNames: Record<Locale, string> = {
   es: "Español",
 };
 
-const messages = {
+// Exported for scripts/validate-i18n.ts, which checks every locale for strings
+// that were never translated and fell back to English.
+export const messages = {
   en: {
     "nav.experiences": "Experiences",
     "nav.destinations": "Destinations",

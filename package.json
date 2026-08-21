@@ -11,10 +11,11 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:smoke": "node scripts/smoke.mjs",
-    "check": "bun run lint && bun run typecheck && bun run inventory:validate && bun run request:validate && bun run seo:validate && bun run analytics:validate && bun run build && bun run test:smoke",
+    "check": "bun run lint && bun run typecheck && bun run inventory:validate && bun run request:validate && bun run seo:validate && bun run analytics:validate && bun run i18n:validate && bun run build && bun run test:smoke",
     "format": "prettier --write .",
     "inventory:validate": "bun scripts/validate-inventory.ts",
     "request:validate": "bun scripts/validate-booking-request.ts",
+    "i18n:validate": "bun scripts/validate-i18n.ts",
     "seo:generate": "bun scripts/generate-seo.ts",
     "seo:validate": "bun scripts/validate-seo.ts",
     "analytics:validate": "bun scripts/validate-analytics.ts"

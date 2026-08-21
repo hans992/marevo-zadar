@@ -31,6 +31,8 @@ jobs:
         run: bun run seo:validate
       - name: Validate analytics privacy
         run: bun run analytics:validate
+      - name: Validate translations
+        run: bun run i18n:validate
       - name: Build
         run: bun run build
       - name: Smoke test production routes
