@@ -1,4 +1,5 @@
 import { track } from "@vercel/analytics";
+import { analyticsAllowed } from "./consent";
 
 type GuestBucket = "1-2" | "3-5" | "6-8" | "9+";
 type PriceBand = "under-400" | "400-699" | "700-plus";
@@ -70,5 +71,8 @@ export function trackEvent<Name extends keyof AnalyticsEvents>(
   properties: AnalyticsEvents[Name],
 ) {
   if (typeof window === "undefined") return;
+  // The collector is only mounted after consent, but guarding here too means a
+  // rejected visitor sends nothing even if the script arrives by another route.
+  if (!analyticsAllowed()) return;
   track(name, properties);
 }

@@ -121,6 +121,7 @@ const en: PolicyContent = {
       heading: "Measurement",
       body: [
         "We measure how the site is used so that we know which pages and trips are worth keeping. That measurement is aggregate: it records things like which destination and price band were searched, and never your name, email address, phone number or message.",
+        "It runs only if you accept it. Until you do, the collector is not loaded and nothing is sent. You can change that choice at any time from the link in the footer.",
       ],
     },
     {
@@ -184,6 +185,7 @@ const hr: PolicyContent = {
       heading: "Mjerenje",
       body: [
         "Mjerimo kako se stranica koristi da znamo koje stranice i izleti imaju smisla. To je mjerenje skupno: bilježi stvari poput toga koja je destinacija i koji cjenovni razred pretraživan, a nikada vaše ime, e-poštu, telefon ili poruku.",
+        "Pokreće se samo ako to prihvatite. Dok ne prihvatite, mjerni alat se ne učitava i ništa se ne šalje. Taj izbor možete promijeniti u svakom trenutku putem poveznice u podnožju.",
       ],
     },
     {

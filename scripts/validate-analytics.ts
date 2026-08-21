@@ -17,6 +17,7 @@ function sourceFiles(directory: string): string[] {
 
 const issues: string[] = [];
 const analyticsPath = "src/lib/analytics.ts";
+const consentGatePath = "src/components/marketplace/ConsentProvider.tsx";
 const analyticsSource = readFileSync(analyticsPath, "utf8");
 
 for (const property of ["email", "fullName", "phone", "message", "requestToken", "preferredDate"]) {
@@ -32,6 +33,12 @@ for (const path of sourceFiles("src")) {
   if (source.includes('from "@vercel/analytics"')) {
     issues.push(`Direct Vercel Analytics import outside wrapper: ${path}`);
   }
+
+  // Mounting <Analytics /> anywhere else would load the collector before the
+  // visitor has accepted it, which is the whole thing the gate exists to stop.
+  if (path !== consentGatePath && source.includes('from "@vercel/analytics/react"')) {
+    issues.push(`Analytics collector mounted outside the consent gate: ${path}`);
+  }
 }
 
 for (const event of [
@@ -41,6 +48,11 @@ for (const event of [
   "operator_demo_request_updated",
 ]) {
   if (!analyticsSource.includes(event)) issues.push(`Missing core event: ${event}`);
+}
+
+// A tracked event sent before consent would make the reject button decorative.
+if (!analyticsSource.includes("analyticsAllowed()")) {
+  issues.push("trackEvent must check analyticsAllowed() before sending");
 }
 
 if (issues.length) {

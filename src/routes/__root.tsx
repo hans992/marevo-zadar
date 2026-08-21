@@ -9,13 +9,13 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { Analytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, localeFromPath, localizedPath } from "../i18n";
 import { getStatusCopy } from "../i18n/status";
 import { BRAND_NAME, OG_IMAGE_PATH, SITE_URL } from "../lib/brand";
+import { ConsentProvider } from "../components/marketplace/ConsentProvider";
 
 function NotFoundComponent() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -149,10 +149,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+        <ConsentProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </ConsentProvider>
       </I18nProvider>
-      <Analytics />
     </QueryClientProvider>
   );
 }
