@@ -17,6 +17,7 @@ import { submitBookingRequest } from "@/lib/booking-request.functions";
 import { guestBucket, priceBand, trackEvent } from "@/lib/analytics";
 import { formatDate } from "./SearchComposer";
 import { guestNoun, useI18n } from "@/i18n";
+import { localizeRequestError } from "@/i18n/request-errors";
 import { usePublicCopy } from "@/i18n/public";
 import { useMiscCopy } from "@/i18n/misc";
 
@@ -115,7 +116,13 @@ export function RequestDialog({
         experience_slug: exp.slug,
         stage: "persistence",
       });
-      setError(cause instanceof Error ? cause.message : c.sendError);
+      // The server speaks in codes so this flow stays in the guest's language
+      // even when it fails; anything unrecognised falls back to generic copy.
+      setError(
+        cause instanceof Error
+          ? localizeRequestError(cause.message, locale, c.sendError)
+          : c.sendError,
+      );
     } finally {
       setSubmitting(false);
     }

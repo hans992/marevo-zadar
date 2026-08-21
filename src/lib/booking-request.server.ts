@@ -1,5 +1,6 @@
 import type { BookingRequestInput, BookingRequestResult } from "./booking-request";
 import { BOOKING_SOURCE } from "./brand";
+import { requestError, type RequestErrorCode } from "@/i18n/request-errors";
 
 type ExperienceRow = {
   id: string;
@@ -14,12 +15,22 @@ type BookingRequestRow = {
   id: string;
 };
 
+/**
+ * Rejects the request with a code the client can translate, while keeping the
+ * reason we actually hit in the server log. A guest cannot act on "secret key
+ * missing", but whoever is on call needs to see exactly that.
+ */
+function reject(code: RequestErrorCode, detail: string, argument?: string | number): never {
+  console.error(`Booking request rejected (${code}): ${detail}`);
+  throw new Error(requestError(code, argument));
+}
+
 function getSupabaseConfig() {
   const url = process.env["SUPABASE_URL"]?.replace(/\/$/, "");
   const secretKey = process.env["SUPABASE_SECRET_KEY"] ?? process.env["SUPABASE_SERVICE_ROLE_KEY"];
 
   if (!url || !secretKey) {
-    throw new Error("Request intake is not configured.");
+    reject("unavailable", "SUPABASE_URL or SUPABASE_SECRET_KEY is not configured");
   }
 
   return { url, secretKey };
@@ -38,7 +49,7 @@ export async function persistBookingRequest(
   input: BookingRequestInput,
 ): Promise<BookingRequestResult> {
   if (input.website) {
-    throw new Error("Request could not be accepted.");
+    reject("unavailable", "honeypot field was filled");
   }
 
   const { url, secretKey } = getSupabaseConfig();
@@ -53,18 +64,22 @@ export async function persistBookingRequest(
   });
 
   if (!listingResponse.ok) {
-    throw new Error("Request intake is temporarily unavailable.");
+    reject("unavailable", `experience lookup returned ${listingResponse.status}`);
   }
 
   const listings = (await listingResponse.json()) as ExperienceRow[];
   const listing = listings[0];
 
   if (!listing) {
-    throw new Error("This experience is not accepting requests.");
+    reject("not_accepting", `no published experience for slug ${input.experienceSlug}`);
   }
 
   if (input.guests > listing.capacity) {
-    throw new Error(`This boat accepts up to ${listing.capacity} guests.`);
+    reject(
+      "capacity_exceeded",
+      `requested ${input.guests} guests, capacity ${listing.capacity}`,
+      listing.capacity,
+    );
   }
 
   const quotedAmount =
@@ -82,12 +97,12 @@ export async function persistBookingRequest(
   });
 
   if (!rateLimitResponse.ok) {
-    throw new Error("Request intake is temporarily unavailable.");
+    reject("unavailable", `rate-limit lookup returned ${rateLimitResponse.status}`);
   }
 
   const recentRequests = (await rateLimitResponse.json()) as BookingRequestRow[];
   if (recentRequests.length >= 5) {
-    throw new Error("Too many recent requests. Please try again later.");
+    reject("rate_limited", "five or more requests from this email in the last hour");
   }
 
   const createResponse = await fetch(`${url}/rest/v1/booking_requests`, {
@@ -113,16 +128,16 @@ export async function persistBookingRequest(
 
   if (!createResponse.ok) {
     if (createResponse.status === 409) {
-      throw new Error("This request was already received.");
+      reject("duplicate", "request_token already exists");
     }
-    throw new Error("We could not save your request. Please try again.");
+    reject("unavailable", `insert returned ${createResponse.status}`);
   }
 
   const rows = (await createResponse.json()) as BookingRequestRow[];
   const request = rows[0];
 
   if (!request) {
-    throw new Error("We could not verify your request.");
+    reject("unavailable", "insert returned no representation row");
   }
 
   return {
