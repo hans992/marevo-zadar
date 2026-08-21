@@ -3,6 +3,7 @@ import { MapPin } from "lucide-react";
 import { Logo } from "./Logo";
 import { ListYourBoatDialog } from "./ListYourBoatDialog";
 import { localizedPath, useI18n, type MessageKey } from "@/i18n";
+import { legalLabels } from "@/i18n/legal";
 
 const cols = [
   {
@@ -93,6 +94,14 @@ export function Footer() {
                   className="underline-offset-4 hover:text-background hover:underline"
                 >
                   {t("footer.helpFaq")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={localizedPath("/privacy", locale) as never}
+                  className="underline-offset-4 hover:text-background hover:underline"
+                >
+                  {legalLabels[locale].privacy}
                 </Link>
               </li>
             </ul>

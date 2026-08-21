@@ -1,5 +1,5 @@
 import type { BookingRequestInput, BookingRequestResult } from "./booking-request";
-import { BOOKING_SOURCE } from "./brand";
+import { BOOKING_SOURCE, PRIVACY_VERSION } from "./brand";
 import { requestError, type RequestErrorCode } from "@/i18n/request-errors";
 
 type ExperienceRow = {
@@ -122,7 +122,7 @@ export async function persistBookingRequest(
       currency: listing.currency,
       source: BOOKING_SOURCE,
       consent_at: new Date().toISOString(),
-      privacy_version: "2026-08-11",
+      privacy_version: PRIVACY_VERSION,
     }),
   });
 
