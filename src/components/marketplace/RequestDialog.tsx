@@ -16,7 +16,10 @@ import type { Experience } from "@/data/inventory";
 import { submitBookingRequest } from "@/lib/booking-request.functions";
 import { guestBucket, priceBand, trackEvent } from "@/lib/analytics";
 import { formatDate } from "./SearchComposer";
-import { guestNoun, useI18n } from "@/i18n";
+import { Link } from "@tanstack/react-router";
+import { guestNoun, localizedPath, useI18n } from "@/i18n";
+import { legalLabels } from "@/i18n/legal";
+import { localizeRequestError } from "@/i18n/request-errors";
 import { usePublicCopy } from "@/i18n/public";
 import { useMiscCopy } from "@/i18n/misc";
 
@@ -115,7 +118,13 @@ export function RequestDialog({
         experience_slug: exp.slug,
         stage: "persistence",
       });
-      setError(cause instanceof Error ? cause.message : c.sendError);
+      // The server speaks in codes so this flow stays in the guest's language
+      // even when it fails; anything unrecognised falls back to generic copy.
+      setError(
+        cause instanceof Error
+          ? localizeRequestError(cause.message, locale, c.sendError)
+          : c.sendError,
+      );
     } finally {
       setSubmitting(false);
     }
@@ -299,15 +308,25 @@ export function RequestDialog({
               </div>
 
               {isLive ? (
-                <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-secondary/40 p-3 text-xs leading-relaxed text-muted-foreground">
-                  <input
-                    name="consent"
-                    type="checkbox"
-                    required
-                    className="mt-0.5 h-4 w-4 shrink-0 accent-sea"
-                  />
-                  <span>{c.consent}</span>
-                </label>
+                <div className="space-y-2">
+                  <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-secondary/40 p-3 text-xs leading-relaxed text-muted-foreground">
+                    <input
+                      name="consent"
+                      type="checkbox"
+                      required
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-sea"
+                    />
+                    <span>{c.consent}</span>
+                  </label>
+                  {/* Outside the label: clicking a link nested in one toggles the box. */}
+                  <Link
+                    to={localizedPath("/privacy", locale) as never}
+                    target="_blank"
+                    className="block px-1 text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    {legalLabels[locale].readPolicy}
+                  </Link>
+                </div>
               ) : null}
 
               <div className="flex items-center justify-between rounded-lg border border-border bg-secondary/60 px-4 py-3 text-sm">

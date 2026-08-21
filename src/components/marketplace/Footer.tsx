@@ -3,6 +3,8 @@ import { MapPin } from "lucide-react";
 import { Logo } from "./Logo";
 import { ListYourBoatDialog } from "./ListYourBoatDialog";
 import { localizedPath, useI18n, type MessageKey } from "@/i18n";
+import { legalLabels } from "@/i18n/legal";
+import { ConsentPreferencesButton } from "./ConsentProvider";
 
 const cols = [
   {
@@ -94,6 +96,17 @@ export function Footer() {
                 >
                   {t("footer.helpFaq")}
                 </Link>
+              </li>
+              <li>
+                <Link
+                  to={localizedPath("/privacy", locale) as never}
+                  className="underline-offset-4 hover:text-background hover:underline"
+                >
+                  {legalLabels[locale].privacy}
+                </Link>
+              </li>
+              <li>
+                <ConsentPreferencesButton className="text-left underline-offset-4 hover:text-background hover:underline" />
               </li>
             </ul>
           </div>

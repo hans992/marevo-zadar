@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleRouteImport } from './routes/$locale'
 import { Route as OperatorRouteImport } from './routes/operator'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
 import { Route as LocaleOperatorRouteImport } from './routes/$locale.operator'
+import { Route as LocalePrivacyRouteImport } from './routes/$locale.privacy'
 import { Route as LocaleSearchRouteImport } from './routes/$locale.search'
 import { Route as ExperiencesSlugRouteImport } from './routes/experiences.$slug'
 import { Route as LocaleExperiencesSlugRouteImport } from './routes/$locale.experiences.$slug'
@@ -34,6 +36,11 @@ const OperatorRoute = OperatorRouteImport.update({
   path: '/operator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -47,6 +54,11 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
 const LocaleOperatorRoute = LocaleOperatorRouteImport.update({
   id: '/operator',
   path: '/operator',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocalePrivacyRoute = LocalePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => LocaleRoute,
 } as any)
 const LocaleSearchRoute = LocaleSearchRouteImport.update({
@@ -69,8 +81,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/operator': typeof OperatorRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/$locale/operator': typeof LocaleOperatorRoute
+  '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/search': typeof LocaleSearchRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -79,8 +93,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/operator': typeof OperatorRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/$locale/operator': typeof LocaleOperatorRoute
+  '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/search': typeof LocaleSearchRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
   '/$locale': typeof LocaleIndexRoute
@@ -91,8 +107,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/operator': typeof OperatorRoute
+  '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/$locale/operator': typeof LocaleOperatorRoute
+  '/$locale/privacy': typeof LocalePrivacyRoute
   '/$locale/search': typeof LocaleSearchRoute
   '/experiences/$slug': typeof ExperiencesSlugRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -104,8 +122,10 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/operator'
+    | '/privacy'
     | '/search'
     | '/$locale/operator'
+    | '/$locale/privacy'
     | '/$locale/search'
     | '/experiences/$slug'
     | '/$locale/'
@@ -114,8 +134,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/operator'
+    | '/privacy'
     | '/search'
     | '/$locale/operator'
+    | '/$locale/privacy'
     | '/$locale/search'
     | '/experiences/$slug'
     | '/$locale'
@@ -125,8 +147,10 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/operator'
+    | '/privacy'
     | '/search'
     | '/$locale/operator'
+    | '/$locale/privacy'
     | '/$locale/search'
     | '/experiences/$slug'
     | '/$locale/'
@@ -137,6 +161,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LocaleRoute: typeof LocaleRouteWithChildren
   OperatorRoute: typeof OperatorRoute
+  PrivacyRoute: typeof PrivacyRoute
   SearchRoute: typeof SearchRoute
   ExperiencesSlugRoute: typeof ExperiencesSlugRoute
 }
@@ -164,6 +189,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OperatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -183,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/operator'
       fullPath: '/$locale/operator'
       preLoaderRoute: typeof LocaleOperatorRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/privacy': {
+      id: '/$locale/privacy'
+      path: '/privacy'
+      fullPath: '/$locale/privacy'
+      preLoaderRoute: typeof LocalePrivacyRouteImport
       parentRoute: typeof LocaleRoute
     }
     '/$locale/search': {
@@ -211,6 +250,7 @@ declare module '@tanstack/react-router' {
 
 interface LocaleRouteChildren {
   LocaleOperatorRoute: typeof LocaleOperatorRoute
+  LocalePrivacyRoute: typeof LocalePrivacyRoute
   LocaleSearchRoute: typeof LocaleSearchRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleExperiencesSlugRoute: typeof LocaleExperiencesSlugRoute
@@ -218,6 +258,7 @@ interface LocaleRouteChildren {
 
 const LocaleRouteChildren: LocaleRouteChildren = {
   LocaleOperatorRoute: LocaleOperatorRoute,
+  LocalePrivacyRoute: LocalePrivacyRoute,
   LocaleSearchRoute: LocaleSearchRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleExperiencesSlugRoute: LocaleExperiencesSlugRoute,
@@ -230,6 +271,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LocaleRoute: LocaleRouteWithChildren,
   OperatorRoute: OperatorRoute,
+  PrivacyRoute: PrivacyRoute,
   SearchRoute: SearchRoute,
   ExperiencesSlugRoute: ExperiencesSlugRoute,
 }

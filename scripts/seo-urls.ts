@@ -19,11 +19,13 @@ export const publicPaths = [
   "/",
   "/search",
   ...experiences.map((experience) => `/experiences/${experience.slug}`),
+  "/privacy",
 ];
 
 function priorityFor(path: string) {
   if (path === "/") return "1.0";
   if (path === "/search") return "0.9";
+  if (path === "/privacy") return "0.3";
   return "0.8";
 }
 
