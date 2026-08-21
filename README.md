@@ -54,7 +54,7 @@ The public form supports a consented live mode backed by a validated server-only
 
 ## SEO and analytics
 
-Public marketplace routes include canonical URLs, structured data, a sitemap, crawler policy and web-app manifest. Presentation-only `/operator` remains `noindex` and is excluded from the sitemap. Vercel Web Analytics is mounted at the application root; it begins collecting only after Analytics is enabled for the Vercel project.
+Public marketplace routes include canonical URLs, structured data, a sitemap, crawler policy and web-app manifest. Route metadata for both the default and localized variants comes from a single `buildHead` helper, so canonical, hreflang, og:url and the share image cannot drift apart. `sitemap.xml` and `robots.txt` are generated from the same route and inventory data with `bun run seo:generate`, and `bun run seo:validate` fails when they no longer match the canonical URLs the routes emit. The share image is the raster `public/og-image.png` rendered from `public/og-image.svg` by `scripts/render-og-image.mjs`, because social crawlers do not render SVG. Presentation-only `/operator` remains `noindex` and is excluded from the sitemap. Vercel Web Analytics is mounted at the application root; it begins collecting only after Analytics is enabled for the Vercel project.
 
 Custom events measure search intent, request-funnel progress, operator-demo decisions and presentation lead actions. Event properties are constrained to non-contact product attributes such as destination bucket, guest bucket, trip type, experience slug and price band. CI rejects direct Analytics imports outside the typed wrapper and forbids contact fields in the event catalog.
 

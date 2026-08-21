@@ -1,6 +1,6 @@
 import type { Experience } from "@/data/inventory";
 import { locales, localizedPath, type Locale } from "@/i18n";
-import { BRAND_NAME, SITE_URL } from "@/lib/brand";
+import { BRAND_NAME, OG_IMAGE_PATH, SITE_URL } from "@/lib/brand";
 
 export { SITE_URL } from "@/lib/brand";
 
@@ -103,6 +103,55 @@ export function alternateLinks(pathname: string) {
       href: `${SITE_URL}${localizedPath(pathname, "en")}`,
     },
   ];
+}
+
+const ogLocales: Record<Locale, string> = {
+  en: "en_US",
+  hr: "hr_HR",
+  sl: "sl_SI",
+  de: "de_DE",
+  pl: "pl_PL",
+  hu: "hu_HU",
+  sk: "sk_SK",
+  cs: "cs_CZ",
+  fr: "fr_FR",
+  es: "es_ES",
+};
+
+export type HeadOptions = {
+  /** Unlocalized path, e.g. "/" or "/experiences/kornati-private-escape". */
+  path: string;
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Absolute image URL. Falls back to the brand share card. */
+  image?: string;
+};
+
+/**
+ * Single source of truth for public route metadata.
+ *
+ * Every public route exists twice — once at `/x` and once at `/$locale/x` — and
+ * hand-copying the head block into both is how og:image and og:description went
+ * missing from the localized variants. Both files call this instead.
+ */
+export function buildHead({ path, locale, title, description, image }: HeadOptions) {
+  const url = `${SITE_URL}${localizedPath(path, locale)}`;
+  const shareImage = image ?? `${SITE_URL}${OG_IMAGE_PATH}`;
+
+  return {
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:image", content: shareImage },
+      { property: "og:url", content: url },
+      { property: "og:locale", content: ogLocales[locale] },
+      { name: "twitter:image", content: shareImage },
+    ],
+    links: [{ rel: "canonical", href: url }, ...alternateLinks(path)],
+  };
 }
 
 const brandOrganization = {

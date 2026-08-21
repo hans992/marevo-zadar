@@ -1,8 +1,8 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ExperienceDetail } from "./experiences.$slug";
 import { getExperience, type Experience } from "@/data/inventory";
-import { isLocale, localizedPath } from "@/i18n";
-import { alternateLinks, getSeoCopy, SITE_URL } from "@/lib/seo";
+import { isLocale } from "@/i18n";
+import { buildHead } from "@/lib/seo";
 import { localizeExperience } from "@/i18n/content";
 import { getStatusCopy } from "@/i18n/status";
 
@@ -14,30 +14,22 @@ export const Route = createFileRoute("/$locale/experiences/$slug")({
   },
   head: ({ loaderData, params }) => {
     const locale = isLocale(params.locale) ? params.locale : "en";
-    if (!loaderData)
-      return { meta: [{ title: `${getStatusCopy(locale).notFound} — Adriatic by Boat` }] };
-    const { exp: sourceExp } = loaderData;
-    const exp = localizeExperience(sourceExp, locale);
-    const seo = getSeoCopy(locale);
-    return {
-      meta: [
-        { title: `${exp.title} — Adriatic by Boat Zadar` },
-        { name: "description", content: `${exp.title}. ${seo.searchDescription}` },
-        { property: "og:locale", content: params.locale },
-        { property: "og:image", content: exp.images[0] as string },
-        {
-          property: "og:url",
-          content: `${SITE_URL}/${params.locale}/experiences/${exp.slug}`,
-        },
-      ],
-      links: [
-        {
-          rel: "canonical",
-          href: `${SITE_URL}${localizedPath(`/experiences/${exp.slug}`, locale)}`,
-        },
-        ...alternateLinks(`/experiences/${exp.slug}`),
-      ],
-    };
+    if (!loaderData) {
+      return {
+        meta: [
+          { title: `${getStatusCopy(locale).notFound} — Adriatic by Boat` },
+          { name: "robots", content: "noindex" },
+        ],
+      };
+    }
+    const exp = localizeExperience(loaderData.exp, locale);
+    return buildHead({
+      path: `/experiences/${exp.slug}`,
+      locale,
+      title: `${exp.title} — Adriatic by Boat Zadar`,
+      description: exp.summary,
+      image: exp.images[0] as string,
+    });
   },
   component: LocalizedExperiencePage,
 });

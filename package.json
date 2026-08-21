@@ -15,6 +15,7 @@
     "format": "prettier --write .",
     "inventory:validate": "bun scripts/validate-inventory.ts",
     "request:validate": "bun scripts/validate-booking-request.ts",
+    "seo:generate": "bun scripts/generate-seo.ts",
     "seo:validate": "bun scripts/validate-seo.ts",
     "analytics:validate": "bun scripts/validate-analytics.ts"
   },

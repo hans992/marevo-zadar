@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { getExperience, experiences, type Experience } from "@/data/inventory";
 import { ExperienceCard } from "@/components/marketplace/ExperienceCard";
-import { alternateLinks, experienceStructuredData, SITE_URL } from "@/lib/seo";
+import { buildHead, experienceStructuredData } from "@/lib/seo";
 import { guestNoun, localizedPath, useI18n } from "@/i18n";
 import { localizedCategory, localizedDuration, usePublicCopy } from "@/i18n/public";
 import { localizeExperience } from "@/i18n/content";
@@ -32,25 +32,13 @@ export const Route = createFileRoute("/experiences/$slug")({
       };
     }
     const { exp } = loaderData;
-    const title = `${exp.title} — Adriatic by Boat Zadar`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: exp.summary },
-        { property: "og:title", content: title },
-        { property: "og:description", content: exp.summary },
-        { property: "og:image", content: exp.images[0] as string },
-        { name: "twitter:image", content: exp.images[0] as string },
-        { property: "og:url", content: `${SITE_URL}/experiences/${exp.slug}` },
-      ],
-      links: [
-        {
-          rel: "canonical",
-          href: `${SITE_URL}/experiences/${exp.slug}`,
-        },
-        ...alternateLinks(`/experiences/${exp.slug}`),
-      ],
-    };
+    return buildHead({
+      path: `/experiences/${exp.slug}`,
+      locale: "en",
+      title: `${exp.title} — Adriatic by Boat Zadar`,
+      description: exp.summary,
+      image: exp.images[0] as string,
+    });
   },
   component: ExperienceRoutePage,
 });
