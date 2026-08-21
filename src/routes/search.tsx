@@ -22,7 +22,8 @@ import { experiences, filters, type FilterId } from "@/data/inventory";
 import { cn } from "@/lib/utils";
 import { CONTACT_EMAIL } from "@/lib/brand";
 import { buildHead, getSeoCopy } from "@/lib/seo";
-import { guestNoun, localizedPath, useI18n } from "@/i18n";
+import { localizedPath, useI18n } from "@/i18n";
+import { resultsSummary, showBoatsLabel } from "@/i18n/counts";
 import { localizedFilter, usePublicCopy } from "@/i18n/public";
 
 export type BoatSearch = {
@@ -208,10 +209,11 @@ export function SearchPage({ params }: { params: BoatSearch }) {
 
           <div>
             <div className="flex flex-wrap items-center justify-between gap-3">
+              {/* One phrase per language: the noun after a numeral changes form in
+                  Slavic languages and moves position in Hungarian, so it cannot be
+                  assembled from separate translated words here. */}
               <p className="text-sm text-muted-foreground" aria-live="polite">
-                <span className="font-medium text-ink">{results.length}</span>{" "}
-                {results.length === 1 ? c.boat : c.boats} {c.availableFor} {composer.guests}{" "}
-                {guestNoun(composer.guests, locale)}
+                {resultsSummary(results.length, composer.guests, locale)}
               </p>
 
               <div className="flex items-center gap-2">
@@ -245,7 +247,7 @@ export function SearchPage({ params }: { params: BoatSearch }) {
                         className="w-full"
                         onClick={() => setDrawerOpen(false)}
                       >
-                        {c.show} {results.length} {results.length === 1 ? c.boat : c.boats}
+                        {showBoatsLabel(results.length, locale)}
                       </Button>
                     </div>
                   </SheetContent>
